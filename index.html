@@ -80,7 +80,7 @@ a{color:inherit}
   .paper{zoom:1.3}
 }
 .graph{overflow-x:auto;-webkit-overflow-scrolling:touch}
-
+@media (max-width:700px){.graph svg{min-width:760px}.map .graph svg{min-width:900px}}
 
 /* ---------- chapter page ---------- */
 .sheet{position:fixed;inset:0;z-index:6;overflow-y:auto;background:#06150fcc;backdrop-filter:blur(6px);-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
@@ -191,36 +191,9 @@ a{color:inherit}
 
 /* knowledge graph */
 .graph{margin-top:10px}
-.graph .slist{display:none;list-style:none;margin:6px 0 0;padding:0}
-.graph .slist li{padding:14px 0;border-bottom:1px solid #e4dccb}
-.graph .slist li:first-child{border-top:1px solid #e4dccb}
-.graph .sname{margin:0 0 8px;font-weight:600;font-size:16.5px;color:var(--paper-ink)}
-.graph .schips{display:flex;flex-wrap:wrap;gap:6px;margin:0}
-.graph .schip{font:13.5px/1 var(--body);border:1px solid #cdbf9f;background:#fff;color:var(--paper-ink);border-radius:999px;padding:8px 11px;cursor:pointer}
-.graph .schip.here{background:#eef4ef;border-color:#9fb8a7;color:var(--green);cursor:default}
-@media (max-width:700px){.graph svg.grid{display:none}.graph .slist{display:block}}
-.graph svg .band{fill:#eef4ef}
-.graph svg .guide{stroke:#e4dccb;stroke-width:1.5}
-.graph svg .colhead text.n{font-family:var(--caps);font-size:15px;letter-spacing:.16em;fill:#a8823c;font-weight:600}
-.graph svg .colhead text.ct{font-family:var(--display);font-weight:600;font-size:21px;fill:var(--paper-ink)}
-.graph svg .colhead[data-go]{cursor:pointer}
-.graph svg .colhead[data-go]:hover text.ct,.graph svg .colhead[data-go]:focus-visible text.ct{fill:var(--accent);text-decoration:underline}
-.graph svg .colhead:focus{outline:none}
-.graph svg .colhead.self text.ct{fill:var(--green)}
-.graph svg .rowhit{fill:transparent}
-.graph svg .srow.hot .rowhit{fill:#f6efdf}
-.graph svg .sl{font-family:var(--body);font-size:21px;fill:var(--paper-ink)}
-.graph svg .empty{fill:#ddd3bf}
-.graph svg .link{stroke:#b9975a;stroke-width:4;stroke-linecap:round}
-.graph svg .dot{fill:var(--green);stroke:var(--gold);stroke-width:3}
-.graph svg .dot.here{fill:var(--accent)}
-.graph svg.focusing .srow:not(.hot){opacity:.35}
-.graph svg .srow{transition:opacity .2s}
-@media (prefers-reduced-motion:reduce){.graph svg .srow{transition:none}}
-
 .graph p.note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
 .graph svg{width:100%;height:auto;display:block;overflow:visible}
-.graph .edge{stroke:#b49a6a;stroke-width:1.8;opacity:.5;fill:none}
+.graph .edge{stroke:#b49a6a;stroke-width:1.6;opacity:.38;fill:none}
 .graph .edge.hot{stroke:var(--accent);opacity:1;stroke-width:3}
 .graph .cnode text{font-family:var(--body);font-size:19px;fill:var(--paper-ink)}
 .graph .cnode rect{fill:#fbf6ec;stroke:#c9a96a}
@@ -636,57 +609,98 @@ function mediaHtml(list) {
     : `<figure class="media-block"><img src="${esc(m.src)}" alt="${esc(m.caption || '')}" loading="lazy">${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ''}</figure>`).join('');
 }
 
-/* ---- skill map as a grid: one row per skill, one column per chapter; a dot where the chapter uses the skill, joined by one line ---- */
-function splitTitle(t) {
-  const w = t.split(' ');
-  if (t.length <= 11 || w.length < 2) return [t];
-  let best = 1, diff = 1e9;
-  for (let k = 1; k < w.length; k++) { const d = Math.abs(w.slice(0, k).join(' ').length - w.slice(k).join(' ').length); if (d < diff) { diff = d; best = k; } }
-  return [w.slice(0, best).join(' '), w.slice(best).join(' ')];
+/* ---- graph layout helpers: measure each skill label, then push overlapping labels apart until every one has its own space ---- */
+const PILL_H = 42, PILL_FONT = '19px Spectral, Georgia, serif';
+let measureCtx = null;
+function pillWidth(text) {
+  try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = PILL_FONT; return Math.ceil(measureCtx.measureText(text).width) + 38; }
+  catch (e) { return text.length * 9.6 + 38; }
 }
-function matrixSvg(threads, cols, highlight) {
-  const LABEL = 330, COL = 118, ROW = 62, HEAD = 118, R = 12;
-  const W = LABEL + cols.length * COL + 10, H = HEAD + threads.length * ROW + 20;
-  const cx = (k) => LABEL + k * COL + COL / 2, ry = (r) => HEAD + r * ROW + ROW / 2;
-  let out = '';
-  // column bands and headers
-  cols.forEach((id, k) => {
-    const x = cx(k), hl = id === highlight;
-    if (hl) out += `<rect class="band" x="${x - COL / 2 + 6}" y="8" width="${COL - 12}" height="${H - 16}" rx="10"/>`;
-    const lines = splitTitle(byId[id].title);
-    const tl = lines.map((l, n) => `<tspan x="0" dy="${n ? 24 : 0}">${esc(l)}</tspan>`).join('');
-    const attrs = hl ? 'class="colhead self"' : `class="colhead" tabindex="0" role="link" data-go="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(byId[id].title)}"`;
-    out += `<g ${attrs} transform="translate(${x},${lines.length > 1 ? 30 : 42})"><text class="n" text-anchor="middle">${id}</text><text class="ct" text-anchor="middle" y="30">${tl}</text></g>`;
-    out += `<line class="guide" x1="${x}" y1="${HEAD - 6}" x2="${x}" y2="${H - 12}"/>`;
-  });
-  // one row per skill
-  threads.forEach((t, r) => {
-    const y = ry(r), used = cols.map((id, k) => t.ch.includes(id) ? k : -1).filter((k) => k >= 0);
-    out += `<g class="srow" data-t="${r}">`;
-    out += `<rect class="rowhit" x="0" y="${y - ROW / 2 + 3}" width="${W}" height="${ROW - 6}" rx="10"/>`;
-    out += `<text class="sl" x="14" y="${y + 7}">${esc(t.t)}</text>`;
-    cols.forEach((id, k) => { if (!t.ch.includes(id)) out += `<circle class="empty" cx="${cx(k)}" cy="${y}" r="3.5"/>`; });
-    if (used.length > 1) out += `<line class="link" x1="${cx(used[0])}" y1="${y}" x2="${cx(used[used.length - 1])}" y2="${y}"/>`;
-    used.forEach((k) => { out += `<circle class="dot${cols[k] === highlight ? ' here' : ''}" cx="${cx(k)}" cy="${y}" r="${R}"/>`; });
-    out += `</g>`;
-  });
-  // phones get the same facts as a list: each skill, then the chapters that use it
-  const list = `<ul class="slist">${threads.map((t) => `<li><p class="sname">${esc(t.t)}</p><p class="schips">${cols.filter((id) => t.ch.includes(id)).map((id) => id === highlight
-      ? `<span class="schip here">${esc(id.charAt(0) + id.slice(1).toLowerCase())} · ${esc(byId[id].title)}</span>`
-      : `<button type="button" class="schip" data-nav="${id}">${esc(id.charAt(0) + id.slice(1).toLowerCase())} · ${esc(byId[id].title)}</button>`).join('')}</p></li>`).join('')}</ul>`;
-  return `<svg class="grid" viewBox="0 0 ${W} ${H}" role="img" aria-label="Which chapters use each skill">${out}</svg>${list}`;
+function relax(items, fixed, box) {
+  const pad = 30, all = items.concat(fixed);
+  for (let iter = 0; iter < 900; iter++) {
+    let moved = false;
+    for (let a = 0; a < items.length; a++) {
+      const A = items[a];
+      for (let b = 0; b < all.length; b++) {
+        const B = all[b]; if (A === B) continue;
+        const dx = A.x - B.x, dy = A.y - B.y;
+        const ox = (A.w + B.w) / 2 + pad - Math.abs(dx), oy = (A.h + B.h) / 2 + pad - Math.abs(dy);
+        if (ox <= 0 || oy <= 0) continue;
+        moved = true;
+        const share = B.fixed ? 1 : .5;
+        if (ox < oy * 1.6) { const sx = (dx === 0 ? (a % 2 ? 1 : -1) : Math.sign(dx)) * ox * share; A.x += sx; if (!B.fixed) B.x -= sx; }
+        else { const sy = (dy === 0 ? (a % 2 ? 1 : -1) : Math.sign(dy)) * oy * share; A.y += sy; if (!B.fixed) B.y -= sy; }
+      }
+      // a gentle pull back toward where the label belongs, so it stays near its chapters
+      A.x += (A.ax - A.x) * .008; A.y += (A.ay - A.y) * .008;
+      A.x = Math.max(box[0] + A.w / 2, Math.min(box[2] - A.w / 2, A.x));
+      A.y = Math.max(box[1] + A.h / 2, Math.min(box[3] - A.h / 2, A.y));
+    }
+    if (!moved) break;
+  }
 }
+function pillSvg(p, i) {
+  return `<g class="cnode" data-t="${i}" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
+}
+function chapterSvg(id, x, y, below, r) {
+  const ch = byId[id];
+  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 44}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 12}">${esc(ch.title)}</text></g>`;
+}
+// fixed boxes around a chapter dot and its two-line label, so skill labels never sit on top of them
+function chapterBox(id, x, y, below, r) {
+  const w = Math.max(byId[id].title.length * 12.5 + 24, 2 * r + 10);
+  return { x, y: below ? y + 18 : y - 22, w, h: 2 * r + 84, fixed: true };
+}
+
+/* radial graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
 function graphSvg(centerId) {
+  const W = 1040, H = 1000, cx = W / 2, cy = H / 2, R = 18;
   const threads = THREADS.filter((t) => t.ch.includes(centerId));
-  const involved = new Set(threads.flatMap((t) => t.ch));
-  const cols = CHAPTERS.map((c) => c.id).filter((id) => involved.has(id));
-  return matrixSvg(threads, cols, centerId);
+  const others = [...new Set(threads.flatMap((t) => t.ch).filter((c) => c !== centerId))];
+  const pos = {};
+  others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * 440, cy + Math.sin(a) * 420]; });
+  const tp = threads.map((t) => {
+    const linked = t.ch.filter((c) => c !== centerId && pos[c]);
+    const v = linked.reduce((s, c) => [s[0] + pos[c][0] - cx, s[1] + pos[c][1] - cy], [0, 0]);
+    const a = Math.atan2(v[1], v[0]);
+    const x = cx + Math.cos(a) * 250, y = cy + Math.sin(a) * 235;
+    return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
+  });
+  const fixed = others.map((c) => chapterBox(c, pos[c][0], pos[c][1], pos[c][1] > cy, R));
+  fixed.push({ x: cx, y: cy + 18, w: byId[centerId].title.length * 13 + 34, h: 96, fixed: true });
+  relax(tp, fixed, [0, 0, W, H]);
+  let edges = '', nodes = '';
+  tp.forEach((p, i) => {
+    edges += `<path class="edge" data-t="${i}" d="M${cx},${cy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`;
+    p.t.ch.filter((c) => c !== centerId).forEach((c) => { edges += `<path class="edge" data-t="${i}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
+    nodes += pillSvg(p, i);
+  });
+  others.forEach((c) => { nodes += chapterSvg(c, pos[c][0], pos[c][1], pos[c][1] > cy, R); });
+  const me = byId[centerId];
+  nodes += `<g class="chnode self" transform="translate(${cx},${cy})"><circle r="24"/><text text-anchor="middle" y="56">${esc(me.title)}</text></g>`;
+  return `<svg viewBox="-60 -50 ${W + 120} ${H + 100}" role="img" aria-label="Skills from ${esc(me.title)} that also appear in other chapters">${edges}${nodes}</svg>`;
 }
+/* the whole map: chapters on a ring, skills inside, each skill placed between the chapters it joins */
 function mapSvg() {
-  // order rows by the first chapter they appear in, so the lines step down the page
-  const order = CHAPTERS.map((c) => c.id);
-  const rows = THREADS.slice().sort((a, b) => Math.min(...a.ch.map((c) => order.indexOf(c))) - Math.min(...b.ch.map((c) => order.indexOf(c))) || b.ch.length - a.ch.length);
-  return matrixSvg(rows, order, null);
+  const W = 1200, H = 1460, cx = W / 2, cy = H / 2, R = 21;
+  const pos = {};
+  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * 520, cy + Math.sin(a) * 640]; });
+  const tp = THREADS.map((t) => {
+    const pts = t.ch.map((c) => pos[c]);
+    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length, my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    const x = cx + (mx - cx) * .74, y = cy + (my - cy) * .98;
+    return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
+  });
+  const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R));
+  relax(tp, fixed, [60, 150, W - 60, H - 150]);
+  let edges = '', nodes = '';
+  tp.forEach((p, i) => {
+    p.t.ch.forEach((c) => { edges += `<path class="edge" data-t="${i}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
+    nodes += pillSvg(p, i);
+  });
+  CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R); });
+  return `<svg viewBox="-70 -60 ${W + 140} ${H + 120}" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
 }
 function wireGraph(root) {
   root.querySelectorAll('[data-go]').forEach((g) => {
@@ -694,8 +708,8 @@ function wireGraph(root) {
     g.addEventListener('click', go);
     g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
   });
-  root.querySelectorAll('.srow').forEach((n) => {
-    const set = (on) => { n.classList.toggle('hot', on); n.closest('svg')?.classList.toggle('focusing', on); };
+  root.querySelectorAll('.cnode').forEach((n) => {
+    const set = (on) => { root.querySelectorAll(`[data-t="${n.dataset.t}"]`).forEach((el) => el.classList.toggle('hot', on)); };
     n.addEventListener('pointerenter', () => set(true));
     n.addEventListener('pointerleave', () => set(false));
   });
@@ -714,7 +728,7 @@ function showSheet(html, map) {
   paper.focus({ preventScroll: true });
   wireGraph(paper);
   wireTabs(paper);
-  paper.querySelectorAll('.graph').forEach((g) => { g.scrollLeft = 0; });
+  paper.querySelectorAll('.graph').forEach((g) => { g.scrollLeft = (g.scrollWidth - g.clientWidth) / 2; });
   paper.querySelectorAll('[data-nav]').forEach((b) => b.onclick = () => openChapter(b.dataset.nav));
   paper.querySelectorAll('[data-map]').forEach((b) => b.onclick = openMap);
 }
@@ -746,7 +760,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Each skill from this chapter, with every chapter where it was also used. Tap a chapter name to go there.</p>${graphSvg(id)}</div>`;
+  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Tap a chapter to go there.</p>${graphSvg(id)}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -772,7 +786,7 @@ function openContact() {
 function openMap() {
   showSheet(`<p class="num">SKILL MAP</p><h1 id="sheetTitle">How my skills connect</h1>
     <p class="lede">The skills that run through more than one chapter.</p>
-    <p class="ledesub">Each skill, with every chapter that uses it. Tap a chapter name to open it.</p>
+    <p class="ledesub">Point at a skill to see which chapters use it. Tap a chapter to open it.</p>
     <div class="graph">${mapSvg()}</div>`, true);
 }
 $('mapBtn').onclick = openMap;
