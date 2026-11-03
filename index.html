@@ -211,7 +211,7 @@ a{color:inherit}
 @media (prefers-reduced-motion:reduce){.graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:none}}
 .graph svg .chnode text.cs{font-family:var(--body);font-style:italic;font-weight:400;font-size:18px;fill:#6b5c45}
 .graph{position:relative}
-.ginfo{position:sticky;bottom:14px;margin:8px auto 0;max-width:620px;background:#fff;border:1px solid #d8c9a9;border-radius:12px;box-shadow:0 12px 30px #0002;padding:14px 18px;z-index:2}
+.ginfo{position:sticky;bottom:12px;margin:8px auto 0;max-width:640px;max-height:42vh;overflow:auto;background:#fff;border:1px solid #d8c9a9;border-radius:12px;box-shadow:0 12px 30px #0002;padding:14px 18px;z-index:2}
 .ginfo .gi-h{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin:0 0 8px;font-size:17px;color:var(--paper-ink)}
 .ginfo .gi-g{font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1.5px solid}
 .ginfo .gi-g.g-research{color:#2e7a5c;background:#e6f1ea}
@@ -697,7 +697,7 @@ function pillWidth(text) {
   catch (e) { return text.length * 9.6 + 38; }
 }
 function relax(items, fixed, box) {
-  const pad = 30, all = items.concat(fixed);
+  const pad = 18, all = items.concat(fixed);
   for (let iter = 0; iter < 900; iter++) {
     let moved = false;
     for (let a = 0; a < items.length; a++) {
@@ -735,16 +735,16 @@ function chapterBox(id, x, y, below, r) {
 
 /* radial graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
 function graphSvg(centerId) {
-  const W = 1040, H = 1000, cx = W / 2, cy = H / 2, R = 18;
+  const W = 1040, H = 760, cx = W / 2, cy = H / 2, R = 18;
   const threads = THREADS.filter((t) => t.ch.includes(centerId));
   const others = [...new Set(threads.flatMap((t) => t.ch).filter((c) => c !== centerId))];
   const pos = {};
-  others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * 440, cy + Math.sin(a) * 420]; });
+  others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * 440, cy + Math.sin(a) * 300]; });
   const tp = threads.map((t) => {
     const linked = t.ch.filter((c) => c !== centerId && pos[c]);
     const v = linked.reduce((s, c) => [s[0] + pos[c][0] - cx, s[1] + pos[c][1] - cy], [0, 0]);
     const a = Math.atan2(v[1], v[0]);
-    const x = cx + Math.cos(a) * 250, y = cy + Math.sin(a) * 235;
+    const x = cx + Math.cos(a) * 250, y = cy + Math.sin(a) * 165;
     return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
   });
   const fixed = others.map((c) => chapterBox(c, pos[c][0], pos[c][1], pos[c][1] > cy, R));
@@ -763,9 +763,9 @@ function graphSvg(centerId) {
 }
 /* the whole map: chapters on a ring, skills inside, each skill placed between the chapters it joins */
 function mapSvg() {
-  const W = 1200, H = 1460, cx = W / 2, cy = H / 2, R = 21;
+  const W = 1200, H = 1020, cx = W / 2, cy = H / 2, R = 21;
   const pos = {};
-  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * 520, cy + Math.sin(a) * 640]; });
+  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * 520, cy + Math.sin(a) * 420]; });
   const mean = (ids) => { const pts = ids.map((c) => pos[c]); return [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length]; };
   // each group gets one home area, between the chapters its skills come from
   const home = {};
@@ -776,7 +776,7 @@ function mapSvg() {
     return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
   });
   const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R));
-  relax(tp, fixed, [60, 150, W - 60, H - 150]);
+  relax(tp, fixed, [50, 110, W - 50, H - 110]);
   let edges = '', nodes = '';
   tp.forEach((p, i) => {
     p.t.ch.forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
@@ -793,7 +793,7 @@ function wireGraph(root) {
   });
   root.querySelectorAll('.graph svg').forEach((svg) => {
     let pinned = null;
-    const info = svg.parentElement.querySelector('.ginfo');
+    const info = svg.closest('.graph')?.nextElementSibling?.classList.contains('ginfo') ? svg.closest('.graph').nextElementSibling : null;
     const say = (html) => { if (!info) return; info.innerHTML = html; info.hidden = !html; };
     const clear = () => { svg.classList.remove('focusing'); svg.querySelectorAll('.hot').forEach((el) => el.classList.remove('hot')); say(''); };
     const showSkill = (n) => {
@@ -868,7 +868,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}${infoHtml()}</div>`;
+  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}</div>${infoHtml()}`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -909,7 +909,7 @@ function openMap() {
     <p class="lede">${numWord(THREADS.length)} skills, each used in two or more parts of my work.</p>
     <p class="ledesub">Tap a skill to see where it was used and why. Point at a chapter to see its skills; tap it to open it.</p>
     ${legendHtml()}
-    <div class="graph">${mapSvg()}${infoHtml()}</div>`, true);
+    <div class="graph">${mapSvg()}</div>${infoHtml()}`, true);
 }
 $('mapBtn').onclick = openMap;
 
