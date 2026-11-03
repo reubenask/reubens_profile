@@ -78,9 +78,8 @@ a{color:inherit}
   .item .open{font-size:14px}
   .top,.rail,.hint,.sheetbar{zoom:1.3}
   .paper{zoom:1.3}
+  body .sheet.map .paper{height:calc((100svh - 100px) / 1.3)}
 }
-.graph{overflow-x:auto;-webkit-overflow-scrolling:touch}
-@media (max-width:700px){.graph svg{min-width:760px}.map .graph svg{min-width:900px}}
 
 /* ---------- chapter page ---------- */
 .sheet{position:fixed;inset:0;z-index:6;overflow-y:auto;background:#06150fcc;backdrop-filter:blur(6px);-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
@@ -191,6 +190,27 @@ a{color:inherit}
 
 /* knowledge graph */
 .graph{margin-top:10px}
+/* graphs fit their box: one screen at most */
+.gwrap{position:relative}
+.graph[data-kind]{width:100%;margin-top:6px}
+.graph[data-kind] svg{width:100%;height:100%;display:block}
+.graph[data-kind="chapter"]{height:min(66svh,620px)}
+.gintro .note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
+/* the map page fills the screen: title, key, then the map and its card */
+.sheet.map .paper{height:calc(100svh - 76px - env(safe-area-inset-top,0px));margin-bottom:12px;display:flex;flex-direction:column;overflow:hidden;padding-top:clamp(16px,3vw,32px);padding-bottom:clamp(12px,2vw,24px)}
+.sheet.map .paper h1{font-size:clamp(28px,4vw,46px);margin:2px 0 6px}
+.sheet.map .paper .lede{font-size:clamp(16px,1.8vw,21px)}
+.sheet.map .legend{margin:6px 0 4px}
+.mapwrap{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:stretch}
+.mapwrap .graph{height:100%;margin:0}
+.mapwrap .ginfo.side{position:static;max-height:none;height:auto;align-self:center;margin:0;box-shadow:none}
+.ginfo .gi-hint{margin:0;font-style:italic;color:var(--paper-soft);font-size:15px;line-height:1.5}
+@media (max-width:999px){
+  .mapwrap{display:block;position:relative}
+  .mapwrap .ginfo.side{position:absolute;left:0;right:0;bottom:0;max-height:46%;overflow:auto;box-shadow:0 12px 30px #0003}
+  .mapwrap .ginfo.side:has(.gi-hint){padding:8px 12px}
+}
+
 .graph svg .cnode{cursor:pointer}
 .graph svg .cnode:focus{outline:none}
 .graph svg .cnode:focus-visible rect{stroke-width:3}
@@ -222,6 +242,7 @@ a{color:inherit}
 .ginfo li{display:grid;grid-template-columns:minmax(150px,38%) 1fr;gap:4px 14px;padding:6px 0;border-top:1px solid #eee4d2;font-size:15px;line-height:1.45;color:var(--paper-ink)}
 .ginfo .gi-c{font-weight:600;color:var(--green)}
 @media (max-width:560px){.ginfo li{grid-template-columns:1fr}}
+.mapwrap .ginfo.side li{grid-template-columns:1fr}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 4px;font-size:14.5px;color:var(--paper-ink)}
 .legend .lg{display:inline-flex;align-items:center;gap:8px}
 .legend .lg i{width:22px;height:14px;border-radius:7px;border:2px solid;display:inline-block}
@@ -696,95 +717,126 @@ function pillWidth(text) {
   try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = PILL_FONT; return Math.ceil(measureCtx.measureText(text).width) + 38; }
   catch (e) { return text.length * 9.6 + 38; }
 }
+// place each skill label at the free spot nearest to where it belongs, searching outward in a spiral;
+// longer labels go first, and no label may touch another label or a chapter name
 function relax(items, fixed, box) {
-  const pad = 18, all = items.concat(fixed);
-  for (let iter = 0; iter < 900; iter++) {
-    let moved = false;
-    for (let a = 0; a < items.length; a++) {
-      const A = items[a];
-      for (let b = 0; b < all.length; b++) {
-        const B = all[b]; if (A === B) continue;
-        const dx = A.x - B.x, dy = A.y - B.y;
-        const ox = (A.w + B.w) / 2 + pad - Math.abs(dx), oy = (A.h + B.h) / 2 + pad - Math.abs(dy);
-        if (ox <= 0 || oy <= 0) continue;
-        moved = true;
-        const share = B.fixed ? 1 : .5;
-        if (ox < oy * 1.6) { const sx = (dx === 0 ? (a % 2 ? 1 : -1) : Math.sign(dx)) * ox * share; A.x += sx; if (!B.fixed) B.x -= sx; }
-        else { const sy = (dy === 0 ? (a % 2 ? 1 : -1) : Math.sign(dy)) * oy * share; A.y += sy; if (!B.fixed) B.y -= sy; }
+  const pad = 12, placed = fixed.slice();
+  const hits = (x, y, w, h, pd) => placed.some((B) => Math.abs(x - B.x) < (w + B.w) / 2 + pd && Math.abs(y - B.y) < (h + B.h) / 2 + pd);
+  const inside = (x, y, w, h) => x - w / 2 >= box[0] && x + w / 2 <= box[2] && y - h / 2 >= box[1] && y + h / 2 <= box[3];
+  const order = items.slice().sort((a, b) => b.w - a.w);
+  for (const A of order) {
+    let done = false;
+    for (const pd of [pad, 6, 2]) {
+      for (let r = 0; r <= 1400 && !done; r += 8) {
+        const steps = r === 0 ? 1 : Math.max(12, Math.round(r / 6));
+        for (let k = 0; k < steps; k++) {
+          const a = (k / steps) * Math.PI * 2 + (r / 37);
+          const x = A.ax + Math.cos(a) * r * 1.35, y = A.ay + Math.sin(a) * r * .8;
+          if (inside(x, y, A.w, A.h) && !hits(x, y, A.w, A.h, pd)) { A.x = x; A.y = y; done = true; break; }
+        }
       }
-      // a gentle pull back toward where the label belongs, so it stays near its chapters
-      A.x += (A.ax - A.x) * .008; A.y += (A.ay - A.y) * .008;
-      A.x = Math.max(box[0] + A.w / 2, Math.min(box[2] - A.w / 2, A.x));
-      A.y = Math.max(box[1] + A.h / 2, Math.min(box[3] - A.h / 2, A.y));
+      if (done) break;
     }
-    if (!moved) break;
+    if (!done) { A.x = A.ax; A.y = A.ay; }
+    placed.push(A);
   }
 }
 function pillSvg(p, i) {
   return `<g class="cnode g-${p.t.g}" data-t="${i}" data-chs="${p.t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(p.t.t)}: show where it was used" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
 }
-function chapterSvg(id, x, y, below, r) {
+function chapterSvg(id, x, y, below, r, compact) {
   const ch = byId[id];
-  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 70}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 38}">${esc(ch.title)}</text><text class="cs" text-anchor="middle" y="${below ? r + 76 : -r - 12}">${esc(CH_SUB[id] || '')}</text></g>`;
+  const lab = compact
+    ? `<text class="n" text-anchor="middle" y="${below ? r + 24 : -r - 40}">${id}</text><text text-anchor="middle" y="${below ? r + 50 : -r - 12}">${esc(ch.title)}</text>`
+    : `<text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 70}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 38}">${esc(ch.title)}</text><text class="cs" text-anchor="middle" y="${below ? r + 76 : -r - 12}">${esc(CH_SUB[id] || '')}</text>`;
+  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}, ${esc(CH_SUB[id] || '')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="${r}"/>${lab}</g>`;
 }
-// fixed boxes around a chapter dot and its two-line label, so skill labels never sit on top of them
-function chapterBox(id, x, y, below, r) {
-  const w = Math.max(byId[id].title.length * 12.5 + 24, (CH_SUB[id] || '').length * 9.5 + 24, 2 * r + 10);
-  return { x, y: below ? y + 30 : y - 34, w, h: 2 * r + 110, fixed: true };
+// fixed boxes around a chapter dot and its label, so skill labels never sit on top of them
+function textWidth(text, font) {
+  try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = font; return measureCtx.measureText(text).width; }
+  catch (e) { return text.length * 12.5; }
 }
-
-/* radial graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
-function graphSvg(centerId) {
-  const W = 1040, H = 760, cx = W / 2, cy = H / 2, R = 18;
-  const threads = THREADS.filter((t) => t.ch.includes(centerId));
-  const others = [...new Set(threads.flatMap((t) => t.ch).filter((c) => c !== centerId))];
-  const pos = {};
-  others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * 440, cy + Math.sin(a) * 300]; });
-  const tp = threads.map((t) => {
-    const linked = t.ch.filter((c) => c !== centerId && pos[c]);
-    const v = linked.reduce((s, c) => [s[0] + pos[c][0] - cx, s[1] + pos[c][1] - cy], [0, 0]);
-    const a = Math.atan2(v[1], v[0]);
-    const x = cx + Math.cos(a) * 250, y = cy + Math.sin(a) * 165;
-    return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
-  });
-  const fixed = others.map((c) => chapterBox(c, pos[c][0], pos[c][1], pos[c][1] > cy, R));
-  fixed.push({ x: cx, y: cy + 18, w: byId[centerId].title.length * 13 + 34, h: 96, fixed: true });
-  relax(tp, fixed, [0, 0, W, H]);
+function chapterBox(id, x, y, below, r, compact) {
+  const w = Math.max(textWidth(byId[id].title, '600 25px "Cormorant Garamond", Georgia, serif') + 28, compact ? 0 : textWidth(CH_SUB[id] || '', 'italic 18px Spectral, Georgia, serif') + 28, 2 * r + 10);
+  return compact ? { x, y: below ? y + 22 : y - 22, w, h: 2 * r + 78, fixed: true } : { x, y: below ? y + 30 : y - 34, w, h: 2 * r + 110, fixed: true };
+}
+// work out drawing units from the box on screen: big enough that labels read at about 14-15px
+function frame(box) {
+  const cw = Math.max(280, box.clientWidth), ch = Math.max(320, box.clientHeight);
+  const s = cw < 640 ? 1.75 : cw < 900 ? 1.4 : 1.25;
+  const W = Math.round(cw * s), H = Math.round(ch * s);
+  return { W, H, compact: W < 1050 };
+}
+function edgesAndNodes(tp, pos, extraEdge) {
   let edges = '', nodes = '';
   tp.forEach((p, i) => {
-    edges += `<path class="edge g-${p.t.g}" data-t="${i}" d="M${cx},${cy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`;
-    p.t.ch.filter((c) => c !== centerId).forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
+    if (extraEdge) edges += extraEdge(p, i);
+    p.t.ch.filter((c) => pos[c]).forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0].toFixed(1)},${pos[c][1].toFixed(1)}"/>`; });
     nodes += pillSvg(p, i);
   });
-  others.forEach((c) => { nodes += chapterSvg(c, pos[c][0], pos[c][1], pos[c][1] > cy, R); });
-  const me = byId[centerId];
-  nodes += `<g class="chnode self" transform="translate(${cx},${cy})"><circle r="24"/><text text-anchor="middle" y="56">${esc(me.title)}</text></g>`;
-  return `<svg viewBox="-60 -50 ${W + 120} ${H + 100}" role="img" aria-label="Skills from ${esc(me.title)} that also appear in other chapters">${edges}${nodes}</svg>`;
+  return [edges, nodes];
 }
-/* the whole map: chapters on a ring, skills inside, each skill placed between the chapters it joins */
-function mapSvg() {
-  const W = 1200, H = 1020, cx = W / 2, cy = H / 2, R = 21;
+
+/* chapter graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
+function graphSvg(centerId, W, H, compact) {
+  const cx = W / 2, cy = H / 2, R = 18;
+  const threads = THREADS.filter((t) => t.ch.includes(centerId));
+  const others = [...new Set(threads.flatMap((t) => t.ch).filter((c) => c !== centerId))];
+  const mx = compact ? 115 : 160, myT = compact ? 70 : 100, myB = compact ? 80 : 110;
+  const rx = W / 2 - mx, ry = (H - myT - myB) / 2, ccy = myT + ry;
   const pos = {};
-  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * 520, cy + Math.sin(a) * 420]; });
-  const mean = (ids) => { const pts = ids.map((c) => pos[c]); return [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length]; };
+  others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * rx, ccy + Math.sin(a) * ry]; });
+  const tp = threads.map((t) => {
+    const linked = t.ch.filter((c) => c !== centerId && pos[c]);
+    const v = linked.reduce((acc, c) => [acc[0] + pos[c][0] - cx, acc[1] + pos[c][1] - ccy], [0, 0]);
+    const a = Math.atan2(v[1], v[0]);
+    const x = cx + Math.cos(a) * rx * .55, y = ccy + Math.sin(a) * ry * .55;
+    return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
+  });
+  const fixed = others.map((c) => chapterBox(c, pos[c][0], pos[c][1], pos[c][1] > ccy, R, compact));
+  fixed.push({ x: cx, y: ccy + 18, w: byId[centerId].title.length * 13 + 34, h: 96, fixed: true });
+  relax(tp, fixed, [6, 6, W - 6, H - 6]);
+  const pos2 = { ...pos };
+  const [edges, nodesA] = edgesAndNodes(tp, pos2, (p, i) => `<path class="edge g-${p.t.g}" data-t="${i}" d="M${cx},${ccy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`);
+  let nodes = nodesA;
+  others.forEach((c) => { nodes += chapterSvg(c, pos[c][0], pos[c][1], pos[c][1] > ccy, R, compact); });
+  const me = byId[centerId];
+  nodes += `<g class="chnode self" transform="translate(${cx},${ccy})"><circle r="24"/><text text-anchor="middle" y="56">${esc(me.title)}</text></g>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skills from ${esc(me.title)} that also appear in other chapters">${edges}${nodes}</svg>`;
+}
+/* the whole map: chapters on a ring that matches the screen's shape, skills inside, grouped by colour */
+function mapSvg(W, H, compact) {
+  const cx = W / 2, R = compact ? 17 : 21;
+  const mx = compact ? 115 : 165, myT = compact ? 80 : 115, myB = compact ? 78 : 112;
+  const rx = W / 2 - mx, ry = (H - myT - myB) / 2, cy = myT + ry;
+  const pos = {};
+  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
+  const mean = (ids) => { const pts = ids.map((c) => pos[c]); return [pts.reduce((acc, p) => acc + p[0], 0) / pts.length, pts.reduce((acc, p) => acc + p[1], 0) / pts.length]; };
   // each group gets one home area, between the chapters its skills come from
   const home = {};
   GROUPS.forEach((g) => { const m = mean(THREADS.filter((t) => t.g === g.id).flatMap((t) => t.ch)); home[g.id] = [cx + (m[0] - cx) * 1.6, cy + (m[1] - cy) * 1.45]; });
   const tp = THREADS.map((t) => {
     const m = mean(t.ch), hm = home[t.g];
-    const x = cx + ((hm[0] - cx) * .65 + (m[0] - cx) * .35) * .9, y = cy + ((hm[1] - cy) * .65 + (m[1] - cy) * .35) * 1.0;
+    const x = cx + ((hm[0] - cx) * .65 + (m[0] - cx) * .35) * .9, y = cy + ((hm[1] - cy) * .65 + (m[1] - cy) * .35);
     return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
   });
-  const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R));
-  relax(tp, fixed, [50, 110, W - 50, H - 110]);
-  let edges = '', nodes = '';
-  tp.forEach((p, i) => {
-    p.t.ch.forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
-    nodes += pillSvg(p, i);
-  });
-  CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R); });
-  return `<svg class="calm" viewBox="-70 -60 ${W + 140} ${H + 120}" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
+  const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact));
+  relax(tp, fixed, [6, 6, W - 6, H - 6]);
+  let [edges, nodes] = edgesAndNodes(tp, pos);
+  CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact); });
+  return `<svg class="calm" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
 }
+// draw every graph on the page at the size of its box; redrawn when the screen changes size or turns
+function drawGraphs(root) {
+  root.querySelectorAll('.graph[data-kind]').forEach((g) => {
+    const { W, H, compact } = frame(g);
+    g.innerHTML = g.dataset.kind === 'map' ? mapSvg(W, H, compact) : graphSvg(g.dataset.id, W, H, compact);
+  });
+  wireGraph(root);
+}
+let redrawTimer = 0;
+addEventListener('resize', () => { clearTimeout(redrawTimer); redrawTimer = setTimeout(() => { if (!$('sheet').hidden) drawGraphs($('paper')); }, 150); });
+
 function wireGraph(root) {
   root.querySelectorAll('[data-go]').forEach((g) => {
     const go = () => openChapter(g.dataset.go);
@@ -793,8 +845,9 @@ function wireGraph(root) {
   });
   root.querySelectorAll('.graph svg').forEach((svg) => {
     let pinned = null;
-    const info = svg.closest('.graph')?.nextElementSibling?.classList.contains('ginfo') ? svg.closest('.graph').nextElementSibling : null;
-    const say = (html) => { if (!info) return; info.innerHTML = html; info.hidden = !html; };
+    const info = svg.closest('.graph')?.parentElement?.querySelector(':scope > .ginfo');
+    // beside the map (wide screens) the card shows a hint until something is chosen; elsewhere it only appears when needed
+    const say = (html) => { if (!info) return; const side = info.classList.contains('side') && !matchMedia('(max-width:999px)').matches; info.innerHTML = html || (side ? `<p class="gi-hint">Tap a skill to see where it was used and why. Point at a chapter to see its skills.</p>` : ''); info.hidden = !html && !side; };
     const clear = () => { svg.classList.remove('focusing'); svg.querySelectorAll('.hot').forEach((el) => el.classList.remove('hot')); say(''); };
     const showSkill = (n) => {
       clear(); svg.classList.add('focusing'); n.classList.add('hot');
@@ -809,6 +862,7 @@ function wireGraph(root) {
       say(infoFor('chapter', ch.dataset.c));
     };
     const restore = () => { if (pinned) showSkill(pinned); else clear(); };
+    clear();
     svg.querySelectorAll('.cnode').forEach((n) => {
       n.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showSkill(n); });
       n.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') restore(); });
@@ -816,6 +870,7 @@ function wireGraph(root) {
       n.addEventListener('click', toggle);
       n.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     });
+    svg.addEventListener('click', (e) => { if (!e.target.closest('.cnode, .chnode') && pinned) { pinned.setAttribute('aria-pressed', 'false'); pinned = null; restore(); } });
     svg.querySelectorAll('.chnode[data-c]').forEach((ch) => {
       ch.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showChapter(ch); });
       ch.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') restore(); });
@@ -834,9 +889,8 @@ function showSheet(html, map) {
   // restart the entrance animation for each page
   paper.style.animation = 'none'; paper.offsetHeight; paper.style.animation = '';
   paper.focus({ preventScroll: true });
-  wireGraph(paper);
+  drawGraphs(paper);
   wireTabs(paper);
-  paper.querySelectorAll('.graph').forEach((g) => { g.scrollLeft = (g.scrollWidth - g.clientWidth) / 2; });
   paper.querySelectorAll('[data-nav]').forEach((b) => b.onclick = () => openChapter(b.dataset.nav));
   paper.querySelectorAll('[data-map]').forEach((b) => b.onclick = openMap);
 }
@@ -868,7 +922,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}</div>${infoHtml()}`;
+  html += `<h2>How my skills connect</h2><div class="gintro"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}</div><div class="gwrap"><div class="graph" data-kind="chapter" data-id="${id}"></div>${infoHtml()}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -907,9 +961,8 @@ const legendHtml = () => `<p class="legend">${GROUPS.map((g) => `<span class="lg
 function openMap() {
   showSheet(`<p class="num">SKILL MAP</p><h1 id="sheetTitle">How my skills connect</h1>
     <p class="lede">${numWord(THREADS.length)} skills, each used in two or more parts of my work.</p>
-    <p class="ledesub">Tap a skill to see where it was used and why. Point at a chapter to see its skills; tap it to open it.</p>
     ${legendHtml()}
-    <div class="graph">${mapSvg()}</div>${infoHtml()}`, true);
+    <div class="mapwrap gwrap"><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>`, true);
 }
 $('mapBtn').onclick = openMap;
 
