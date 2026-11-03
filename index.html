@@ -191,6 +191,31 @@ a{color:inherit}
 
 /* knowledge graph */
 .graph{margin-top:10px}
+.graph svg .cnode{cursor:pointer}
+.graph svg .cnode:focus{outline:none}
+.graph svg .cnode:focus-visible rect{stroke-width:3}
+.graph svg .cnode.g-research rect{fill:#e6f1ea;stroke:#2e7a5c}
+.graph svg .cnode.g-people rect{fill:#f8eae2;stroke:#b0603c}
+.graph svg .cnode.g-industry rect{fill:#e7eef7;stroke:#3d6390}
+.graph svg .edge.g-research{stroke:#2e7a5c}
+.graph svg .edge.g-people{stroke:#b0603c}
+.graph svg .edge.g-industry{stroke:#3d6390}
+.graph svg .edge{opacity:.32}
+.graph svg.calm .edge{opacity:0}
+.graph svg.focusing .edge{opacity:0}
+.graph svg.focusing .edge.hot{opacity:.95;stroke-width:3.2}
+.graph svg.focusing .cnode:not(.hot){opacity:.28}
+.graph svg.focusing .chnode:not(.hot):not(.self){opacity:.35}
+.graph svg .cnode.hot rect{stroke-width:3}
+.graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:opacity .2s}
+@media (prefers-reduced-motion:reduce){.graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:none}}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 4px;font-size:14.5px;color:var(--paper-ink)}
+.legend .lg{display:inline-flex;align-items:center;gap:8px}
+.legend .lg i{width:22px;height:14px;border-radius:7px;border:2px solid;display:inline-block}
+.legend .g-research i{background:#e6f1ea;border-color:#2e7a5c}
+.legend .g-people i{background:#f8eae2;border-color:#b0603c}
+.legend .g-industry i{background:#e7eef7;border-color:#3d6390}
+
 .graph p.note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
 .graph svg{width:100%;height:auto;display:block;overflow:visible}
 .graph .edge{stroke:#b49a6a;stroke-width:1.6;opacity:.38;fill:none}
@@ -422,19 +447,24 @@ const byId = Object.fromEntries(CHAPTERS.map((c) => [c.id, c]));
 
 /* ---- knowledge graph: shared threads between chapters, each grounded in the CV text ---- */
 const THREADS = [
-  { t: 'Driver workload', ch: ['THREE', 'FOUR', 'SEVEN'] },
-  { t: 'Eye tracking and motion capture', ch: ['THREE', 'FOUR'] },
-  { t: 'Driving simulation', ch: ['THREE', 'FOUR'] },
-  { t: 'Knowledge graphs', ch: ['THREE', 'FOUR'] },
-  { t: 'Machine vision', ch: ['THREE', 'FIVE', 'SIX'] },
-  { t: 'AI in education', ch: ['TWO', 'THREE', 'FIVE'] },
-  { t: 'Teaching', ch: ['FIVE', 'EIGHT'] },
-  { t: 'Teams and organisational design', ch: ['ONE', 'TWO', 'FIVE'] },
-  { t: 'Quality and auditing', ch: ['TWO', 'FOUR', 'EIGHT'] },
-  { t: 'Systems that adapt to people', ch: ['ONE', 'TWO', 'SEVEN'] },
-  { t: 'Manufacturing', ch: ['FOUR', 'SIX', 'EIGHT'] },
-  { t: 'China', ch: ['SIX', 'EIGHT', 'FIVE'] },
-  { t: 'Ghana', ch: ['SIX', 'FIVE'] }
+  { t: 'Driver workload', g: 'research', ch: ['THREE', 'FOUR', 'SEVEN'] },
+  { t: 'Eye tracking and motion capture', g: 'research', ch: ['THREE', 'FOUR'] },
+  { t: 'Driving simulation', g: 'research', ch: ['THREE', 'FOUR'] },
+  { t: 'Knowledge graphs', g: 'research', ch: ['THREE', 'FOUR'] },
+  { t: 'Machine vision', g: 'research', ch: ['THREE', 'FIVE', 'SIX'] },
+  { t: 'AI in education', g: 'people', ch: ['TWO', 'THREE', 'FIVE'] },
+  { t: 'Teaching', g: 'people', ch: ['FIVE', 'EIGHT'] },
+  { t: 'Teams and organisational design', g: 'people', ch: ['ONE', 'TWO', 'FIVE'] },
+  { t: 'Quality and auditing', g: 'industry', ch: ['TWO', 'FOUR', 'EIGHT'] },
+  { t: 'Systems that adapt to people', g: 'people', ch: ['ONE', 'TWO', 'SEVEN'] },
+  { t: 'Manufacturing', g: 'industry', ch: ['FOUR', 'SIX', 'EIGHT'] },
+  { t: 'China', g: 'industry', ch: ['SIX', 'EIGHT', 'FIVE'] },
+  { t: 'Ghana', g: 'industry', ch: ['SIX', 'FIVE'] }
+];
+const GROUPS = [
+  { id: 'research', name: 'Research methods' },
+  { id: 'people', name: 'People and learning' },
+  { id: 'industry', name: 'Industry and places' }
 ];
 
 /* ---------- the drum ---------- */
@@ -641,11 +671,11 @@ function relax(items, fixed, box) {
   }
 }
 function pillSvg(p, i) {
-  return `<g class="cnode" data-t="${i}" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
+  return `<g class="cnode g-${p.t.g}" data-t="${i}" data-chs="${p.t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(p.t.t)}: show where it was used" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
 }
 function chapterSvg(id, x, y, below, r) {
   const ch = byId[id];
-  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 44}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 12}">${esc(ch.title)}</text></g>`;
+  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 44}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 12}">${esc(ch.title)}</text></g>`;
 }
 // fixed boxes around a chapter dot and its two-line label, so skill labels never sit on top of them
 function chapterBox(id, x, y, below, r) {
@@ -672,8 +702,8 @@ function graphSvg(centerId) {
   relax(tp, fixed, [0, 0, W, H]);
   let edges = '', nodes = '';
   tp.forEach((p, i) => {
-    edges += `<path class="edge" data-t="${i}" d="M${cx},${cy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`;
-    p.t.ch.filter((c) => c !== centerId).forEach((c) => { edges += `<path class="edge" data-t="${i}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
+    edges += `<path class="edge g-${p.t.g}" data-t="${i}" d="M${cx},${cy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`;
+    p.t.ch.filter((c) => c !== centerId).forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
     nodes += pillSvg(p, i);
   });
   others.forEach((c) => { nodes += chapterSvg(c, pos[c][0], pos[c][1], pos[c][1] > cy, R); });
@@ -686,21 +716,24 @@ function mapSvg() {
   const W = 1200, H = 1460, cx = W / 2, cy = H / 2, R = 21;
   const pos = {};
   CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * 520, cy + Math.sin(a) * 640]; });
+  const mean = (ids) => { const pts = ids.map((c) => pos[c]); return [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length]; };
+  // each group gets one home area, between the chapters its skills come from
+  const home = {};
+  GROUPS.forEach((g) => { const m = mean(THREADS.filter((t) => t.g === g.id).flatMap((t) => t.ch)); home[g.id] = [cx + (m[0] - cx) * 1.6, cy + (m[1] - cy) * 1.45]; });
   const tp = THREADS.map((t) => {
-    const pts = t.ch.map((c) => pos[c]);
-    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length, my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
-    const x = cx + (mx - cx) * .74, y = cy + (my - cy) * .98;
+    const m = mean(t.ch), hm = home[t.g];
+    const x = cx + ((hm[0] - cx) * .65 + (m[0] - cx) * .35) * .9, y = cy + ((hm[1] - cy) * .65 + (m[1] - cy) * .35) * 1.0;
     return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
   });
   const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R));
   relax(tp, fixed, [60, 150, W - 60, H - 150]);
   let edges = '', nodes = '';
   tp.forEach((p, i) => {
-    p.t.ch.forEach((c) => { edges += `<path class="edge" data-t="${i}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
+    p.t.ch.forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0]},${pos[c][1]}"/>`; });
     nodes += pillSvg(p, i);
   });
   CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R); });
-  return `<svg viewBox="-70 -60 ${W + 140} ${H + 120}" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
+  return `<svg class="calm" viewBox="-70 -60 ${W + 140} ${H + 120}" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
 }
 function wireGraph(root) {
   root.querySelectorAll('[data-go]').forEach((g) => {
@@ -708,10 +741,31 @@ function wireGraph(root) {
     g.addEventListener('click', go);
     g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
   });
-  root.querySelectorAll('.cnode').forEach((n) => {
-    const set = (on) => { root.querySelectorAll(`[data-t="${n.dataset.t}"]`).forEach((el) => el.classList.toggle('hot', on)); };
-    n.addEventListener('pointerenter', () => set(true));
-    n.addEventListener('pointerleave', () => set(false));
+  root.querySelectorAll('.graph svg').forEach((svg) => {
+    let pinned = null;
+    const clear = () => { svg.classList.remove('focusing'); svg.querySelectorAll('.hot').forEach((el) => el.classList.remove('hot')); };
+    const showSkill = (n) => {
+      clear(); svg.classList.add('focusing'); n.classList.add('hot');
+      svg.querySelectorAll(`.edge[data-t="${n.dataset.t}"]`).forEach((el) => el.classList.add('hot'));
+      n.dataset.chs.split(' ').forEach((c) => svg.querySelector(`.chnode[data-c="${c}"]`)?.classList.add('hot'));
+      svg.querySelector('.self')?.classList.add('hot');
+    };
+    const showChapter = (ch) => {
+      clear(); svg.classList.add('focusing'); ch.classList.add('hot');
+      svg.querySelectorAll(`.edge[data-c="${ch.dataset.c}"]`).forEach((el) => { el.classList.add('hot'); svg.querySelector(`.cnode[data-t="${el.dataset.t}"]`)?.classList.add('hot'); });
+    };
+    const restore = () => { if (pinned) showSkill(pinned); else clear(); };
+    svg.querySelectorAll('.cnode').forEach((n) => {
+      n.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showSkill(n); });
+      n.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') restore(); });
+      const toggle = () => { pinned = pinned === n ? null : n; n.setAttribute('aria-pressed', String(pinned === n)); restore(); };
+      n.addEventListener('click', toggle);
+      n.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    });
+    svg.querySelectorAll('.chnode[data-c]').forEach((ch) => {
+      ch.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showChapter(ch); });
+      ch.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') restore(); });
+    });
   });
 }
 
@@ -760,7 +814,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Tap a chapter to go there.</p>${graphSvg(id)}</div>`;
+  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -783,10 +837,13 @@ function openContact() {
   showSheet(html);
   goStop(ITEMS.length - 1);
 }
+const numWord = (n) => ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen'][n] || String(n);
+const legendHtml = () => `<p class="legend">${GROUPS.map((g) => `<span class="lg g-${g.id}"><i></i>${esc(g.name)}</span>`).join('')}</p>`;
 function openMap() {
   showSheet(`<p class="num">SKILL MAP</p><h1 id="sheetTitle">How my skills connect</h1>
-    <p class="lede">The skills that run through more than one chapter.</p>
-    <p class="ledesub">Point at a skill to see which chapters use it. Tap a chapter to open it.</p>
+    <p class="lede">${numWord(THREADS.length)} skills, each used in two or more parts of my work.</p>
+    <p class="ledesub">Tap a skill to see where it was used. Tap a chapter to open it.</p>
+    ${legendHtml()}
     <div class="graph">${mapSvg()}</div>`, true);
 }
 $('mapBtn').onclick = openMap;
