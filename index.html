@@ -221,9 +221,24 @@ body.intro-on{overflow:hidden}
 .graph svg .cnode{cursor:pointer}
 .graph svg .cnode:focus{outline:none}
 .graph svg .cnode:focus-visible rect{stroke-width:3}
-.graph svg .cnode.g-research rect{fill:#e6f1ea;stroke:#2e7a5c}
-.graph svg .cnode.g-people rect{fill:#f8eae2;stroke:#b0603c}
-.graph svg .cnode.g-industry rect{fill:#e7eef7;stroke:#3d6390}
+.graph svg .cnode rect{fill:#fff;stroke-width:1.6}
+.graph svg .cnode.g-research rect{stroke:#2e7a5c}.graph svg .cnode.g-research text{fill:#1f5a43}
+.graph svg .cnode.g-people rect{stroke:#b0603c}.graph svg .cnode.g-people text{fill:#8a4527}
+.graph svg .cnode.g-industry rect{stroke:#3d6390}.graph svg .cnode.g-industry text{fill:#2c4a6e}
+.graph svg .cnode.hot.g-research rect{fill:#e6f1ea}.graph svg .cnode.hot.g-people rect{fill:#f8eae2}.graph svg .cnode.hot.g-industry rect{fill:#e7eef7}
+.graph svg .edge{stroke-dasharray:5 7;stroke-linecap:round}
+.graph svg.focusing .edge.hot{animation:flow 1.1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-24}}
+@media (prefers-reduced-motion:reduce){.graph svg.focusing .edge.hot{animation:none}}
+.graph svg .chnode .hub{fill:var(--green);stroke:none}
+.graph svg .chnode .ring{fill:none;stroke:#b9cfc3;stroke-width:1.6}
+.graph svg .chnode .rn{font-family:var(--display);font-weight:600;font-size:22px;fill:var(--gold);letter-spacing:.04em}
+.graph svg .chnode .tag{fill:#f6efe2;stroke:#dccba7;stroke-width:1.2}
+.graph svg .chnode .ct{font-family:var(--display);font-weight:600;font-size:21px;fill:#123a2e}
+.graph svg .chnode .cs{font-family:var(--body);font-style:italic;font-size:15px;fill:#6b5c45}
+.graph svg .chnode:hover .ring,.graph svg .chnode:focus-visible .ring,.graph svg .chnode.hot .ring{stroke:var(--gold);stroke-width:2.4}
+.graph svg .chnode.self .hub{fill:var(--accent)}
+.graph svg .chnode.self .rn{fill:#fff3dc}
 .graph svg .edge.g-research{stroke:#2e7a5c}
 .graph svg .edge.g-people{stroke:#b0603c}
 .graph svg .edge.g-industry{stroke:#3d6390}
@@ -236,7 +251,7 @@ body.intro-on{overflow:hidden}
 .graph svg .cnode.hot rect{stroke-width:3}
 .graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:opacity .2s}
 @media (prefers-reduced-motion:reduce){.graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:none}}
-.graph svg .chnode text.cs{font-family:var(--body);font-style:italic;font-weight:400;font-size:18px;fill:#6b5c45}
+.graph svg .chnode text.cs{font-family:var(--body);font-style:italic;font-weight:400;font-size:15px;fill:#6b5c45}
 .graph{position:relative}
 .ginfo{position:sticky;bottom:12px;margin:8px auto 0;max-width:640px;max-height:42vh;overflow:auto;background:#fff;border:1px solid #d8c9a9;border-radius:12px;box-shadow:0 12px 30px #0002;padding:14px 18px;z-index:2}
 .ginfo .gi-h{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin:0 0 8px;font-size:17px;color:var(--paper-ink)}
@@ -261,13 +276,11 @@ body.intro-on{overflow:hidden}
 .graph svg{width:100%;height:auto;display:block;overflow:visible}
 .graph .edge{stroke:#b49a6a;stroke-width:1.6;opacity:.38;fill:none}
 .graph .edge.hot{stroke:var(--accent);opacity:1;stroke-width:3}
-.graph .cnode text{font-family:var(--body);font-size:19px;fill:var(--paper-ink)}
+.graph .cnode text{font-family:var(--body);font-size:17px;fill:var(--paper-ink)}
 .graph .cnode rect{fill:#fbf6ec;stroke:#c9a96a}
 .graph .chnode{cursor:pointer}
-.graph .chnode circle{fill:var(--green);stroke:var(--gold);stroke-width:2.5}
 .graph .chnode text{font-family:var(--display);font-weight:600;font-size:25px;fill:var(--paper-ink)}
 .graph .chnode text.n{font-family:var(--caps);font-size:15px;letter-spacing:.16em;fill:#a8823c;font-weight:600}
-.graph .chnode:hover circle,.graph .chnode:focus-visible circle{fill:var(--accent)}
 .graph .chnode:focus{outline:none}
 .graph .self circle{fill:var(--accent)}
 .graph .cnode.hot rect{fill:#f0dfb8;stroke:var(--accent)}
@@ -720,11 +733,11 @@ function mediaHtml(list) {
 }
 
 /* ---- graph layout helpers: measure each skill label, then push overlapping labels apart until every one has its own space ---- */
-const PILL_H = 42, PILL_FONT = '19px Spectral, Georgia, serif';
+const PILL_H = 38, PILL_FONT = '17px Spectral, Georgia, serif';
 let measureCtx = null;
 function pillWidth(text) {
-  try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = PILL_FONT; return Math.ceil(measureCtx.measureText(text).width) + 38; }
-  catch (e) { return text.length * 9.6 + 38; }
+  try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = PILL_FONT; return Math.ceil(measureCtx.measureText(text).width) + 34; }
+  catch (e) { return text.length * 8.6 + 34; }
 }
 // place each skill label at the free spot nearest to where it belongs, searching outward in a spiral;
 // longer labels go first, and no label may touch another label or a chapter name
@@ -751,23 +764,28 @@ function relax(items, fixed, box) {
   }
 }
 function pillSvg(p, i) {
-  return `<g class="cnode g-${p.t.g}" data-t="${i}" data-chs="${p.t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(p.t.t)}: show where it was used" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
+  return `<g class="cnode g-${p.t.g}" data-t="${i}" data-chs="${p.t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(p.t.t)}: show where it was used" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6">${esc(p.t.t)}</text></g>`;
 }
-function chapterSvg(id, x, y, below, r, compact) {
-  const ch = byId[id];
-  const lab = compact
-    ? `<text class="n" text-anchor="middle" y="${below ? r + 24 : -r - 40}">${id}</text><text text-anchor="middle" y="${below ? r + 50 : -r - 12}">${esc(ch.title)}</text>`
-    : `<text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 70}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 38}">${esc(ch.title)}</text><text class="cs" text-anchor="middle" y="${below ? r + 76 : -r - 12}">${esc(CH_SUB[id] || '')}</text>`;
-  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}, ${esc(CH_SUB[id] || '')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="${r}"/>${lab}</g>`;
-}
-// fixed boxes around a chapter dot and its label, so skill labels never sit on top of them
+// chapters are the hubs: a filled circle with its numeral, a thin ring, and a label tag underneath
+const ROMAN = { ONE: 'I', TWO: 'II', THREE: 'III', FOUR: 'IV', FIVE: 'V', SIX: 'VI', SEVEN: 'VII', EIGHT: 'VIII' };
+const TAG_FONT = '600 21px "Cormorant Garamond", Georgia, serif', TAG_SUB_FONT = 'italic 15px Spectral, Georgia, serif';
 function textWidth(text, font) {
   try { measureCtx = measureCtx || document.createElement('canvas').getContext('2d'); measureCtx.font = font; return measureCtx.measureText(text).width; }
-  catch (e) { return text.length * 12.5; }
+  catch (e) { return text.length * 11; }
 }
+function tagSize(id, compact) {
+  const w = Math.max(textWidth(byId[id].title, TAG_FONT), compact ? 0 : textWidth(CH_SUB[id] || '', TAG_SUB_FONT)) + 30;
+  return { w, h: compact ? 34 : 54 };
+}
+function chapterSvg(id, x, y, below, r, compact) {
+  const ch = byId[id], tg = tagSize(id, compact);
+  const tag = `<g class="tagg" transform="translate(0,${r + 10})"><rect class="tag" x="${-tg.w / 2}" y="0" width="${tg.w}" height="${tg.h}" rx="9"/><text class="ct" text-anchor="middle" y="${compact ? 23 : 23}">${esc(ch.title)}</text>${compact ? '' : `<text class="cs" text-anchor="middle" y="43">${esc(CH_SUB[id] || '')}</text>`}</g>`;
+  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}, ${esc(CH_SUB[id] || '')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle class="ring" r="${r + 7}"/><circle class="hub" r="${r}"/><text class="rn" text-anchor="middle" dy="${compact ? 6 : 7}"${(ROMAN[id] || '').length > 3 ? ' style="font-size:17px"' : (ROMAN[id] || '').length > 2 ? ' style="font-size:19px"' : ''}>${ROMAN[id] || ''}</text>${tag}</g>`;
+}
+// the space a chapter hub and its tag take up, so skill labels never sit on top of them
 function chapterBox(id, x, y, below, r, compact) {
-  const w = Math.max(textWidth(byId[id].title, '600 25px "Cormorant Garamond", Georgia, serif') + 28, compact ? 0 : textWidth(CH_SUB[id] || '', 'italic 18px Spectral, Georgia, serif') + 28, 2 * r + 10);
-  return compact ? { x, y: below ? y + 22 : y - 22, w, h: 2 * r + 78, fixed: true } : { x, y: below ? y + 30 : y - 34, w, h: 2 * r + 110, fixed: true };
+  const tg = tagSize(id, compact), top = y - r - 8, bottom = y + r + 10 + tg.h;
+  return { x, y: (top + bottom) / 2, w: Math.max(2 * r + 16, tg.w), h: bottom - top, fixed: true };
 }
 // work out drawing units from the box on screen: big enough that labels read at about 14-15px
 function frame(box) {
@@ -776,11 +794,22 @@ function frame(box) {
   const W = Math.round(cw * s), H = Math.round(ch * s);
   return { W, H, compact: W < 1050 };
 }
-function edgesAndNodes(tp, pos, extraEdge) {
+// a gentle curve from a skill to a chapter, bowing toward the middle of the picture and stopping at the hub's ring
+function curve(x1, y1, x2, y2, r, mid) {
+  const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+  let px = -dy / len, py = dx / len;
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  if (px * (mid[0] - mx) + py * (mid[1] - my) < 0) { px = -px; py = -py; }
+  const k = len * .18, qx = mx + px * k, qy = my + py * k;
+  const ex = qx - x2, ey = qy - y2, el = Math.hypot(ex, ey) || 1;
+  const tx = x2 + ex / el * (r + 9), ty = y2 + ey / el * (r + 9);
+  return `M${x1.toFixed(1)},${y1.toFixed(1)} Q${qx.toFixed(1)},${qy.toFixed(1)} ${tx.toFixed(1)},${ty.toFixed(1)}`;
+}
+function edgesAndNodes(tp, pos, extraEdge, r, mid) {
   let edges = '', nodes = '';
   tp.forEach((p, i) => {
     if (extraEdge) edges += extraEdge(p, i);
-    p.t.ch.filter((c) => pos[c]).forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="M${p.x.toFixed(1)},${p.y.toFixed(1)} L${pos[c][0].toFixed(1)},${pos[c][1].toFixed(1)}"/>`; });
+    p.t.ch.filter((c) => pos[c]).forEach((c) => { edges += `<path class="edge g-${p.t.g}" data-t="${i}" data-c="${c}" d="${curve(p.x, p.y, pos[c][0], pos[c][1], r, mid)}"/>`; });
     nodes += pillSvg(p, i);
   });
   return [edges, nodes];
@@ -788,10 +817,10 @@ function edgesAndNodes(tp, pos, extraEdge) {
 
 /* chapter graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
 function graphSvg(centerId, W, H, compact) {
-  const cx = W / 2, cy = H / 2, R = 18;
+  const cx = W / 2, cy = H / 2, R = compact ? 24 : 30;
   const threads = THREADS.filter((t) => t.ch.includes(centerId));
   const others = [...new Set(threads.flatMap((t) => t.ch).filter((c) => c !== centerId))];
-  const mx = compact ? 115 : 160, myT = compact ? 70 : 100, myB = compact ? 80 : 110;
+  const mx = compact ? 120 : 165, myT = R + 22, myB = R + (compact ? 60 : 80);
   const rx = W / 2 - mx, ry = (H - myT - myB) / 2, ccy = myT + ry;
   const pos = {};
   others.forEach((c, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / others.length; pos[c] = [cx + Math.cos(a) * rx, ccy + Math.sin(a) * ry]; });
@@ -803,20 +832,22 @@ function graphSvg(centerId, W, H, compact) {
     return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
   });
   const fixed = others.map((c) => chapterBox(c, pos[c][0], pos[c][1], pos[c][1] > ccy, R, compact));
-  fixed.push({ x: cx, y: ccy + 18, w: byId[centerId].title.length * 13 + 34, h: 96, fixed: true });
+  const myTag = tagSize(centerId, true), selfR = R + 8;
+  fixed.push({ x: cx, y: ccy + (myTag.h + 10) / 2, w: Math.max(2 * selfR + 16, myTag.w), h: 2 * selfR + 18 + myTag.h, fixed: true });
   relax(tp, fixed, [6, 6, W - 6, H - 6]);
   const pos2 = { ...pos };
-  const [edges, nodesA] = edgesAndNodes(tp, pos2, (p, i) => `<path class="edge g-${p.t.g}" data-t="${i}" d="M${cx},${ccy} L${p.x.toFixed(1)},${p.y.toFixed(1)}"/>`);
+  const mid = [cx, ccy];
+  const [edges, nodesA] = edgesAndNodes(tp, pos2, (p, i) => `<path class="edge g-${p.t.g}" data-t="${i}" d="${curve(p.x, p.y, cx, ccy, selfR, [cx, 0])}"/>`, R, mid);
   let nodes = nodesA;
   others.forEach((c) => { nodes += chapterSvg(c, pos[c][0], pos[c][1], pos[c][1] > ccy, R, compact); });
   const me = byId[centerId];
-  nodes += `<g class="chnode self" transform="translate(${cx},${ccy})"><circle r="24"/><text text-anchor="middle" y="56">${esc(me.title)}</text></g>`;
+  nodes += `<g class="chnode self" transform="translate(${cx},${ccy})"><circle class="ring" r="${selfR + 7}"/><circle class="hub" r="${selfR}"/><text class="rn" text-anchor="middle" dy="7">${ROMAN[centerId] || ''}</text><g transform="translate(0,${selfR + 10})"><rect class="tag" x="${-myTag.w / 2}" y="0" width="${myTag.w}" height="${myTag.h}" rx="9"/><text class="ct" text-anchor="middle" y="23">${esc(me.title)}</text></g></g>`;
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skills from ${esc(me.title)} that also appear in other chapters">${edges}${nodes}</svg>`;
 }
 /* the whole map: chapters on a ring that matches the screen's shape, skills inside, grouped by colour */
 function mapSvg(W, H, compact) {
-  const cx = W / 2, R = compact ? 17 : 21;
-  const mx = compact ? 115 : 165, myT = compact ? 80 : 115, myB = compact ? 78 : 112;
+  const cx = W / 2, R = compact ? 22 : 30;
+  const mx = compact ? 118 : 165, myT = R + 22, myB = R + (compact ? 60 : 80);
   const rx = W / 2 - mx, ry = (H - myT - myB) / 2, cy = myT + ry;
   const pos = {};
   CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
@@ -831,7 +862,7 @@ function mapSvg(W, H, compact) {
   });
   const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact));
   relax(tp, fixed, [6, 6, W - 6, H - 6]);
-  let [edges, nodes] = edgesAndNodes(tp, pos);
+  let [edges, nodes] = edgesAndNodes(tp, pos, null, R, [cx, cy]);
   CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact); });
   return `<svg class="calm" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
 }
