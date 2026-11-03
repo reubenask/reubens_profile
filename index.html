@@ -209,6 +209,19 @@ a{color:inherit}
 .graph svg .cnode.hot rect{stroke-width:3}
 .graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:opacity .2s}
 @media (prefers-reduced-motion:reduce){.graph svg .edge,.graph svg .cnode,.graph svg .chnode{transition:none}}
+.graph svg .chnode text.cs{font-family:var(--body);font-style:italic;font-weight:400;font-size:18px;fill:#6b5c45}
+.graph{position:relative}
+.ginfo{position:sticky;bottom:14px;margin:8px auto 0;max-width:620px;background:#fff;border:1px solid #d8c9a9;border-radius:12px;box-shadow:0 12px 30px #0002;padding:14px 18px;z-index:2}
+.ginfo .gi-h{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin:0 0 8px;font-size:17px;color:var(--paper-ink)}
+.ginfo .gi-g{font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1.5px solid}
+.ginfo .gi-g.g-research{color:#2e7a5c;background:#e6f1ea}
+.ginfo .gi-g.g-people{color:#b0603c;background:#f8eae2}
+.ginfo .gi-g.g-industry{color:#3d6390;background:#e7eef7}
+.ginfo .gi-sub{font-style:italic;color:var(--paper-soft)}
+.ginfo ul{list-style:none;margin:0;padding:0}
+.ginfo li{display:grid;grid-template-columns:minmax(150px,38%) 1fr;gap:4px 14px;padding:6px 0;border-top:1px solid #eee4d2;font-size:15px;line-height:1.45;color:var(--paper-ink)}
+.ginfo .gi-c{font-weight:600;color:var(--green)}
+@media (max-width:560px){.ginfo li{grid-template-columns:1fr}}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 4px;font-size:14.5px;color:var(--paper-ink)}
 .legend .lg{display:inline-flex;align-items:center;gap:8px}
 .legend .lg i{width:22px;height:14px;border-radius:7px;border:2px solid;display:inline-block}
@@ -446,21 +459,58 @@ PAGES.forEach((p, i) => {
 const byId = Object.fromEntries(CHAPTERS.map((c) => [c.id, c]));
 
 /* ---- knowledge graph: shared threads between chapters, each grounded in the CV text ---- */
+// each skill, its group, and a short phrase saying how each chapter uses it (all taken from the CV)
 const THREADS = [
-  { t: 'Driver workload', g: 'research', ch: ['THREE', 'FOUR', 'SEVEN'] },
-  { t: 'Eye tracking and motion capture', g: 'research', ch: ['THREE', 'FOUR'] },
-  { t: 'Driving simulation', g: 'research', ch: ['THREE', 'FOUR'] },
-  { t: 'Knowledge graphs', g: 'research', ch: ['THREE', 'FOUR'] },
-  { t: 'Machine vision', g: 'research', ch: ['THREE', 'FIVE', 'SIX'] },
-  { t: 'AI in education', g: 'people', ch: ['TWO', 'THREE', 'FIVE'] },
-  { t: 'Teaching', g: 'people', ch: ['FIVE', 'EIGHT'] },
-  { t: 'Teams and organisational design', g: 'people', ch: ['ONE', 'TWO', 'FIVE'] },
-  { t: 'Quality and auditing', g: 'industry', ch: ['TWO', 'FOUR', 'EIGHT'] },
-  { t: 'Systems that adapt to people', g: 'people', ch: ['ONE', 'TWO', 'SEVEN'] },
-  { t: 'Manufacturing', g: 'industry', ch: ['FOUR', 'SIX', 'EIGHT'] },
-  { t: 'China', g: 'industry', ch: ['SIX', 'EIGHT', 'FIVE'] },
-  { t: 'Ghana', g: 'industry', ch: ['SIX', 'FIVE'] }
+  { t: 'Driver workload', g: 'research', ch: ['THREE', 'FOUR', 'SEVEN'], why: {
+    THREE: 'Measured with eye tracking, motion capture and NASA-TLX.',
+    FOUR: 'The core of the PhD: DWAM, tested with 51 drivers.',
+    SEVEN: 'The Tyranny of the Default: systems that adapt to sensed human behavior.' } },
+  { t: 'Eye tracking and motion capture', g: 'research', ch: ['THREE', 'FOUR'], why: {
+    THREE: 'Tobii eye tracking and Xsens motion capture.',
+    FOUR: 'Visual and physical workload in the driving study.' } },
+  { t: 'Driving simulation', g: 'research', ch: ['THREE', 'FOUR'], why: {
+    THREE: 'CARLA, CarSim and a Logitech steering and pedal rig.',
+    FOUR: 'Built the research group’s first driving-simulation lab.' } },
+  { t: 'Knowledge graphs', g: 'research', ch: ['THREE', 'FOUR'], why: {
+    THREE: 'Neo4j knowledge graphs.',
+    FOUR: 'A low-carbon manufacturing knowledge graph with Siemens.' } },
+  { t: 'Machine vision', g: 'research', ch: ['THREE', 'FIVE', 'SIX'], why: {
+    THREE: 'Mask R-CNN.',
+    FIVE: 'Found over 90% of carbide particles in steel images at Lanzhou University of Technology.',
+    SIX: 'MEng thesis on digital image processing.' } },
+  { t: 'AI in education', g: 'people', ch: ['TWO', 'THREE', 'FIVE'], why: {
+    TWO: 'Helps people and teams adopt AI.',
+    THREE: 'Curriculum and assessment design, and teacher training.',
+    FIVE: 'AI curricula for Emerald Hill and Belio Technology.' } },
+  { t: 'Teaching', g: 'people', ch: ['FIVE', 'EIGHT'], why: {
+    FIVE: 'Taught engineering at the University of Ghana, and science and maths in Ashaiman.',
+    EIGHT: 'Advanced TESOL certificate.' } },
+  { t: 'Teams and organisational design', g: 'people', ch: ['ONE', 'TWO', 'FIVE'], why: {
+    ONE: 'Founded and led a team; built a company’s organisational structure.',
+    TWO: 'Builds teams and structures that make work measurable.',
+    FIVE: 'A media team of about 10; Komodo’s people management system.' } },
+  { t: 'Quality and auditing', g: 'industry', ch: ['TWO', 'FOUR', 'EIGHT'], why: {
+    TWO: 'Checks whether processes deliver what they promise.',
+    FOUR: 'Quality problem solving: Best Student Conference Paper.',
+    EIGHT: 'ISO 9001, 14001 and 45001 internal auditor.' } },
+  { t: 'Systems that adapt to people', g: 'people', ch: ['ONE', 'TWO', 'SEVEN'], why: {
+    ONE: 'Designs around how people actually behave.',
+    TWO: 'Systems that adapt to people, not the reverse.',
+    SEVEN: 'The Tyranny of the Default.' } },
+  { t: 'Manufacturing', g: 'industry', ch: ['FOUR', 'SIX', 'EIGHT'], why: {
+    FOUR: 'Smart sustainable manufacturing, the first PhD phase.',
+    SIX: 'MEng in mechanical manufacture and automation.',
+    EIGHT: 'Best Student Conference Paper on manufacturing quality.' } },
+  { t: 'China', g: 'industry', ch: ['SIX', 'EIGHT', 'FIVE'], why: {
+    SIX: 'MEng and PhD in China; HSK 5 Mandarin.',
+    EIGHT: 'Chinese Government Outstanding International Student Award.',
+    FIVE: 'Roles in Lanzhou and Hangzhou.' } },
+  { t: 'Ghana', g: 'industry', ch: ['SIX', 'FIVE'], why: {
+    SIX: 'BSc in process engineering, University of Ghana.',
+    FIVE: 'Teaching in Accra and Ashaiman; consulting for Komodo Mining Services.' } }
 ];
+// one short phrase under each chapter name on the graphs
+const CH_SUB = { ONE: 'profile', TWO: 'strengths', THREE: 'methods and tools', FOUR: 'PhD and papers', FIVE: 'jobs, consulting, teaching', SIX: 'education', SEVEN: 'writing', EIGHT: 'awards and certificates' };
 const GROUPS = [
   { id: 'research', name: 'Research methods' },
   { id: 'people', name: 'People and learning' },
@@ -675,12 +725,12 @@ function pillSvg(p, i) {
 }
 function chapterSvg(id, x, y, below, r) {
   const ch = byId[id];
-  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 44}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 12}">${esc(ch.title)}</text></g>`;
+  return `<g class="chnode" tabindex="0" role="link" data-go="${id}" data-c="${id}" aria-label="Open chapter ${id.toLowerCase()}: ${esc(ch.title)}" transform="translate(${x},${y})"><circle r="${r}"/><text class="n" text-anchor="middle" y="${below ? r + 26 : -r - 70}">${id}</text><text text-anchor="middle" y="${below ? r + 52 : -r - 38}">${esc(ch.title)}</text><text class="cs" text-anchor="middle" y="${below ? r + 76 : -r - 12}">${esc(CH_SUB[id] || '')}</text></g>`;
 }
 // fixed boxes around a chapter dot and its two-line label, so skill labels never sit on top of them
 function chapterBox(id, x, y, below, r) {
-  const w = Math.max(byId[id].title.length * 12.5 + 24, 2 * r + 10);
-  return { x, y: below ? y + 18 : y - 22, w, h: 2 * r + 84, fixed: true };
+  const w = Math.max(byId[id].title.length * 12.5 + 24, (CH_SUB[id] || '').length * 9.5 + 24, 2 * r + 10);
+  return { x, y: below ? y + 30 : y - 34, w, h: 2 * r + 110, fixed: true };
 }
 
 /* radial graph: this chapter at the centre, its skills around it, and the chapters those skills lead to on the outside */
@@ -743,16 +793,20 @@ function wireGraph(root) {
   });
   root.querySelectorAll('.graph svg').forEach((svg) => {
     let pinned = null;
-    const clear = () => { svg.classList.remove('focusing'); svg.querySelectorAll('.hot').forEach((el) => el.classList.remove('hot')); };
+    const info = svg.parentElement.querySelector('.ginfo');
+    const say = (html) => { if (!info) return; info.innerHTML = html; info.hidden = !html; };
+    const clear = () => { svg.classList.remove('focusing'); svg.querySelectorAll('.hot').forEach((el) => el.classList.remove('hot')); say(''); };
     const showSkill = (n) => {
       clear(); svg.classList.add('focusing'); n.classList.add('hot');
       svg.querySelectorAll(`.edge[data-t="${n.dataset.t}"]`).forEach((el) => el.classList.add('hot'));
       n.dataset.chs.split(' ').forEach((c) => svg.querySelector(`.chnode[data-c="${c}"]`)?.classList.add('hot'));
       svg.querySelector('.self')?.classList.add('hot');
+      say(infoFor('skill', n.querySelector('text').textContent));
     };
     const showChapter = (ch) => {
       clear(); svg.classList.add('focusing'); ch.classList.add('hot');
       svg.querySelectorAll(`.edge[data-c="${ch.dataset.c}"]`).forEach((el) => { el.classList.add('hot'); svg.querySelector(`.cnode[data-t="${el.dataset.t}"]`)?.classList.add('hot'); });
+      say(infoFor('chapter', ch.dataset.c));
     };
     const restore = () => { if (pinned) showSkill(pinned); else clear(); };
     svg.querySelectorAll('.cnode').forEach((n) => {
@@ -814,7 +868,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}</div>`;
+  html += `<h2>How my skills connect</h2><div class="graph"><p class="note">Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.</p>${legendHtml()}${graphSvg(id)}${infoHtml()}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -838,13 +892,24 @@ function openContact() {
   goStop(ITEMS.length - 1);
 }
 const numWord = (n) => ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen'][n] || String(n);
+const infoHtml = () => `<div class="ginfo" aria-live="polite" hidden></div>`;
+const chName = (id) => `${id.charAt(0) + id.slice(1).toLowerCase()} · ${byId[id].title}`;
+function infoFor(kind, key) {
+  if (kind === 'skill') {
+    const t = THREADS.find((x) => x.t === key); if (!t) return '';
+    const g = GROUPS.find((x) => x.id === t.g);
+    return `<p class="gi-h"><b>${esc(t.t)}</b><span class="gi-g g-${t.g}">${esc(g.name)}</span></p><ul>${t.ch.map((c) => `<li><span class="gi-c">${esc(chName(c))}</span>${esc(t.why?.[c] || '')}</li>`).join('')}</ul>`;
+  }
+  const used = THREADS.filter((t) => t.ch.includes(key));
+  return `<p class="gi-h"><b>${esc(chName(key))}</b><span class="gi-sub">${esc(CH_SUB[key] || '')}</span></p><ul>${used.map((t) => `<li><span class="gi-c">${esc(t.t)}</span>${esc(t.why?.[key] || '')}</li>`).join('')}</ul>`;
+}
 const legendHtml = () => `<p class="legend">${GROUPS.map((g) => `<span class="lg g-${g.id}"><i></i>${esc(g.name)}</span>`).join('')}</p>`;
 function openMap() {
   showSheet(`<p class="num">SKILL MAP</p><h1 id="sheetTitle">How my skills connect</h1>
     <p class="lede">${numWord(THREADS.length)} skills, each used in two or more parts of my work.</p>
-    <p class="ledesub">Tap a skill to see where it was used. Tap a chapter to open it.</p>
+    <p class="ledesub">Tap a skill to see where it was used and why. Point at a chapter to see its skills; tap it to open it.</p>
     ${legendHtml()}
-    <div class="graph">${mapSvg()}</div>`, true);
+    <div class="graph">${mapSvg()}${infoHtml()}</div>`, true);
 }
 $('mapBtn').onclick = openMap;
 
