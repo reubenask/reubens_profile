@@ -1,0 +1,202 @@
+% 郝运 (Reuben Seyram Komla Agbozo): Chinese CV as ONE continuous page (no page breaks)
+% Compile with XeLaTeX (on Overleaf: Menu > Compiler > XeLaTeX) until it is one page (two runs normally).
+% Run 1 measures the content; the next run sets the page height to fit it.
+\documentclass[10pt]{article}
+\makeatletter
+\@ifundefined{cvheight}{\def\cvheight{3000mm}}{}
+\IfFileExists{\jobname.aux}{\input{\jobname.aux}}{}
+\makeatother
+\usepackage[paperwidth=210mm,paperheight=\cvheight,left=15mm,right=15mm,top=14mm,bottom=10mm,nohead,nofoot]{geometry}
+\usepackage{fontspec}
+% Chinese font: Noto Sans CJK SC if installed, otherwise the Fandol fonts that ship with TeX Live (Overleaf).
+\IfFontExistsTF{Noto Sans CJK SC}{%
+  \setmainfont{Noto Sans CJK SC}[Script=CJK,Language=Chinese Simplified,BoldFont={Noto Sans CJK SC Bold},ItalicFont={Noto Sans CJK SC},BoldItalicFont={Noto Sans CJK SC Bold}]%
+}{%
+  \setmainfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf,ItalicFont=FandolHei-Regular.otf,BoldItalicFont=FandolHei-Bold.otf]%
+}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage[table]{xcolor}
+\usepackage{array,longtable}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{qrcode}
+\hypersetup{pdftitle={郝运 Reuben Seyram Komla Agbozo 简历},pdfauthor={Reuben Seyram Komla Agbozo}}
+\definecolor{navy}{HTML}{243748}
+\definecolor{pale}{HTML}{F4F6F8}
+\definecolor{grid}{HTML}{D9D9D9}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\tabcolsep}{1.5mm}
+\setlength{\extrarowheight}{3pt}
+\arrayrulecolor{grid}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\titleformat{\section}{\fontsize{14}{17}\selectfont\bfseries\color{navy}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\pagestyle{empty}
+\emergencystretch=2em
+\interlinepenalty=10000
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\hd}[1]{\color{white}\bfseries #1}
+\newcommand{\rowsep}{\\[3pt] \hline}
+\newcommand{\subsep}{\\[3pt] \cline{2-5}}
+\newcommand{\bi}{\par\hangindent=1.1em\hangafter=1\noindent\makebox[1.1em][l]{\textbullet}}
+\newcommand{\dt}{\textperiodcentered{}}
+
+\begin{document}
+{\fontsize{25}{29}\selectfont\bfseries\color{navy} 郝运}\hspace{10pt}{\fontsize{14}{17}\selectfont\color{navy} Reuben Seyram Komla Agbozo}\par\vspace{4pt}
+{\fontsize{11}{14}\selectfont 人因研究员 \dt{} 用户行为架构师}\par\vspace{3pt}
+问题解决 \dt{} 人机交互 \dt{} 研究与设计
+
+中国杭州 \dt{} \href{mailto:reuben@zju.edu.cn}{reuben@zju.edu.cn} \dt{} +86 182 1510 7127\newline
+\href{https://reubenask.com}{reubenask.com} \dt{} \href{https://orcid.org/0000-0001-8147-7609}{ORCID 0000-0001-8147-7609} \dt{} LinkedIn：Reuben ASK
+
+\section*{个人简介}
+我是一名问题解决者和用户行为架构师，关注人在系统中如何思考、行动和适应。我善于发现哪些地方对人不起作用，界定真正的问题，并构建切实可行的解决方案：产品、原型、学习项目，以及组织的运作方式。我曾从零开始创建并带领团队，设计人工智能课程并培训教师使用人工智能，还为一家公司搭建了组织架构和衡量目标的标准化方法。我的工作横跨工程、设计和教育，也跨越文化，能以英语和汉语开展工作，把复杂的想法变成人们用得上的东西。
+
+\section*{核心优势}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{41mm}|P{132.6mm}|}
+\hline\rowcolor{navy} \hd{优势} & \hd{我能带来什么} \rowsep
+\rowcolor{white} \textbf{界定问题} & 把模糊、杂乱的问题变成团队能够回答并据此行动的清晰问题。 \rowsep
+\rowcolor{pale} \textbf{人的行为与系统} & 设计能适应人们实际行为的系统，而不是要求人去适应系统。 \rowsep
+\rowcolor{white} \textbf{构建与测试} & 快速做出可用的原型，在投入时间和资金之前先验证想法。 \rowsep
+\rowcolor{pale} \textbf{分析判断} & 将客观数据与人的主观报告相结合，得出经得起推敲的结论。 \rowsep
+\rowcolor{white} \textbf{快速学习新领域} & 在陌生领域迅速上手，并把一个领域的思路带到另一个领域。 \rowsep
+\rowcolor{pale} \textbf{批判性评审} & 给出清晰、公正的评价，帮助他人改进工作。 \rowsep
+\rowcolor{white} \textbf{审核与质量体系} & 检查流程是否兑现了承诺，并找出不足之处。 \rowsep
+\rowcolor{pale} \textbf{人工智能学习与沟通} & 帮助个人和团队采用人工智能，并用人人都能理解的方式解释技术概念。 \rowsep
+\rowcolor{white} \textbf{领导力与组织} & 建立让工作清晰、可衡量、高效的团队和架构。 \rowsep
+\end{longtable}}
+
+\section*{方法与工具}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{41mm}|P{132.6mm}|}
+\hline\rowcolor{navy} \hd{领域} & \hd{经验} \rowsep
+\rowcolor{white} \textbf{研究设计与分析} & 被试内实验；平衡设计；重复测量与混合效应分析；相关分析、多重比较校正与敏感性分析。 \rowsep
+\rowcolor{pale} \textbf{人因测量} & Tobii 眼动追踪；Xsens 动作捕捉；NASA-TLX；多模态同步数据的处理与解读。 \rowsep
+\rowcolor{white} \textbf{仿真与计算} & CARLA；CarSim；模型预测控制（MPC）；罗技方向盘与踏板接口；Python 分析流程；车辆遥测数据；基于 Mask R-CNN 的机器视觉；Neo4j 知识图谱。 \rowsep
+\rowcolor{pale} \textbf{人工智能与教育设计} & 人工智能辅助原型开发；网页应用与智能体工作流；课程开发；考核设计；教师培训。 \rowsep
+\end{longtable}}
+
+\section*{科研与职业经历}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{15mm}|P{24mm}|P{21mm}|P{55mm}|P{49mm}|}
+\hline\rowcolor{navy} \hd{时间} & \hd{职位} & \hd{机构} & \hd{工作内容} & \hd{成果} \rowsep
+\rowcolor{white} 2021 年 9 月至今 & \textbf{博士研究员，人与智能车辆交互}\par 2024 年 1 月至今 & 浙江大学，杭州 &
+\bi 建成课题组第一个驾驶模拟实验室，包括一套提供转向、踏板及组合辅助的驾驶辅助系统。
+\bi 提出驾驶员负荷评估方法（DWAM），综合视觉、身体和主观报告的负荷，揭示当驾驶任务转交给系统时，负荷是否变化、在哪里变化以及朝哪个方向变化。
+\bi 指导两名硕士研究生设计并搭建实验，分析数据，回答各自的研究问题。 &
+\bi 该实验室现支撑课题组当前和未来的研究。
+\bi 将驾驶员负荷引入仅规定驾驶员职责的 SAE 驾驶自动化分级，并提出量化负荷的方法。在 51 名驾驶员中，每种辅助模式都降低了负荷，且各自作用于身体的不同部位。
+\bi 两名硕士研究生均顺利毕业并已就业。 \subsep
+\rowcolor{white} & \textbf{博士研究员，智能可持续制造}\par 2021 年 9 月至 2023 年 12 月\par 其中 2022 年 9 月至 2023 年 8 月任西门子合作研究助理 & 浙江大学，杭州\par Siemens，上海 &
+\bi 提出认知智能赋能制造的概念。
+\bi 研究面向离散制造系统、基于因果分析的质量问题求解。
+\bi 与西门子合作：构建数据驱动的低碳制造工艺 Neo4j 知识图谱，支持生命周期评价自动化。
+\bi 与西门子合作：研究大数据如何在整个生产价值链中支持更绿色、更智能的生产。 &
+\bi 第一作者论文“Towards Cognitive Intelligence-Enabled Manufacturing”，APMS 2022。
+\bi 合著论文“Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems”获 2023 年 NSFC-RGC 会议（香港）最佳学生会议论文奖；扩展版发表于 \href{https://doi.org/10.1080/09544828.2023.2247858}{Journal of Engineering Design}（2025）。
+\bi 合著论文“\href{https://doi.org/10.1016/j.aei.2024.102752}{Knowledge graph-based mapping and recommendation to automate life cycle assessment}”，Advanced Engineering Informatics（2024）。
+\bi 第一作者观点文章“\href{https://doi.org/10.20517/gmo.2022.02}{Enhancing big data for greentelligence across the production value chain}”，Green Manufacturing Open（2023）。 \rowsep
+\rowcolor{pale} 2024 年 4 月至今\par 自由职业 & \textbf{项目研究负责人兼顾问}\par 2024 年 4 月至今 & Emerald Hill Design Education Institute，杭州 &
+\bi 设计该机构关于人工智能、网页应用和 AI 智能体的课程。
+\bi 帮助教师将人工智能引入教学。
+\bi 就研究与管理为管理层提供建议。 &
+\bi 机构营收增长 18\%。
+\bi 培训约 30 名学生和在职人员。 \subsep
+\rowcolor{pale} & \textbf{管理顾问}\par 2024 年 11 月 & Komodo Mining Services，加纳 &
+\bi 将公司的服务重组为一套清晰、可推向市场的服务体系。
+\bi 设计其人员管理体系，包括工作的汇报与量化方式。 &
+\bi 新的服务架构帮助公司获得海外合同。
+\bi 团队实现统一的汇报和可衡量的工作产出。 \subsep
+\rowcolor{pale} & \textbf{人工智能与机器人课程顾问}\par 2025 年 6 月至 8 月 & Belio Technology（WaShalimba Group 旗下公司），纳米比亚 & 为四个学习群体设计循序渐进的人工智能与机器人课程：9 至 11 岁、12 至 15 岁、16 至 18 岁，以及成人与职场学习者。 & \rowsep
+\rowcolor{white} 2020 年 8 月至 2021 年 8 月 & \textbf{研究助理} & 兰州理工大学，兰州 & 开发基于 Mask R-CNN 的方法，对钢材显微图像中的碳化物颗粒进行定位、分割和测量，取代逐张人工分析。 &
+\bi 90\% 以上的目标颗粒被成功定位和分割。
+\bi 第一作者论文，Journal of the Korean Society for Precision Engineering（2020）。 \rowsep
+\end{longtable}}
+
+\section*{领导与教学经历}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{15mm}|P{24mm}|P{21mm}|P{55mm}|P{49mm}|}
+\hline\rowcolor{navy} \hd{时间} & \hd{职位} & \hd{机构} & \hd{工作内容} & \hd{成果} \rowsep
+\rowcolor{white} 2018 年 3 月至 2021 年 8 月 & \textbf{创始主编} & 兰州理工大学国际教育学院 &
+\bi 创建并带领学院第一个编辑与媒体团队。
+\bi 建立学院网站、YouTube 频道、Facebook 与 Instagram 主页、宣传材料以及海外合作项目。 &
+\bi 从零组建约 10 人的团队。
+\bi 开通四个线上渠道，支持国际学生招生。 \rowsep
+\rowcolor{pale} 2015 年 8 月至 2016 年 8 月 & \textbf{助教} & 加纳大学，阿克拉 & 作为讲师助理为工科学生讲授代数、微积分一和二、环境工程以及热力学一和二。 &
+\bi 六门课程。
+\bi 每班最多约 200 名学生。 \rowsep
+\rowcolor{white} 2009 年至 2011 年 & \textbf{科学与数学教师} & Stage International School，加纳阿沙伊曼 & 为小学和初中学生讲授科学与数学。 & 所有学生均通过加纳初中毕业考试（BECE），并升入高中。 \rowsep
+\end{longtable}}
+
+\section*{教育背景}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{26mm}|P{48mm}|P{36mm}|P{55.6mm}|}
+\hline\rowcolor{navy} \hd{时间} & \hd{学位} & \hd{院校} & \hd{研究方向与荣誉} \rowsep
+\rowcolor{white} 2021 年 9 月至 2027 年 3 月（预计） & 博士，工业与系统工程（机械工程） & 浙江大学 & 智能车辆中的驾驶员负荷评估与人的福祉。 \rowsep
+\rowcolor{pale} 2017 年 9 月至 2020 年 6 月 & 工程硕士，机械制造及其自动化 & 兰州理工大学 & 面向定量金相分析的数字图像处理。优秀毕业生，毕业生代表。 \rowsep
+\rowcolor{white} 2016 年 9 月至 2017 年 6 月 & 汉语言与中国文化 & 兰州理工大学 & HSK 四级与五级。 \rowsep
+\rowcolor{pale} 2011 年 9 月至 2015 年 6 月 & 工学学士，过程工程 & 加纳大学 & 过程工厂设计。 \rowsep
+\end{longtable}}
+
+\section*{著作与写作}
+发表记录：\href{https://orcid.org/0000-0001-8147-7609}{ORCID 0000-0001-8147-7609}。部分代表性论文已列于相关职位之下。
+
+著有“The Tyranny of the Default: Toward a User Behavior Architecture”，探讨系统如何根据感知到的人的行为进行调整，而不是强加一个固定的默认设置。在 LinkedIn 上以“Reuben ASK: Insights \& Opinions”发表关于问题解决的评论文章。
+
+\section*{证书}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{16mm}|P{104mm}|P{50mm}|}
+\hline\rowcolor{navy} \hd{年份} & \hd{证书} & \hd{颁发机构} \rowsep
+\rowcolor{white} 2020 & 内审员：ISO 9001:2015、ISO 14001:2015 与 ISO 45001:2018，涵盖质量、环境及职业健康安全管理体系。 & BSI Training Academy，新加坡 \rowsep
+\rowcolor{pale} 2018 & 高级 TESOL 证书及少儿英语教学。 & American TESOL Institute，上海 \rowsep
+\end{longtable}}
+
+\section*{奖项与荣誉}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{16mm}|P{157.6mm}|}
+\hline\rowcolor{navy} \hd{年份} & \hd{奖项} \rowsep
+\rowcolor{white} 2023 & 最佳学生会议论文奖，2023 NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems，香港。 \rowsep
+\rowcolor{pale} 2020 & 优秀毕业生、毕业生代表，兰州理工大学。 \rowsep
+\rowcolor{white} 2019 & 中国政府优秀来华留学生奖（Chinese Government Outstanding International Student Award），中华人民共和国教育部：从全国 127 所高校中评选出的 582 名国际学生之一。 \rowsep
+\end{longtable}}
+
+\section*{国际学会与组织}
+{\fontsize{9.5}{11.5}\selectfont
+\begin{longtable}{|P{93mm}|P{80.6mm}|}
+\hline\rowcolor{navy} \hd{组织} & \hd{会员类别} \rowsep
+\rowcolor{white} Human Factors and Ergonomics Society（HFES） & 会员（Emerging Country Membership） \rowsep
+\end{longtable}}
+
+\section*{语言}
+英语（母语）\dt{} 埃维语 \dt{} 契维语 \dt{} 加纳皮钦英语 \dt{} 汉语（专业水平，HSK 五级）\dt{} 法语（初级）
+
+如需推荐人信息，可应要求提供。
+
+\vspace{6pt}
+{\color{grid}\hrule}
+\vspace{8pt}
+\noindent\begin{minipage}[c]{0.74\linewidth}
+{\fontsize{11}{14}\selectfont\bfseries\color{navy} 本简历的交互版本}\par\vspace{3pt}
+扫描二维码，在线逐章浏览完整简历。\par\vspace{2pt}
+\href{https://reubenask.github.io/reubens_profile/?lang=zh}{reubenask.github.io/reubens\_profile}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.22\linewidth}\raggedleft
+\qrcode[height=24mm]{https://reubenask.github.io/reubens_profile/?lang=zh}
+\end{minipage}
+
+\par\vspace*{0pt}
+\makeatletter
+\ifnum\value{page}=1
+  \immediate\write\@auxout{\gdef\string\cvheight{\the\dimexpr\pagetotal+24mm\relax}}%
+\else
+  \immediate\write\@auxout{\gdef\string\cvheight{5000mm}}%
+\fi
+\makeatother
+\end{document}
