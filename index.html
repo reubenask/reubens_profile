@@ -599,9 +599,9 @@ const CV_ART_DATA = {"1": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2w
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const reduce = matchMedia('(prefers-reduced-motion:reduce)');
-// language: ?lang=zh or ?lang=en in the link, otherwise the visitor's last choice, otherwise English
+// language: English unless the link has ?lang=zh
 const LANG = (() => {
-  try { const q = new URLSearchParams(location.search).get('lang'); if (q === 'zh' || q === 'en') { localStorage.setItem('cv-lang', q); return q; } const s = localStorage.getItem('cv-lang'); if (s === 'zh' || s === 'en') return s; } catch (e) {}
+  try { localStorage.removeItem('cv-lang'); if (new URLSearchParams(location.search).get('lang') === 'zh') return 'zh'; } catch (e) {}
   return 'en';
 })();
 const ZH = LANG === 'zh', L = (en, zh) => ZH ? zh : en;
@@ -1169,7 +1169,7 @@ $('back').textContent = L('← Home', '← 首页');
 $('hint').textContent = L('Scroll or swipe through the chapters. Tap one to open it.', '滚动或滑动浏览各章节，点击即可打开。');
 $('langBtn').textContent = ZH ? 'EN' : '中文'; $('langBtn').lang = ZH ? 'en' : 'zh-CN';
 $('langBtn').setAttribute('aria-label', ZH ? 'Switch to English' : '切换到中文');
-$('langBtn').onclick = () => { const to = ZH ? 'en' : 'zh'; try { localStorage.setItem('cv-lang', to); sessionStorage.setItem('introSeen', '1'); } catch (e) {} const u = new URL(location.href); u.searchParams.set('lang', to); location.href = u.toString(); };
+$('langBtn').onclick = () => { const to = ZH ? 'en' : 'zh'; const u = new URL(location.href); if (to === 'zh') u.searchParams.set('lang', 'zh'); else u.searchParams.delete('lang'); location.href = u.toString(); };
 
 // swipe sideways on a chapter page to move to the next or previous chapter
 (() => {
