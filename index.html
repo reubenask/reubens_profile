@@ -1123,7 +1123,7 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
-  html += `<h2>${L('How my skills connect', '我的技能如何关联')}</h2><div class="gintro"><p class="note">${L('Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.', '本章中的技能也用在了其他章节。指向或点击某项技能即可查看具体用在哪里；点击章节即可前往。')}</p>${legendHtml()}</div><div class="gwrap"><div class="graph" data-kind="chapter" data-id="${id}"></div>${infoHtml()}</div>`;
+  if (id !== 'ONE') html += `<h2>${L('How my skills connect', '我的技能如何关联')}</h2><div class="gintro"><p class="note">${L('Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.', '本章中的技能也用在了其他章节。指向或点击某项技能即可查看具体用在哪里；点击章节即可前往。')}</p>${legendHtml()}</div><div class="gwrap"><div class="graph" data-kind="chapter" data-id="${id}"></div>${infoHtml()}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
