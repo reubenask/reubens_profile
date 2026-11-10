@@ -93,6 +93,81 @@ a{color:inherit}
   border-radius:6px;box-shadow:0 30px 80px #000c;padding:clamp(24px,5vw,56px);position:relative;animation:rise .45s cubic-bezier(.2,.7,.2,1)}
 @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.paper{animation:none}.item .open{transition:none}.hint{transition:none}}
+/* reading library: an endless shelf of spines. The centred book turns to show its cover; clicking it opens the book. */
+.sheet.books .paper{width:100%;margin:0;min-height:100svh;border-radius:0;box-shadow:none;background:#efede7;padding:calc(64px + env(safe-area-inset-top,0px)) 0 28px;overflow:hidden}
+.libhead{text-align:center;padding:0 20px}
+.libhead .num{padding-left:.3em}
+.sheet.books .paper h1{font-size:clamp(26px,3.4vw,38px);margin:4px 0 2px}
+.sheet.books .pager{margin-left:clamp(20px,5vw,64px);margin-right:clamp(20px,5vw,64px)}
+.lib{position:relative;--w:56px;--h:320px;--cw:210px;margin-top:10px;user-select:none;-webkit-user-select:none}
+.libtabs{display:flex;justify-content:center;flex-wrap:wrap;margin:8px 12px 0}
+.libtabs button{font-family:var(--caps);font-size:10.5px;letter-spacing:.14em;background:#f7f5ef;border:1px solid #c9c2b2;margin-left:-1px;padding:8px 10px 8px calc(10px + .14em);line-height:1;cursor:pointer;color:#3a342a}
+.libtabs button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#f3ecdc;position:relative}
+.librow{position:relative;height:calc(var(--h) + 86px);perspective:1500px;perspective-origin:50% 55%;overflow:hidden;touch-action:pan-y;cursor:grab}
+.librow.drag{cursor:grabbing}
+.vb{position:absolute;left:50%;bottom:34px;width:var(--w);height:var(--h);transform-style:preserve-3d;transform-origin:50% 100%;will-change:transform;cursor:pointer}
+.vb::after{content:"";position:absolute;left:-8%;right:-8%;bottom:-16px;height:18px;background:radial-gradient(closest-side,#0006,#0000);filter:blur(3px);transform:translateZ(-1px)}
+.vbox{position:absolute;inset:0;transform-style:preserve-3d}
+.vf{position:absolute;top:0;height:var(--h);background:var(--bc);color:var(--bt);border-radius:5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;
+  box-shadow:inset 0 0 0 1px #0000002e,inset 0 0 16px #0000003d,inset 0 2px 1px #ffffff40}
+.vf::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,#0003,#0000 12%,#0000 88%,#0003);mix-blend-mode:multiply;opacity:.75;pointer-events:none}
+.vspine{left:0;width:var(--w);transform:translateZ(calc(var(--cw) / 2));display:flex;flex-direction:column;align-items:center;padding:8px 0 9px}
+.vcover{left:calc((var(--w) - var(--cw)) / 2);width:var(--cw);transform:rotateY(90deg) translateZ(calc(var(--w) / 2))}
+.vback{left:calc((var(--w) - var(--cw)) / 2);width:var(--cw);transform:rotateY(-90deg) translateZ(calc(var(--w) / 2));background:#1b1815}
+.vspine .sm{width:calc(var(--w) - 12px);aspect-ratio:1;flex:none}
+.vspine b{flex:1;min-height:0;align-self:stretch;position:relative;font-family:var(--display);font-weight:700;font-size:calc(var(--w) * .34);text-transform:uppercase;margin:8px 0}
+.vspine b span{position:absolute;left:50%;top:50%;width:calc(var(--h) - var(--w) - 52px);transform:translate(-50%,-50%) rotate(90deg);text-align:center;line-height:1;letter-spacing:.05em;padding-left:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-box:trim-both cap alphabetic}
+.vspine .sn,.cv .cvn{display:inline-block;font-family:var(--caps);font-variant-numeric:lining-nums;line-height:1;letter-spacing:.08em;border:1px solid currentColor;padding:.42em .42em .42em .5em;text-box:trim-both cap alphabetic}
+.vspine .sn{font-size:9px;flex:none}
+.mo{display:block;width:100%;height:100%;fill:currentColor}
+.mo .a{fill:var(--ba)}.mo .s{fill:none;stroke:var(--ba)}
+.cv{position:absolute;inset:0;container-type:inline-size;display:flex;flex-direction:column;align-items:center;text-align:center;padding:7% 8% 6%}
+.cv .cva{font-family:var(--caps);font-size:10px;font-size:4.6cqw;letter-spacing:.2em;padding-left:.2em;text-transform:uppercase;opacity:.9;line-height:1.2}
+.cv .cvt{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:26px;font-size:13.5cqw;line-height:.94;letter-spacing:.01em;margin-top:7%;text-wrap:balance}
+.cv .cvt.m{font-size:11cqw}.cv .cvt.l{font-size:9.2cqw}
+.cv .cvm{flex:1;min-height:0;width:78%;margin-top:6%;display:flex;align-items:flex-end}
+.cv .cvn{align-self:flex-end;font-size:8px;font-size:4cqw;margin-top:3%}
+.vb.on,.vb.on .vcover{cursor:none}
+.vb.flat .vcover,.vb.flat .vback{visibility:hidden}
+.vspine b.m{font-size:calc(var(--w) * .28)}.vspine b.l{font-size:calc(var(--w) * .215)}
+.libarr{position:absolute;top:calc(var(--h) + 96px);background:none;border:0;font-size:22px;line-height:1;padding:10px 14px;cursor:pointer;color:#3a342a}
+.libarr.prev{left:clamp(6px,2vw,24px)}.libarr.next{right:clamp(6px,2vw,24px)}
+.libcap{text-align:center;min-height:80px;padding:0 60px}
+.libcap .capt{position:relative;height:38px;overflow:hidden;font-family:var(--display);font-weight:600;font-size:30px;line-height:38px;color:#1b2a22}
+.libcap .capt span{position:absolute;left:0;right:0;top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.libcap .capt span.in{animation:capIn .45s cubic-bezier(.2,.7,.2,1)}
+.libcap .capt span.out{animation:capOut .45s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes capIn{from{transform:translateY(100%)}to{transform:none}}
+@keyframes capOut{to{transform:translateY(-100%)}}
+.libcap .capa{font-family:var(--caps);font-size:11px;letter-spacing:.2em;padding-left:.2em;color:var(--accent);margin:2px 0 0}
+.libcap .capn{font-family:var(--caps);font-size:10px;letter-spacing:.16em;padding-left:.16em;color:#6a6253;margin:2px 0 0}
+.libcur{position:absolute;left:0;top:0;width:74px;height:74px;margin:-37px 0 0 -37px;border-radius:50%;background:var(--green);color:#f3ecdc;font-family:var(--caps);font-size:10px;letter-spacing:.16em;padding-left:.16em;display:grid;place-items:center;pointer-events:none;z-index:9;opacity:0;transform:scale(.4);transition:opacity .2s,transform .25s}
+.libcur.show{opacity:1;transform:none}
+.libdetail{position:absolute;inset:-10px 0 -10px;z-index:12;background:#f6f4ee;clip-path:inset(0);transition:clip-path .75s cubic-bezier(.7,0,.2,1);display:grid;grid-template-columns:minmax(0,540px) auto;justify-content:center;align-items:center;gap:clamp(24px,8vw,130px);padding:20px clamp(22px,6vw,90px)}
+.libdetail[hidden]{display:none}
+.dcover{position:relative;height:min(100%,460px);aspect-ratio:210/320;background:var(--bc);color:var(--bt);border-radius:7px;overflow:hidden;transform-origin:0 0;transition:transform .75s cubic-bezier(.7,0,.2,1);box-shadow:0 26px 40px -22px #000a,inset 0 0 0 1px #0000002e,inset 0 0 26px #0000003d}
+.dcover::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:multiply;opacity:.75;pointer-events:none}
+.dtext > *{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.libdetail.shown .dtext > *{opacity:1;transform:none}
+.libdetail.shown .dtext > :nth-child(1){transition-delay:.38s}.libdetail.shown .dtext > :nth-child(2){transition-delay:.46s}.libdetail.shown .dtext > :nth-child(3){transition-delay:.54s}.libdetail.shown .dtext > :nth-child(4){transition-delay:.62s}.libdetail.shown .dtext > :nth-child(5){transition-delay:.7s}.libdetail.shown .dtext > :nth-child(n+6){transition-delay:.78s}
+.paper .dtext .dk{font-family:var(--caps);font-size:11px;letter-spacing:.22em;color:var(--accent);margin:0}
+.paper .dtext h2{border:0;padding:0;margin:6px 0 4px;font-size:clamp(34px,5vw,60px);line-height:1;color:#151b17;font-weight:500}
+.paper .dtext .dm{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:#6a6253;margin:0 0 16px}
+.paper .dtext .dl{font-family:var(--caps);font-size:10.5px;letter-spacing:.22em;color:var(--accent);margin:14px 0 2px}
+.paper .dtext p{margin:0;max-width:46ch;font-size:16px;line-height:1.55}
+.dnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.dnav button{font-family:var(--caps);font-size:10.5px;letter-spacing:.16em;background:none;border:1px solid var(--green);color:var(--green);padding:10px 14px;cursor:pointer}
+.dnav button:hover{background:var(--green);color:#f3ecdc}
+@media (max-width:700px){
+  .libdetail{grid-template-columns:1fr;align-content:start;justify-items:center;overflow-y:auto;gap:16px;padding-top:14px}
+  .dcover{order:-1;height:190px}
+  .lib{min-height:600px}
+  .paper .dtext h2{font-size:30px}
+  .dtext{width:100%}
+  .libcap .capt{font-size:24px}
+}
+@media (hover:none){.libcur{display:none}.vb.on .vcover{cursor:pointer}}
+@media (prefers-reduced-motion:reduce){.libdetail,.dcover,.dtext > *{transition:none}.libcap .capt span{animation:none !important}.libcap .capt span.out{display:none}}
 .sheetbar{position:fixed;z-index:7;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;display:flex;justify-content:center;gap:8px;pointer-events:none}
 .sheetbar .chip{pointer-events:auto;background:#0b2219ee}
 .paper .num{font-family:var(--caps);font-size:12px;letter-spacing:.3em;color:var(--accent)}
@@ -735,8 +810,64 @@ const GROUPS = [
 ];
 
 /* ---------- the drum ---------- */
+// reading library. g = shelf group, c = cover colours, m = cover drawing, take = the book's biggest takeaway, me = its influence (optional)
+const BOOK_COLORS = { cream: ['#e4d9c3', '#2a2622', '#a8342a'], ink: ['#26231f', '#e4d9c3', '#b3352b'], red: ['#8f2a25', '#ecdfc6', '#f0c9a0'], green: ['#1f5b3d', '#e6dcc3', '#d9b871'], blue: ['#1e4c9a', '#ece3cf', '#f3e7c4'], gold: ['#c9a24f', '#26231f', '#8f2a25'] };
+const BOOK_GROUPS = [['history', L('History', '历史')], ['strategy', L('Strategy', '谋略')], ['work', L('Work and craft', '工作与方法')], ['self', L('Self', '自我')], ['lit', L('Literature and ideas', '文学与思想')]];
+const BOOK_ART = {
+  ship: '<path d="M18 62h64l-8 12H26z"/><path d="M49 20h2v42h-2zM30 30h2v32h-2zM68 34h2v28h-2z"/><path d="M34 32h13v24H34zM53 24h13v32H53z" opacity=".85"/><path class="a" d="M10 82q10-6 20 0t20 0 20 0 20 0v6H10z"/>',
+  jesus: '<circle class="a" cx="50" cy="34" r="20"/><path d="M48 14h4v50h-4zM32 30h36v4H32z"/><path d="M20 64h60l-9 12H29z"/><path d="M10 84q10-6 20 0t20 0 20 0 20 0v5H10z" opacity=".7"/>',
+  war: '<circle class="a" cx="68" cy="30" r="12"/><path d="M6 86 34 40l14 22 12-16 34 40z"/><path d="M33 40V18h2v22z"/><path class="a" d="M35 18h14l-4 5 4 5H35z"/>',
+  money: '<path d="M14 78h20v6H14zM14 70h20v6H14zM40 78h20v6H40zM40 70h20v6H40zM40 62h20v6H40zM40 54h20v6H40zM66 78h20v6H66zM66 70h20v6H66zM66 62h20v6H66zM66 54h20v6H66zM66 46h20v6H66zM66 38h20v6H66z"/><path class="s" stroke-width="3" d="M12 46 44 26l8 8 30-18"/>',
+  ui: '<path d="M14 24h72v52H14z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M14 24h72v10H14z"/><path class="a" d="M48 46v30l8-7 6 13 6-3-6-12h11z"/>',
+  mirror: '<ellipse cx="50" cy="40" rx="22" ry="26" fill="none" stroke="currentColor" stroke-width="4"/><ellipse class="a" cx="50" cy="40" rx="15" ry="19"/><path d="M47 66h6v24h-6z"/>',
+  apart: '<circle cx="26" cy="36" r="7"/><circle cx="50" cy="36" r="7"/><circle cx="74" cy="36" r="7"/><circle cx="26" cy="60" r="7"/><circle cx="74" cy="60" r="7"/><circle cx="26" cy="84" r="7"/><circle cx="50" cy="84" r="7"/><circle cx="74" cy="84" r="7"/><circle class="a" cx="54" cy="57" r="10"/>',
+  loop: '<path d="M50 20a30 30 0 1 1-28 20" fill="none" stroke="currentColor" stroke-width="6"/><path d="M12 30l10 14 12-12z"/><circle class="a" cx="50" cy="50" r="10"/>',
+  paper: '<path d="M24 14h40l12 12v60H24z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M32 36h36v3H32zM32 46h36v3H32zM32 56h36v3H32zM32 66h22v3H32z"/><path class="a" d="M60 84 84 52l6 5-24 31-8 3z"/>',
+  chess: '<path d="M24 86h22v-6H24zM28 80l3-30h8l3 30zM29 48a6 6 0 1 1 12 0zM34 30h2v-6h-3v-2h3v-4h2v4h3v2h-3v6z"/><path class="a" d="M56 86h22v-6H56zM60 80l2-26h10l2 26zM58 52l4-16 5 10 5-10 4 16z"/><circle class="a" cx="67" cy="30" r="4"/>',
+  atom: '<g fill="none" stroke="currentColor" stroke-width="3"><ellipse cx="50" cy="50" rx="38" ry="14"/><ellipse cx="50" cy="50" rx="38" ry="14" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="38" ry="14" transform="rotate(120 50 50)"/></g><circle class="a" cx="50" cy="50" r="8"/>',
+  peak: '<path d="M8 88 50 18l42 70z"/><path class="a" d="M50 18l10 17-10 6-9-7z"/><path d="M49 18V6h2v12z"/><path class="a" d="M51 6h12l-3 4 3 4H51z"/>',
+  rail: '<circle class="a" cx="50" cy="26" r="14"/><path d="M6 44h88v2H6z"/><path d="M46 46h2L20 92h-8zM52 46h2l34 46h-8z"/><path d="M40 56h20v3H40zM34 66h32v4H34zM27 78h46v5H27z"/>',
+  manor: '<path d="M14 50h72v36H14z"/><path d="M8 50 50 22l42 28z"/><path class="a" d="M44 64h12v22H44zM22 58h10v10H22zM68 58h10v10H68z"/><path d="M70 28h6v14h-6z"/>',
+  book: '<path d="M50 34C40 24 22 24 10 28v50c12-4 30-4 40 6z"/><path d="M50 34c10-10 28-10 40-6v50c-12-4-30-4-40 6z" opacity=".8"/><path class="a" d="M49 34h2v50h-2z"/>',
+  crown: '<path d="M14 76h72v10H14z"/><path d="M14 72 10 34l22 18 18-28 18 28 22-18-4 38z"/><circle class="a" cx="50" cy="20" r="5"/><circle class="a" cx="10" cy="30" r="4"/><circle class="a" cx="90" cy="30" r="4"/>',
+};
+const BOOKS = [
+  { t: 'The Slave Ship', st: 'A Human History', a: 'Marcus Rediker', g: 'history', c: 'ink', m: 'ship',
+    take: L('The slave trade ran on a machine: the ship itself, which Rediker describes as “a strange and potent combination of war machine, mobile prison, and factory.” Cruelty on that scale was organised and engineered, and it is best understood through the people who lived inside it.', '奴隶贸易靠一台机器运转，那就是船本身。Rediker 把它描述为战争机器、移动监狱和工厂的奇特而强大的结合。如此规模的残酷是被组织和设计出来的，只有透过身处其中的人，才能真正理解它。') },
+  { t: 'A Slave Ship Called Jesus', a: 'Dele Ogun', g: 'history', c: 'red', m: 'jesus',
+    take: L('The title comes from the Jesus of Lübeck, the royal ship Queen Elizabeth I chartered to John Hawkins. The book asks how churchgoing people could run the slave trade at all.', '书名来自“吕贝克的耶稣号”，即伊丽莎白一世租给约翰·霍金斯的王室船只。这本书追问：虔诚上教堂的人，怎么会经营奴隶贸易。') },
+  { t: 'The Art of War', a: 'Sun Tzu', g: 'strategy', c: 'gold', m: 'war',
+    take: L('Win before the fight begins. Know yourself, know the other side and know the ground, because the best victory is the one that needs no battle.', '胜负在开战之前就已决定。知己、知彼、知地形，最好的胜利是不战而胜。') },
+  { t: 'The 48 Laws of Power', a: 'Robert Greene', g: 'strategy', c: 'ink', m: 'crown',
+    take: L('Power follows patterns that repeat through history. Knowing them helps you recognise what is happening around you and respond wisely.', '权力遵循着历史上反复出现的规律。了解这些规律，有助于看清周围正在发生的事，并明智地应对。') },
+  { t: 'Rich Dad Poor Dad', a: 'Robert T. Kiyosaki', g: 'work', c: 'green', m: 'money',
+    take: L('Income alone does not make you wealthy. Learn how money works, and buy assets that pay you instead of liabilities that cost you.', '光有收入并不等于富有。要弄懂钱是怎么运作的，买入能为你带来收入的资产，而不是让你花钱的负债。') },
+  { t: 'The Lean Startup', a: 'Eric Ries', g: 'work', c: 'cream', m: 'loop',
+    take: L('Treat an idea as a hypothesis. Build the smallest version, measure how people really respond, learn, and only then invest more.', '把想法当作假设。先做出最小的版本，衡量人们的真实反应，从中学习，然后再加大投入。') },
+  { t: 'The Humane Interface', a: 'Jef Raskin', g: 'work', c: 'blue', m: 'ui',
+    take: L('A good interface is built around how human attention and habit really work. When people make errors, the design is usually at fault, not the person.', '好的界面是围绕人的注意力和习惯的真实运作方式来设计的。人出错时，问题通常出在设计上，而不在人。') },
+  { t: 'How to Write a Paper', st: '6th edition, 2005', a: 'Mike Ashby', g: 'work', c: 'cream', m: 'paper',
+    take: L('Good papers are designed before they are written. Start from the reader, sketch the whole concept on one sheet, then draft and refine.', '好论文在动笔之前就已经设计好了。从读者出发，先在一页纸上勾勒出整体构思，再起草和修改。') },
+  { t: 'How to Read a Book', a: 'Mortimer J. Adler & Charles Van Doren', g: 'work', c: 'red', m: 'book',
+    take: L('Reading is an active skill. Ask questions of the book, read at the level it deserves, and argue with the author only after you understand them.', '阅读是一项主动的技能。带着问题去读，按书应得的层次去读，并且先读懂作者，再与之争论。') },
+  { t: 'The Courage to Be Disliked', a: 'Ichiro Kishimi & Fumitake Koga', g: 'self', c: 'blue', m: 'apart',
+    take: L('Freedom comes from separating your own tasks from other people’s. You cannot control what others think of you, so you do not have to live for their approval.', '自由来自把自己的课题和别人的课题分开。你无法控制别人怎么看你，所以不必为了别人的认可而活。') },
+  { t: 'Atomic Habits', a: 'James Clear', g: 'self', c: 'gold', m: 'atom',
+    take: L('Small habits, repeated daily, compound into large results. Focus on the system you follow every day, not on the goal.', '微小的习惯日复一日地积累，会带来巨大的结果。关注每天遵循的体系，而不是目标本身。') },
+  { t: 'Can’t Hurt Me', a: 'David Goggins', g: 'self', c: 'ink', m: 'peak',
+    take: L('Most of us stop long before our real limit. Honesty with yourself and daily discipline build a mind that keeps going.', '我们大多数人远在真正的极限之前就停下了。对自己诚实，加上日复一日的自律，才能练出坚持下去的意志。') },
+  { t: 'Act Like a Lady, Think Like a Man', a: 'Steve Harvey', g: 'self', c: 'red', m: 'chess',
+    take: L('Relationships go better when you understand how the other person thinks, and when you state your standards early and clearly.', '了解对方是怎么想的，并且尽早、清楚地说出自己的标准，关系才会更顺利。') },
+  { t: 'Anna Karenina', a: 'Leo Tolstoy', g: 'lit', c: 'blue', m: 'rail',
+    take: L('A life built on self-deception does not hold. Meaning is found in honest work, in family, and in facing who you really are.', '建立在自欺之上的生活是站不住的。意义在于踏实的劳动、家庭，以及面对真实的自己。') },
+  { t: 'Pride and Prejudice', a: 'Jane Austen', g: 'lit', c: 'green', m: 'manor',
+    take: L('First impressions mislead. Pride and prejudice both stop us seeing people clearly, and character shows in what a person does.', '第一印象会误导人。傲慢与偏见都让我们看不清别人，而品格体现在一个人的行动里。') },
+  { t: 'The Second Sex', a: 'Simone de Beauvoir', g: 'lit', c: 'cream', m: 'mirror',
+    take: L('What a society calls a woman’s nature is largely made by that society: by upbringing, expectation and law. Seeing that is the first step to changing it.', '社会所谓的“女性天性”，在很大程度上是由社会本身塑造的：教养、期待和法律。看清这一点，是改变它的第一步。') },
+];
 const ITEMS = [{ kind: 'intro' }];
 CHAPTERS.forEach((c) => ITEMS.push({ kind: 'ch', c }));
+ITEMS.push({ kind: 'books' });
 ITEMS.push({ kind: 'contact' });
 const STOPS = ITEMS.map((it, i) => it.kind === 'sep' ? null : i).filter((i) => i !== null);
 
@@ -745,6 +876,7 @@ let ANGLE = 15, RADIUS = 520, STEP = 260;
 function itemHtml(it) {
   if (it.kind === 'sep') return '<span>✦</span>';
   if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect · Hangzhou · local time', 'Reuben ASK · 用户行为架构师 · 杭州 · 当地时间')} <span class="clock">${hangzhouTime()}</span></span></button>`;
+  if (it.kind === 'books') return `<button type="button" data-open="BOOKS"><span class="k">${L('Reading library', '阅读书架')}</span><span class="main">${L('Books that shaped how I think.', '塑造我思考方式的书。')}</span><span class="sub">${L(`${BOOKS.length} books, each with its biggest takeaway`, `${BOOKS.length} 本书，每本一条最大的收获`)}</span><span class="open">${L('Open the shelf', '打开书架')}</span></button>`;
   if (it.kind === 'contact') return `<button type="button" data-open="CONTACT"><span class="k">${L('Contact', '联系方式')}</span><span class="main">${L('Frame. Measure. Build.', '界定。量化。构建。')}</span><span class="sub">${L('Email, ORCID, LinkedIn and the full CV', '邮箱、ORCID、领英与完整简历')}</span><span class="open">${L('Open', '打开')}</span></button>`;
   const [line, sub] = HEAD[it.c.id];
   return `<button type="button" data-open="${it.c.id}"><span class="k">${esc(ZH ? numLabel(it.c.id) : it.c.id)} · ${esc(it.c.title)}</span><span class="main">${esc(line)}</span><span class="sub">${esc(sub)}</span><span class="open">${L('Open chapter', '打开章节')}</span></button>`;
@@ -758,8 +890,8 @@ ITEMS.forEach((it, i) => {
 });
 $('rail').innerHTML = STOPS.map((i) => {
   const it = ITEMS[i];
-  const label = it.kind === 'intro' ? '·' : it.kind === 'contact' ? L('CONTACT', '联系') : (ZH ? NUM_ZH[it.c.id] : it.c.id);
-  const name = it.kind === 'intro' ? L('Start', '开始') : it.kind === 'contact' ? L('Contact', '联系方式') : L(`Chapter ${it.c.id.toLowerCase()}: ${it.c.title}`, `${numLabel(it.c.id)}：${it.c.title}`);
+  const label = it.kind === 'intro' ? '·' : it.kind === 'books' ? L('BOOKS', '书架') : it.kind === 'contact' ? L('CONTACT', '联系') : (ZH ? NUM_ZH[it.c.id] : it.c.id);
+  const name = it.kind === 'intro' ? L('Start', '开始') : it.kind === 'books' ? L('Reading library', '阅读书架') : it.kind === 'contact' ? L('Contact', '联系方式') : L(`Chapter ${it.c.id.toLowerCase()}: ${it.c.title}`, `${numLabel(it.c.id)}：${it.c.title}`);
   return `<button type="button" data-stop="${i}" aria-label="${esc(name)}">${label}</button>`;
 }).join('');
 
@@ -1084,7 +1216,7 @@ function showSheet(html, map) {
   if ($('sheet').hidden) lastFocus = document.activeElement;
   const paper = $('paper');
   paper.innerHTML = html;
-  $('sheet').classList.toggle('map', !!map);
+  $('sheet').classList.toggle('map', !!map); $('sheet').classList.remove('books');
   $('sheet').hidden = false; $('sheet').scrollTop = 0;
   document.body.classList.add('locked');
   // restart the entrance animation for each page
@@ -1105,15 +1237,16 @@ $('back').onclick = closeSheet;
 $('sheet').addEventListener('click', (e) => { if (e.target === $('sheet')) closeSheet(); });
 
 function pager(id) {
-  const order = [...CHAPTERS.map((c) => c.id), 'CONTACT'];
+  const order = [...CHAPTERS.map((c) => c.id), 'BOOKS', 'CONTACT'];
   const i = order.indexOf(id);
-  const name = (k) => k === 'CONTACT' ? L('Contact', '联系方式') : chName(k);
+  const name = (k) => k === 'CONTACT' ? L('Contact', '联系方式') : k === 'BOOKS' ? L('Reading library', '阅读书架') : chName(k);
   const prev = i > 0 ? `<button type="button" data-nav="${order[i - 1]}">← ${esc(name(order[i - 1]))}</button>` : '<span></span>';
   const next = i < order.length - 1 ? `<button type="button" data-nav="${order[i + 1]}">${esc(name(order[i + 1]))} →</button>` : '<span></span>';
   return `<nav class="pager" aria-label="${L('Other chapters', '其他章节')}">${prev}${next}</nav>`;
 }
 function openChapter(id) {
   if (id === 'CONTACT') return openContact();
+  if (id === 'BOOKS') return openBooks();
   const c = byId[id]; const p = c.page; 
   let html = `<p class="num">${esc(numLabel(id))}</p><h1 id="sheetTitle">${esc(c.title)}</h1>
     ${SHOW_ART && p.art ? `<div class="hero solo">${art(p.art)}</div>` : ''}`;
@@ -1123,11 +1256,163 @@ function openChapter(id) {
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
+  if (id === 'ONE') html += `<p style="margin-top:26px"><button type="button" class="golink" data-nav="BOOKS">${L('See the books that shaped me →', '看看塑造我的书 →')}</button></p>`;
   if (id !== 'ONE') html += `<h2>${L('How my skills connect', '我的技能如何关联')}</h2><div class="gintro"><p class="note">${L('Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.', '本章中的技能也用在了其他章节。指向或点击某项技能即可查看具体用在哪里；点击章节即可前往。')}</p>${legendHtml()}</div><div class="gwrap"><div class="graph" data-kind="chapter" data-id="${id}"></div>${infoHtml()}</div>`;
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
 }
+const bookVars = (b) => { const [bg, fg, ac] = BOOK_COLORS[b.c]; return `--bc:${bg};--bt:${fg};--ba:${ac}`; };
+const bookArt = (b) => `<svg class="mo" viewBox="0 0 100 100" aria-hidden="true">${BOOK_ART[b.m]}</svg>`;
+const bookNo = (i) => 'No. ' + String(i + 1).padStart(2, '0');
+const bookCover = (b, i) => `<span class="cv"><span class="cva">${esc(b.a.split(' & ')[0])}</span><span class="cvt${b.t.length > 26 ? ' l' : b.t.length > 15 ? ' m' : ''}">${esc(b.t)}</span><span class="cvm">${bookArt(b)}</span><span class="cvn">${bookNo(i)}</span></span>`;
+let libApi = null, libPos = 0;
+function openBooks() {
+  const N = BOOKS.length, M = N * 3;
+  showSheet(`<div class="libhead"><p class="num">${L('READING LIBRARY', '阅读书架')}</p><h1 id="sheetTitle">${L('Books that shaped me', '塑造我的书')}</h1></div>
+    <div class="lib" id="lib">
+      <div class="libtabs" role="group" aria-label="${L('Shelf sections', '书架分区')}">${BOOK_GROUPS.map(([id, n]) => `<button type="button" data-g="${id}" aria-pressed="false">${esc(n)}</button>`).join('')}</div>
+      <div class="librow" id="librow">${Array.from({ length: M }, (_, k) => { const i = k % N, b = BOOKS[i]; return `<div class="vb" data-k="${k}" style="${bookVars(b)}"><div class="vbox"><div class="vf vspine"><span class="sm">${bookArt(b)}</span><b class="${b.t.length > 26 ? 'l' : b.t.length > 17 ? 'm' : ''}"><span>${esc(b.t)}</span></b><span class="sn">${String(i + 1).padStart(2, '0')}</span></div><div class="vf vcover">${bookCover(b, i)}</div><div class="vf vback"></div></div></div>`; }).join('')}</div>
+      <button type="button" class="libarr prev" aria-label="${L('Previous book', '上一本')}">←</button><button type="button" class="libarr next" aria-label="${L('Next book', '下一本')}">→</button>
+      <div class="libcap"><div class="capt" id="capt"></div><p class="capa" id="capa"></p><p class="capn" id="capn"></p></div>
+      <div class="libcur" id="libcur">${L('OPEN', '打开')}</div>
+      <div class="libdetail" id="libdetail" hidden></div>
+    </div>` + pager('BOOKS'));
+  $('sheet').classList.add('books');
+  const lib = $('lib'), row = $('librow'), det = $('libdetail'), cur = $('libcur');
+  const els = [...row.children];
+  let W, H, CW, G = 4, pos = libPos, target = libPos, raf = 0, last = -1, isOpen = false, timer = 0;
+  const mod = (n, m) => ((n % m) + m) % m;
+  const wrap = (d) => { d = mod(d, M); return d >= M / 2 ? d - M : d; };
+  const active = () => mod(Math.round(target), N);
+  const scale = () => (lib.getBoundingClientRect().width / lib.offsetWidth) || 1;
+  function dims() {
+    const small = lib.offsetWidth < 700;
+    W = small ? 44 : 56; H = small ? 250 : 320; CW = Math.round(H * .656);
+    lib.style.setProperty('--w', W + 'px'); lib.style.setProperty('--h', H + 'px'); lib.style.setProperty('--cw', CW + 'px');
+    // shrink any spine title that does not fit, so no title is cut off
+    row.querySelectorAll('.vspine b span').forEach((sp) => { sp.style.fontSize = ''; let f = parseFloat(getComputedStyle(sp).fontSize); while (sp.scrollWidth > sp.clientWidth && f > 8) { f -= .5; sp.style.fontSize = f + 'px'; } });
+  }
+  function caption(i) {
+    const b = BOOKS[i], capt = $('capt');
+    [...capt.children].forEach((o) => { o.className = 'out'; setTimeout(() => o.remove(), 460); });
+    const sp = document.createElement('span'); sp.textContent = b.t; if (last !== -1) sp.className = 'in'; capt.appendChild(sp);
+    $('capa').textContent = b.a; $('capn').textContent = `${bookNo(i)} / ${N}`;
+    lib.querySelectorAll('.libtabs button').forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.g === b.g)));
+  }
+  function render() {
+    const half = lib.offsetWidth / 2 + CW;
+    els.forEach((el, k) => {
+      const d = wrap(k - pos), a = Math.max(0, 1 - Math.abs(d));
+      const x = d * (W + G) + Math.max(-1, Math.min(1, d)) * (CW - W) / 2 * 1.1;
+      if (Math.abs(x) > half) { el.style.visibility = 'hidden'; return; }
+      el.style.visibility = '';
+      el.style.transform = `translate3d(${x - W / 2}px,${-8 * a}px,0) rotate(${-2.4 * a}deg) scale(${1 + .07 * a})`;
+      el.firstChild.style.transform = `translateZ(${-(CW / 2 + (W / 2 - CW / 2) * a)}px) rotateY(${-90 * a}deg)`;
+      el.style.zIndex = a > 0 ? 5 : 1;
+      el.classList.toggle('on', a > .97); el.classList.toggle('flat', a < .01);
+    });
+    const act = mod(Math.round(pos), N);
+    if (act !== last) { caption(act); last = act; }
+    libPos = mod(pos, N);
+  }
+  function tick() {
+    const dl = target - pos;
+    if (Math.abs(dl) < .003 || reduce.matches) { pos = target; render(); raf = 0; return; }
+    pos += dl * .15; render(); raf = requestAnimationFrame(tick);
+  }
+  const go = (t) => { target = t; if (!raf) raf = requestAnimationFrame(tick); };
+  const move = (n) => { if (isOpen) { go(Math.round(target) + n); fill(false); } else go(Math.round(target) + n); };
+  // dragging and clicking the shelf
+  let drag = null, dragged = false;
+  row.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, p: pos }; dragged = false; });
+  addEventListener('pointermove', (e) => {
+    if (!drag || isOpen || !lib.isConnected) return;
+    const dx = (e.clientX - drag.x) / scale();
+    if (!dragged && Math.abs(dx) < 7) return;
+    dragged = true; row.classList.add('drag'); cancelAnimationFrame(raf); raf = 0;
+    pos = target = drag.p - dx / (W + G); render();
+  });
+  addEventListener('pointerup', () => { if (!drag) return; drag = null; row.classList.remove('drag'); if (dragged && lib.isConnected) go(Math.round(pos)); });
+  row.addEventListener('click', (e) => {
+    if (dragged) { dragged = false; return; }
+    const el = e.target.closest('.vb'); if (!el) return;
+    const d = Math.round(wrap(+el.dataset.k - target));
+    if (d === 0) openDetail(); else go(Math.round(target) + d);
+  });
+  lib.querySelector('.prev').onclick = () => move(-1);
+  lib.querySelector('.next').onclick = () => move(1);
+  lib.querySelector('.libtabs').onclick = (e) => {
+    const t = e.target.closest('[data-g]'); if (!t) return;
+    let dl = BOOKS.findIndex((b) => b.g === t.dataset.g) - active();
+    if (dl > N / 2) dl -= N; if (dl < -N / 2) dl += N;
+    go(Math.round(target) + dl);
+  };
+  // the round "open" cursor over the centred cover
+  lib.addEventListener('pointermove', (e) => {
+    const on = !isOpen && e.pointerType === 'mouse' && e.target.closest?.('.vb.on');
+    cur.classList.toggle('show', !!on);
+    if (on) { const r = lib.getBoundingClientRect(), s = scale(); cur.style.left = (e.clientX - r.left) / s + 'px'; cur.style.top = (e.clientY - r.top) / s + 'px'; }
+  });
+  lib.addEventListener('pointerleave', () => cur.classList.remove('show'));
+  // opening a book: the page grows out of the cover, and the cover moves to the right
+  const coverRect = () => {
+    const c = els.find((el) => el.classList.contains('on'))?.querySelector('.vcover'); if (!c) return null;
+    const r = c.getBoundingClientRect(), o = det.getBoundingClientRect(), s = scale();
+    return { x: (r.left - o.left) / s, y: (r.top - o.top) / s, w: r.width / s, h: r.height / s, W: o.width / s, H: o.height / s };
+  };
+  const clip = (r) => `inset(${r.y}px ${r.W - r.x - r.w}px ${r.H - r.y - r.h}px ${r.x}px round 6px)`;
+  function fill(first) {
+    const i = active(), b = BOOKS[i], g = BOOK_GROUPS.find((x) => x[0] === b.g)[1];
+    det.classList.remove('shown');
+    det.innerHTML = `<div class="dtext"><p class="dk">${esc(g)} · ${bookNo(i)}</p><h2 id="bookTitle" tabindex="-1">${esc(b.t)}</h2>
+      <p class="dm">${esc(b.a)}${b.st ? ' · ' + esc(b.st) : ''}</p>
+      <div><p class="dl">${L('Biggest takeaway', '最大的收获')}</p><p>${esc(b.take)}</p></div>
+      ${b.me ? `<div><p class="dl">${L('Its influence on me', '对我的影响')}</p><p>${esc(b.me)}</p></div>` : ''}
+      <div class="dnav"><button type="button" data-d="close">${L('← Back to the shelf', '← 回到书架')}</button><button type="button" data-d="-1">${L('Previous', '上一本')}</button><button type="button" data-d="1">${L('Next', '下一本')}</button></div></div>
+      <div class="dcover" style="${bookVars(b)}" aria-hidden="true">${bookCover(b, i)}</div>`;
+    if (!first) { det.offsetHeight; det.classList.add('shown'); $('bookTitle').focus({ preventScroll: true }); }
+  }
+  function openDetail() {
+    if (isOpen || Math.abs(target - pos) > .05) return;
+    isOpen = true; cur.classList.remove('show'); clearTimeout(timer);
+    det.hidden = false; fill(true);
+    const r = coverRect(), dc = det.querySelector('.dcover');
+    if (r && !reduce.matches) {
+      const f = dc.getBoundingClientRect(), o = det.getBoundingClientRect(), s = scale();
+      det.style.transition = 'none'; dc.style.transition = 'none';
+      det.style.clipPath = clip(r);
+      dc.style.transform = `translate(${r.x - (f.left - o.left) / s}px,${r.y - (f.top - o.top) / s}px) scale(${r.w / (f.width / s)})`;
+      det.offsetHeight; det.style.transition = ''; dc.style.transition = '';
+    }
+    det.style.clipPath = 'inset(0)'; dc.style.transform = 'none';
+    det.classList.add('shown'); $('bookTitle').focus({ preventScroll: true });
+  }
+  function closeDetail() {
+    if (!isOpen) return;
+    isOpen = false; det.classList.remove('shown');
+    const r = coverRect(), dc = det.querySelector('.dcover');
+    const done = () => { det.hidden = true; det.innerHTML = ''; els.find((el) => el.classList.contains('on'))?.focus?.(); };
+    if (!r || reduce.matches) return done();
+    const f = dc.getBoundingClientRect(), o = det.getBoundingClientRect(), s = scale();
+    det.style.clipPath = clip(r);
+    dc.style.transform = `translate(${r.x - (f.left - o.left) / s}px,${r.y - (f.top - o.top) / s}px) scale(${r.w / (f.width / s)})`;
+    timer = setTimeout(done, 760);
+  }
+  det.addEventListener('click', (e) => { const b = e.target.closest('[data-d]'); if (!b) return; if (b.dataset.d === 'close') closeDetail(); else move(+b.dataset.d); });
+  libApi = { move, openDetail, closeDetail, open: () => isOpen, resize: () => { dims(); render(); }, alive: () => lib.isConnected };
+  dims(); render();
+  document.fonts?.ready.then(() => { if (lib.isConnected) { dims(); render(); } });
+  goStop(ITEMS.findIndex((it) => it.kind === 'books'));
+}
+addEventListener('resize', () => { if (libApi?.alive()) libApi.resize(); });
+addEventListener('keydown', (e) => {
+  if (!libApi?.alive() || $('sheet').hidden) return;
+  if (e.key === 'ArrowLeft') { libApi.move(-1); e.preventDefault(); }
+  else if (e.key === 'ArrowRight') { libApi.move(1); e.preventDefault(); }
+  else if (e.key === 'Escape' && libApi.open()) { libApi.closeDetail(); e.stopPropagation(); }
+  else if (e.key === 'Enter' && !libApi.open() && !e.target.closest?.('button,a')) libApi.openDetail();
+}, true);
 function openContact() {
   const html = `<div class="colophon">
     <p class="num">${L('THE NEXT CHAPTER', '下一章')}</p>
