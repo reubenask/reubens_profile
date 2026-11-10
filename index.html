@@ -744,7 +744,7 @@ const wheel = $('wheel'), bgSoft = $('bgSoft'), bgBlur = $('bgBlur');
 let ANGLE = 15, RADIUS = 520, STEP = 260;
 function itemHtml(it) {
   if (it.kind === 'sep') return '<span>✦</span>';
-  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="k">${L('Curriculum vitae', '个人简历')}</span><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect · Hangzhou · local time', 'Reuben ASK · 用户行为架构师 · 杭州 · 当地时间')} <span class="clock">${hangzhouTime()}</span></span></button>`;
+  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect · Hangzhou · local time', 'Reuben ASK · 用户行为架构师 · 杭州 · 当地时间')} <span class="clock">${hangzhouTime()}</span></span></button>`;
   if (it.kind === 'contact') return `<button type="button" data-open="CONTACT"><span class="k">${L('Contact', '联系方式')}</span><span class="main">${L('Frame. Measure. Build.', '界定。量化。构建。')}</span><span class="sub">${L('Email, ORCID, LinkedIn and the full CV', '邮箱、ORCID、领英与完整简历')}</span><span class="open">${L('Open', '打开')}</span></button>`;
   const [line, sub] = HEAD[it.c.id];
   return `<button type="button" data-open="${it.c.id}"><span class="k">${esc(ZH ? numLabel(it.c.id) : it.c.id)} · ${esc(it.c.title)}</span><span class="main">${esc(line)}</span><span class="sub">${esc(sub)}</span><span class="open">${L('Open chapter', '打开章节')}</span></button>`;
