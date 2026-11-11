@@ -895,7 +895,7 @@ const wheel = $('wheel'), bgSoft = $('bgSoft'), bgBlur = $('bgBlur');
 let ANGLE = 15, RADIUS = 520, STEP = 260;
 function itemHtml(it) {
   if (it.kind === 'sep') return '<span>✦</span>';
-  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect · Hangzhou · local time', 'Reuben ASK · 用户行为架构师 · 杭州 · 当地时间')} <span class="clock">${hangzhouTime()}</span></span></button>`;
+  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('Human factors researcher helping find better ways for people to interact with machines and intelligent systems.', 'Reuben ASK · 人因研究员，致力于为人与机器和智能系统的交互寻找更好的方式。')}</span></button>`;
   if (it.kind === 'books') return `<button type="button" data-open="BOOKS"><span class="k">${L('Reading library', '阅读书架')}</span><span class="main">${L('Books that shaped how I think.', '塑造我思考方式的书。')}</span><span class="sub">${L(`${BOOKS.length} books, each with its biggest takeaway`, `${BOOKS.length} 本书，每本一条最大的收获`)}</span><span class="open">${L('Open the shelf', '打开书架')}</span></button>`;
   if (it.kind === 'contact') return `<button type="button" data-open="CONTACT"><span class="k">${L('Contact', '联系方式')}</span><span class="main">${L('Frame. Measure. Build.', '界定。量化。构建。')}</span><span class="sub">${L('Email, ORCID, LinkedIn and the full CV', '邮箱、ORCID、领英与完整简历')}</span><span class="open">${L('Open', '打开')}</span></button>`;
   const [line, sub] = HEAD[it.c.id];
