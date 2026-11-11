@@ -820,7 +820,7 @@ const GROUPS = [
 /* ---------- the drum ---------- */
 // reading library. g = shelf group, c = cover colours, m = cover drawing, take = the book's biggest takeaway, me = its influence (optional)
 const BOOK_COLORS = { cream: ['#e4d9c3', '#2a2622', '#a8342a'], ink: ['#26231f', '#e4d9c3', '#b3352b'], red: ['#8f2a25', '#ecdfc6', '#f0c9a0'], green: ['#1f5b3d', '#e6dcc3', '#d9b871'], blue: ['#1e4c9a', '#ece3cf', '#f3e7c4'], gold: ['#c9a24f', '#26231f', '#8f2a25'] };
-const BOOK_GROUPS = [['history', L('History', '历史')], ['strategy', L('Strategy', '谋略')], ['work', L('Work and craft', '工作与方法')], ['self', L('Self', '自我')], ['lit', L('Literature and ideas', '文学与思想')]];
+const BOOK_GROUPS = [['history', L('History', '历史')], ['strategy', L('Strategy', '谋略')], ['work', L('Work and craft', '工作与方法')], ['self', L('Self', '自我')], ['lit', L('Literature, art and ideas', '文学、艺术与思想')]];
 const BOOK_ART = {
   ship: '<path d="M18 62h64l-8 12H26z"/><path d="M49 20h2v42h-2zM30 30h2v32h-2zM68 34h2v28h-2z"/><path d="M34 32h13v24H34zM53 24h13v32H53z" opacity=".85"/><path class="a" d="M10 82q10-6 20 0t20 0 20 0 20 0v6H10z"/>',
   jesus: '<circle class="a" cx="50" cy="34" r="20"/><path d="M48 14h4v50h-4zM32 30h36v4H32z"/><path d="M20 64h60l-9 12H29z"/><path d="M10 84q10-6 20 0t20 0 20 0 20 0v5H10z" opacity=".7"/>',
@@ -837,6 +837,10 @@ const BOOK_ART = {
   rail: '<circle class="a" cx="50" cy="26" r="14"/><path d="M6 44h88v2H6z"/><path d="M46 46h2L20 92h-8zM52 46h2l34 46h-8z"/><path d="M40 56h20v3H40zM34 66h32v4H34zM27 78h46v5H27z"/>',
   manor: '<path d="M14 50h72v36H14z"/><path d="M8 50 50 22l42 28z"/><path class="a" d="M44 64h12v22H44zM22 58h10v10H22zM68 58h10v10H68z"/><path d="M70 28h6v14h-6z"/>',
   book: '<path d="M50 34C40 24 22 24 10 28v50c12-4 30-4 40 6z"/><path d="M50 34c10-10 28-10 40-6v50c-12-4-30-4-40 6z" opacity=".8"/><path class="a" d="M49 34h2v50h-2z"/>',
+  check: '<path d="M22 12h56v76H22z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M44 30h26v3H44zM44 48h26v3H44zM44 66h26v3H44z"/><path class="s" stroke-width="3.5" d="M29 30l4 4 7-8M29 48l4 4 7-8M29 66l4 4 7-8"/>',
+  seven: '<path d="M10 76h8v12h-8zM22 66h8v22h-8zM34 56h8v32h-8zM46 46h8v42h-8zM58 36h8v52h-8zM70 26h8v62h-8z"/><path class="a" d="M82 14h8v74h-8z"/>',
+  city: '<circle class="a" cx="74" cy="22" r="10"/><path d="M6 88V58h12V44h12v44zM32 88V36h14v52zM48 88V54h6c0-10 6-16 12-16s12 6 12 16h6v34zM86 88V48h8v40z"/>',
+  blossom: '<path d="M8 90 40 52l10 6 34-40" fill="none" stroke="currentColor" stroke-width="5"/><path d="M40 52 30 26M62 44l22 8" fill="none" stroke="currentColor" stroke-width="3"/><circle class="a" cx="30" cy="22" r="7"/><circle class="a" cx="86" cy="54" r="6"/><circle class="a" cx="84" cy="16" r="7"/><circle class="a" cx="56" cy="62" r="5"/><circle class="a" cx="18" cy="70" r="5"/>',
   crown: '<path d="M14 76h72v10H14z"/><path d="M14 72 10 34l22 18 18-28 18 28 22-18-4 38z"/><circle class="a" cx="50" cy="20" r="5"/><circle class="a" cx="10" cy="30" r="4"/><circle class="a" cx="90" cy="30" r="4"/>',
 };
 const BOOKS = [
@@ -858,6 +862,8 @@ const BOOKS = [
     take: L('Good papers are designed before they are written. Start from the reader, sketch the whole concept on one sheet, then draft and refine.', '好论文在动笔之前就已经设计好了。从读者出发，先在一页纸上勾勒出整体构思，再起草和修改。') },
   { t: 'How to Read a Book', a: 'Mortimer J. Adler & Charles Van Doren', g: 'work', c: 'red', m: 'book',
     take: L('Reading is an active skill. Ask questions of the book, read at the level it deserves, and argue with the author only after you understand them.', '阅读是一项主动的技能。带着问题去读，按书应得的层次去读，并且先读懂作者，再与之争论。') },
+  { t: 'Smart Moves', st: 'Revised edition', a: 'Sam Deep & Lyle Sussman', g: 'work', c: 'ink', m: 'check',
+    take: L('Good management is mostly practical habit. Its checklists turn everyday problems, like running a meeting or giving feedback, into steps you can act on with your team.', '好的管理大多是实用的习惯。书中的清单把开会、给反馈这类日常难题，变成可以和团队一起执行的步骤。') },
   { t: 'The Courage to Be Disliked', a: 'Ichiro Kishimi & Fumitake Koga', g: 'self', c: 'blue', m: 'apart',
     take: L('Freedom comes from separating your own tasks from other people’s. You cannot control what others think of you, so you do not have to live for their approval.', '自由来自把自己的课题和别人的课题分开。你无法控制别人怎么看你，所以不必为了别人的认可而活。') },
   { t: 'Atomic Habits', a: 'James Clear', g: 'self', c: 'gold', m: 'atom',
@@ -866,12 +872,18 @@ const BOOKS = [
     take: L('Most of us stop long before our real limit. Honesty with yourself and daily discipline build a mind that keeps going.', '我们大多数人远在真正的极限之前就停下了。对自己诚实，加上日复一日的自律，才能练出坚持下去的意志。') },
   { t: 'Act Like a Lady, Think Like a Man', a: 'Steve Harvey', g: 'self', c: 'red', m: 'chess',
     take: L('Relationships go better when you understand how the other person thinks, and when you state your standards early and clearly.', '了解对方是怎么想的，并且尽早、清楚地说出自己的标准，关系才会更顺利。') },
+  { t: 'The 7 Habits of Highly Effective Teens', a: 'Sean Covey', g: 'self', c: 'green', m: 'seven',
+    take: L('Seven habits, starting with taking responsibility for your own life and putting first things first, give a young person a way to steer their choices instead of drifting.', '七个习惯，从为自己的人生负责、要事第一开始，让年轻人学会主动把握自己的选择，而不是随波逐流。') },
   { t: 'Anna Karenina', a: 'Leo Tolstoy', g: 'lit', c: 'blue', m: 'rail',
     take: L('A life built on self-deception does not hold. Meaning is found in honest work, in family, and in facing who you really are.', '建立在自欺之上的生活是站不住的。意义在于踏实的劳动、家庭，以及面对真实的自己。') },
   { t: 'Pride and Prejudice', a: 'Jane Austen', g: 'lit', c: 'green', m: 'manor',
     take: L('First impressions mislead. Pride and prejudice both stop us seeing people clearly, and character shows in what a person does.', '第一印象会误导人。傲慢与偏见都让我们看不清别人，而品格体现在一个人的行动里。') },
   { t: 'The Second Sex', a: 'Simone de Beauvoir', g: 'lit', c: 'cream', m: 'mirror',
     take: L('What a society calls a woman’s nature is largely made by that society: by upbringing, expectation and law. Seeing that is the first step to changing it.', '社会所谓的“女性天性”，在很大程度上是由社会本身塑造的：教养、期待和法律。看清这一点，是改变它的第一步。') },
+  { t: 'Babylon Berlin', st: 'A Gereon Rath mystery', a: 'Volker Kutscher', g: 'lit', c: 'ink', m: 'city',
+    take: L('A detective story set in Berlin in 1929. Behind the crime it shows a city, and a young democracy, under strain.', '一部以 1929 年柏林为背景的侦探小说。在罪案背后，它展现了一座城市和一个年轻的民主政体所承受的压力。') },
+  { t: 'One Hundred Famous Views of Edo', st: 'The Complete Plates', a: 'Utagawa Hiroshige', g: 'lit', c: 'red', m: 'blossom',
+    take: L('The full set of Hiroshige’s woodblock views of Edo, today’s Tokyo. The lesson is in the framing: an ordinary bridge or street becomes memorable through where you choose to stand.', '歌川广重描绘江户（今东京）的全套木版画。它的启示在于取景：一座普通的桥、一条普通的街，因为你选择站立的位置而令人难忘。') },
 ];
 const ITEMS = [{ kind: 'intro' }];
 CHAPTERS.forEach((c) => ITEMS.push({ kind: 'ch', c }));
@@ -1298,7 +1310,7 @@ function openBooks() {
     W = small ? 44 : 56; H = small ? 250 : 320; CW = Math.round(H * .656);
     lib.style.setProperty('--w', W + 'px'); lib.style.setProperty('--h', H + 'px'); lib.style.setProperty('--cw', CW + 'px');
     // shrink any spine title that does not fit, so no title is cut off
-    row.querySelectorAll('.vspine b span').forEach((sp) => { sp.style.fontSize = ''; let f = parseFloat(getComputedStyle(sp).fontSize); while (sp.scrollWidth > sp.clientWidth && f > 8) { f -= .5; sp.style.fontSize = f + 'px'; } });
+    row.querySelectorAll('.vspine b span').forEach((sp) => { sp.style.fontSize = ''; let f = parseFloat(getComputedStyle(sp).fontSize); while (sp.scrollWidth > sp.clientWidth && f > 6) { f -= .5; sp.style.fontSize = f + 'px'; } });
   }
   function caption(i) {
     const b = BOOKS[i], capt = $('capt');
