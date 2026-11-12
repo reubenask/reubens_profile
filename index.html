@@ -74,7 +74,7 @@ a{color:inherit}
 .spacer{width:1px}
 @media (max-width:700px){.rail{display:none}.mark{font-size:18px}}
 /* the chapter list on the right only where there is room beside the headlines */
-@media (max-width:1099px){.rail{display:none}}
+@media (max-width:899px){.rail{display:none}}
 /* large desktop screens (iMac and up): scale the type and pages so nothing looks lost */
 @media (min-width:1900px){
   .wheel{width:min(1240px,100%)}
@@ -361,6 +361,12 @@ a{color:inherit}
 
 /* full map */
 .map .paper{width:min(1100px,calc(100% - 24px))}
+/* tablets: a larger name on the home screen */
+@media (min-width:700px) and (max-width:1099px){.item.intro .main{font-size:clamp(64px,11vw,110px)}.item .main{font-size:clamp(34px,5.2vw,50px)}}
+/* phones: soften whatever scrolls under the top buttons */
+@media (max-width:700px){
+  .top{background:linear-gradient(#0a2018 0,#0a2018e6 55%,#0a201800 100%);padding-bottom:22px}
+}
 </style>
 </head>
 <body>
