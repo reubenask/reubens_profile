@@ -375,6 +375,7 @@ a{color:inherit}
   <nav class="links" aria-label="Links">
     <button class="chip" id="langBtn" type="button" lang="zh-CN">中文</button>
     <a class="chip" id="pdfBtn" href="cv/">CV</a>
+    <a class="chip" id="essayBtn" href="essays/tyranny-of-the-default/">Essay</a>
   </nav>
 </header>
 
@@ -1486,7 +1487,7 @@ function openMap() {
 $('mapBtn').onclick = openMap;
 // header in the chosen language, and the switch between English and Chinese
 $('mapLbl').textContent = L('Skill map', '技能图谱'); $('mapBtn').setAttribute('aria-label', L('Skill map', '技能图谱')); $('mapBtn').title = L('Skill map', '技能图谱');
-$('pdfBtn').textContent = L('CV', '简历'); $('pdfBtn').href = CV_PAGE;
+$('pdfBtn').textContent = L('CV', '简历'); $('pdfBtn').href = CV_PAGE; $('essayBtn').textContent = L('Essay', '文章');
 $('back').textContent = L('← Home', '← 首页');
 $('hint').textContent = L('Scroll or swipe through the chapters. Tap one to open it.', '滚动或滑动浏览各章节，点击即可打开。');
 $('langBtn').textContent = ZH ? 'EN' : '中文'; $('langBtn').lang = ZH ? 'en' : 'zh-CN';
