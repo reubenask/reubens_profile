@@ -938,10 +938,13 @@ function paint() {
   if (Math.abs(target - rot) < .001) rot = target;
   wheel.style.transform = `translateZ(${-RADIUS}px) rotateX(${rot * ANGLE}deg)`;
   const nearest = Math.round(rot);
+  // at rest (top of the page) only the name shows; the chapters appear once the visitor scrolls or picks a number
+  const reveal = Math.min(1, Math.max(0, rot / .3));
   ITEMS.forEach((it, i) => {
     const d = Math.abs(i - rot);
-    it.el.style.opacity = Math.max(0, 1 - d * .72).toFixed(3);
-    it.el.style.visibility = d > 1.6 ? 'hidden' : 'visible';
+    const quiet = i !== 0 && reveal <= .001;
+    it.el.style.opacity = quiet ? '0' : (Math.max(0, 1 - d * .72) * (i === 0 ? 1 : reveal)).toFixed(3);
+    it.el.style.visibility = (d > 1.6 || quiet) ? 'hidden' : 'visible';
     const btn = it.el.querySelector('button');
     if (btn) btn.tabIndex = d < .6 ? 0 : -1;
     it.el.classList.toggle('focus', i === nearest);
