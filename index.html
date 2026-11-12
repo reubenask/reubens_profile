@@ -195,6 +195,7 @@ a{color:inherit}
 .quote .by{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:var(--paper-soft);margin-top:6px}
 .paper h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--green);margin:34px 0 4px;padding-top:22px;border-top:1px solid #cdbd9c}
 .paper h3{font-family:var(--display);font-size:22px;color:var(--navy);margin:16px 0 0}
+.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
 .paper .meta{font-style:italic;color:var(--paper-soft);font-size:14px;margin:2px 0 0}
 .paper p,.paper li{font-size:16.5px;line-height:1.6}
 .paper ul{padding-left:20px;margin:8px 0}
@@ -517,10 +518,11 @@ const CV_PAGES_DATA = [
   ] },
 
   { kind: "opener", num: "SEVEN", pre: "THE", word: "IDEAS", art: 13,
-    topics: ["user behavior architecture", "the tyranny of the default", "insights and opinions"],
+    topics: ["user behavior architecture", "building AI around people", "insights and opinions"],
     quote: "What's new is refusing to let the human be the variable.", by: "Reuben ASK, The Tyranny of the Default" },
   { kicker: "Seven · The ideas", title: "Writing", blocks: [
-    { h: "The Tyranny of the Default", meta: "Essay · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system." },
+    { h: "Machines in Service of Minds", meta: "Essay · 12 November 2026 · Building AI around people", p: "Why AI should be built around how people think, work and learn, with the human in the lead by design, instead of leaving people to rebuild themselves around the machine. Four diagrams and a full reference list.", href: "essays/machines-in-service-of-minds/", cta: "Read the essay" },
+    { h: "The Tyranny of the Default", meta: "Essay · 3 December 2025 · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "Read the essay" },
     { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Commentary on problem solving." },
     { h: "Publication record", p: "ORCID 0000-0001-8147-7609" }
   ] },
@@ -665,10 +667,11 @@ const CV_PAGES_ZH = [
   ] },
 
   { kind: "opener", num: "SEVEN", zt: "观点与写作", art: 13,
-    topics: ["用户行为架构", "默认设置的专制", "见解与观点"],
+    topics: ["用户行为架构", "围绕人构建人工智能", "见解与观点"],
     quote: "新意在于：不再让人成为那个变量。", by: "郝运（Reuben ASK），《默认设置的专制》" },
   { kicker: "七 · 观点与写作", title: "写作", blocks: [
-    { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。" },
+    { h: "Machines in Service of Minds（英文文章）", meta: "文章 · 2026年11月12日 · 围绕人来构建人工智能", p: "人工智能应当围绕人的思考、工作和学习方式来构建，并在设计上让人保持主导，而不是让人去重塑自己来适应机器。文章配有四幅图示和完整参考文献。", href: "essays/machines-in-service-of-minds/", cta: "阅读文章（英文）" },
+    { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 2025年12月3日 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。", href: "essays/tyranny-of-the-default/", cta: "阅读文章（英文）" },
     { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于问题解决的评论文章。" },
     { h: "发表记录", p: "ORCID 0000-0001-8147-7609" }
   ] },
@@ -1006,6 +1009,7 @@ function blocksHtml(p) {
     if (b.h) html += `<h3>${esc(b.h)}</h3>`;
     if (b.meta) html += `<p class="meta">${esc(b.meta)}</p>`;
     if (b.p) html += `<p>${esc(b.p)}</p>`;
+    if (b.href) html += `<p><a class="readlink" href="${esc(b.href)}">${esc(b.cta || L('Read it', '阅读'))} →</a></p>`;
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.impact) html += impactHtml(b.impact);
     if (b.uses) html += usesHtml(b.uses);
@@ -1496,9 +1500,10 @@ $('langBtn').onclick = () => { const to = ZH ? 'en' : 'zh'; const u = new URL(lo
 
 // swipe sideways on a chapter page to move to the next or previous chapter
 (() => {
-  let sx = 0, sy = 0;
-  $('sheet').addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  let sx = 0, sy = 0, skip = false;
+  $('sheet').addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; skip = !!e.target.closest?.('.lib, .libdetail'); }, { passive: true });
   $('sheet').addEventListener('touchend', (e) => {
+    if (skip) return;
     const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
     if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     const btns = $('paper').querySelectorAll('.pager [data-nav]');
