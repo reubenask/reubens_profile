@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reuben ASK · Chapters</title>
-<meta name="description" content="Reuben ASK, user behavior architect. Scroll through eight chapters and open any one for the detail and the skills it shares with the rest.">
+<meta name="description" content="Reuben ASK, user behavior architect. Scroll through seven chapters and open any one for the detail and the skills it shares with the rest.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Spectral+SC:wght@600&display=swap">
@@ -195,7 +195,7 @@ a{color:inherit}
 .quote .by{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:var(--paper-soft);margin-top:6px}
 .paper h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--green);margin:34px 0 4px;padding-top:22px;border-top:1px solid #cdbd9c}
 .paper h3{font-family:var(--display);font-size:22px;color:var(--navy);margin:16px 0 0}
-.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
+.paper ul.how{margin:6px 0 0;padding-left:1.2em}.paper ul.how li{margin:0 0 .7em}.paper ul.how a.readlink{font-size:14px;font-weight:500;white-space:nowrap}.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
 .paper .meta{font-style:italic;color:var(--paper-soft);font-size:14px;margin:2px 0 0}
 .paper p,.paper li{font-size:16.5px;line-height:1.6}
 .paper ul{padding-left:20px;margin:8px 0}
@@ -403,7 +403,7 @@ const CV_PAGES_DATA = [
   { kind: "who" },
 
   { kind: "opener", num: "TWO", pre: "WHAT I", word: "BRING", art: 3,
-    topics: ["problem framing", "behavior and systems", "building and testing", "judgment and review", "leadership"],
+    topics: ["problem framing", "behavior and systems", "building and testing", "judgment and review", "leadership", "methods and tools"],
     quote: "Wisdom is like a baobab tree; no one individual can embrace it.", by: "Ewe and Akan proverb", original: "Nunya, adidoe, asi metunee o." },
   { kicker: "Two · What I bring", title: "Core strengths", art: 4, sub: "Understand deeply. Make thoughtfully. Help others move forward.", blocks: [
     { groups: [
@@ -419,47 +419,20 @@ const CV_PAGES_DATA = [
         { h: "Critical review", p: "Gives clear, fair assessments that help others improve their work." },
         { h: "AI learning and communication", p: "Helps people and teams adopt AI, and explains technical ideas in terms anyone can use." },
         { h: "Leadership and organisation", p: "Builds teams and structures that make work clear, measurable and efficient." } ] }
+    ] },
+    { h: "Methods and tools", p: "The instruments behind the work, and where each was used." },
+    { uses: [
+      { tools: "Within-subject experiments · counterbalancing · repeated-measures and mixed-effects analysis · multiple-testing correction · sensitivity analysis", where: "The 51-driver study and the master's students' experiments", go: "THREE" },
+      { tools: "Tobii eye tracking · Xsens motion capture · NASA-TLX · synchronized multimodal data processing", where: "Driver workload assessment (DWAM)", go: "THREE" },
+      { tools: "CARLA · CarSim · model predictive control · Logitech steering and pedal interfaces · Python pipelines · Neo4j knowledge graphs · Mask R-CNN", where: "The driving-simulation lab, the Siemens knowledge graph and carbide-particle segmentation", go: "THREE" },
+      { tools: "AI-assisted prototyping · web-app and agent workflows · curriculum and assessment design · teacher training", where: "Emerald Hill Design Education Institute and Belio Technology", go: "FOUR" }
     ] }
   ] },
 
-  { kind: "opener", num: "THREE", pre: "HOW I", word: "WORK", art: 5,
-    topics: ["study design and analysis", "human-factors measurement", "simulation and computation", "AI and educational design"],
-    quote: "[Science] is a way of life, a way of tackling any problem which one can only master by using it for oneself.", by: "Kwame Nkrumah, 1964" },
-  { kicker: "Three · How I work", title: "Methods in practice", sub: "The approach, the instrument, and the work it served.", blocks: [
-    { tabs: [
-      { label: "Study design", n: "I", t: "Design the question.", sub: "Structure the experiment, then analyse what changes.", applied: "The 51-driver study and the student experiments",
-        rows: [
-          { tool: "Within-subject experiments and counterbalancing", desc: ["Designing the assisted-driving study and the two master's students' experiments."] },
-          { tool: "Repeated-measures and mixed-effects analysis", desc: ["Analysing driver workload for the Driver Workload Assessment Methodology (DWAM)."], tag: "Multiple-testing correction · Sensitivity analysis" }
-        ], pull: "A clear question gives the experiment its shape.", next: [{ go: "FOUR", label: "IV / The research · Driver workload" }] },
-      { label: "Measurement", n: "II", t: "Observe the whole person.", sub: "Human-factors measurement across the eyes, the body and the driver's own account.", applied: "The driving study · DWAM",
-        rows: [
-          { tool: "Tobii eye tracking", desc: ["Visual workload.", "Measuring the visual dimension of the driving task."] },
-          { tool: "Xsens motion capture", desc: ["Physical workload.", "Examining effort, body region by body region."] },
-          { tool: "NASA-TLX", desc: ["Perceived workload.", "Capturing how drivers reported their experience."] },
-          { tool: "Synchronized multimodal data", desc: ["Combining all three perspectives into one workload assessment."] }
-        ], next: [{ go: "FOUR", label: "IV / The research · Driver workload" }] },
-      { label: "Simulation", n: "III", t: "Build what can be tested.", sub: "Simulation and computation, from the driving lab to manufacturing and machine vision.",
-        rows: [
-          { tool: "CARLA · CarSim · Logitech steering and pedals", desc: ["Building the research group's first driving-simulation lab."], tag: "Driving simulation" },
-          { tool: "Model predictive control", desc: ["Steering, pedal and combined support in the lab's driver assistance system."], tag: "Driver assistance" },
-          { tool: "Python pipelines", desc: ["Processing and analysing data from the driving study."], tag: "Research computation" },
-          { tool: "Neo4j knowledge graphs", desc: ["A low-carbon manufacturing knowledge graph with Siemens."], tag: "Sustainable manufacturing" },
-          { tool: "Mask R-CNN", desc: ["Finding carbide particles in steel microscopy images at Lanzhou University of Technology."], tag: "Machine vision" }
-        ], next: [{ go: "FOUR", label: "IV / The research" }, { go: "FIVE", label: "V / Beyond the lab" }] },
-      { label: "Education", n: "IV", t: "Make learning useful.", sub: "AI and educational design, connecting new capabilities with practical teaching.",
-        rows: [
-          { tool: "AI-assisted prototyping · Web apps and agent workflows", desc: ["The AI curriculum at Emerald Hill Design Education Institute."], tag: "Emerald Hill" },
-          { tool: "Curriculum and assessment design", desc: ["AI and robotics curricula for Belio Technology, Namibia, and the Emerald Hill curriculum."], tag: "Belio Technology · Emerald Hill" },
-          { tool: "Teacher training", desc: ["Helping Emerald Hill's teachers bring AI into their teaching."], tag: "Emerald Hill" }
-        ], pull: "The tool matters when someone can put it to use.", next: [{ go: "FIVE", label: "V / Beyond the lab · Education" }] }
-    ] }
-  ] },
-
-  { kind: "opener", num: "FOUR", pre: "THE", word: "RESEARCH", art: 6,
+  { kind: "opener", num: "THREE", pre: "THE", word: "RESEARCH", art: 6,
     topics: ["human–intelligent vehicles", "driver workload", "smart sustainable manufacturing", "papers and recognition"],
     quote: "The most dangerous phrase in the language is “We've always done it this way.”", by: "Grace Hopper, 1976" },
-  { kicker: "Four · The research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
+  { kicker: "Three · The research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
     { b: "Built the research group's first driving-simulation lab, including a driver assistance system with steering, pedal and combined support." },
     { b: "Developed the Driver Workload Assessment Methodology (DWAM), which combines visual, physical and reported workload to show whether, where and in which direction workload changes when driving tasks shift to the system." },
     { b: "Guided two master's students in designing and building their experiments and analysing their data." },
@@ -470,7 +443,7 @@ const CV_PAGES_DATA = [
       "Both master's students graduated successfully and are now employed."
     ] }
   ] },
-  { kicker: "Four · The research", title: "Smart sustainable manufacturing", art: 8, sub: "Sep 2021 to Dec 2023 · Zhejiang University · with Siemens, Shanghai, Sep 2022 to Aug 2023", blocks: [
+  { kicker: "Three · The research", title: "Smart sustainable manufacturing", art: 8, sub: "Sep 2021 to Dec 2023 · Zhejiang University · with Siemens, Shanghai, Sep 2022 to Aug 2023", blocks: [
     { b: "Proposed the concept of cognitive intelligence-enabled manufacturing." },
     { b: "Investigated causality-based quality problem solving for discrete manufacturing systems." },
     { b: "With Siemens: built a data-driven Neo4j knowledge graph of low-carbon manufacturing processes to support automated life cycle assessment." },
@@ -483,10 +456,10 @@ const CV_PAGES_DATA = [
     ] }
   ] },
 
-  { kind: "opener", num: "FIVE", pre: "BEYOND THE", word: "LAB", art: 10,
+  { kind: "opener", num: "FOUR", pre: "BEYOND THE", word: "LAB", art: 10,
     topics: ["consulting", "AI curriculum and advising", "machine vision research", "building a media team", "teaching"],
     quote: "Education is the premise of progress, in every society, in every family.", by: "Kofi Annan, 1997" },
-  { kicker: "Five · Beyond the lab", title: "Freelance consulting", sub: "Apr 2024 to present", blocks: [
+  { kicker: "Four · Beyond the lab", title: "Freelance consulting", sub: "Apr 2024 to present", blocks: [
     { h: "Program Research Lead and Advisor", meta: "Emerald Hill Design Education Institute, Hangzhou · Apr 2024 to present", p: "Designed the institute's curriculum on AI, web apps and AI agents, helped teachers bring AI into their teaching, and advised leadership on research and management.",
       impact: [{ stat: "18%", label: "increase in the institute's revenue." }, { stat: "~30", label: "students and working professionals trained." }] },
     { h: "Management Consultant", meta: "Komodo Mining Services, Ghana · Nov 2024", p: "Restructured the company's service offerings into a clear, marketable set of services, and designed its people management system, including how work is reported and quantified.",
@@ -494,11 +467,11 @@ const CV_PAGES_DATA = [
     { h: "AI and Robotics Curriculum Consultant", meta: "Belio Technology (a subsidiary of WaShalimba Group), Namibia · Jun to Aug 2025", p: "Designed progressive AI and robotics curricula for four learner groups: ages 9 to 11, 12 to 15 and 16 to 18, and adult and professional learners.",
       impact: ["The client used the curriculum outline in its application for funding to set up an AI and robotics learning centre in Windhoek, Namibia."] }
   ] },
-  { kicker: "Five · Beyond the lab", title: "Further experience", blocks: [
+  { kicker: "Four · Beyond the lab", title: "Further experience", blocks: [
     { h: "Research Assistant", meta: "Lanzhou University of Technology · Aug 2020 to Aug 2021", p: "Continued my master's research on steel microscopy images, exploring alternative approaches to the Mask R-CNN method I developed to locate, segment and measure carbide particles without manual image-by-image analysis. Assisted supervisors with assigned research tasks, including elements of conference organisation.",
       impact: [{ stat: "90%+", label: "of target particles located and segmented by the Mask R-CNN method." }, "First-author paper, Journal of the Korean Society for Precision Engineering (2020)."] }
   ] },
-  { kicker: "Five · Beyond the lab", title: "Leadership and teaching", art: 11, blocks: [
+  { kicker: "Four · Beyond the lab", title: "Leadership and teaching", art: 11, blocks: [
     { h: "Founding Editor in Chief", meta: "School of International Education, Lanzhou University of Technology · Mar 2018 to Aug 2021", p: "Founded and led the school's first editorial and media team, and created its website, YouTube channel, Facebook and Instagram pages, promotional materials and an overseas partnership program.",
       impact: [{ stat: "~10", label: "people in a media team built from scratch." }, "Four online channels launched to support international student admissions."] },
     { h: "Teaching Assistant", meta: "University of Ghana, Accra · Aug 2015 to Aug 2016", p: "Taught engineering students as a lecturer's assistant in algebra, calculus 1 and 2, environmental engineering, and thermodynamics 1 and 2.",
@@ -507,34 +480,34 @@ const CV_PAGES_DATA = [
       impact: ["Every student passed the Basic Education Certificate Examination (BECE) and gained admission to senior high school."] }
   ] },
 
-  { kind: "opener", num: "SIX", pre: "THE", word: "FOUNDATIONS", art: 12,
+  { kind: "opener", num: "FIVE", pre: "THE", word: "FOUNDATIONS", art: 12,
     topics: ["PhD, Zhejiang University", "MEng, Lanzhou University of Technology", "Chinese language", "BSc, University of Ghana"],
     quote: "It is not wrong to go back for that which you have forgotten.", by: "Akan proverb · Sankofa", original: "Se wo were fi na wosankofa a yenkyi." },
-  { kicker: "Six · The foundations", title: "Education", blocks: [
+  { kicker: "Five · The foundations", title: "Education", blocks: [
     { h: "PhD, Industrial and Systems Engineering", meta: "Zhejiang University · 2021 to 2027 (expected)", p: "Driver workload assessment and human well-being in smart vehicles." },
     { h: "MEng, Mechanical Manufacture and Automation", meta: "Lanzhou University of Technology · 2017 to 2020", p: "Digital image processing for quantitative metallography. Best Graduating Student and Valedictorian." },
     { h: "Chinese Language and Culture", meta: "Lanzhou University of Technology · 2016 to 2017", p: "HSK levels 4 and 5." },
     { h: "BSc Engineering, Process Engineering", meta: "University of Ghana · 2011 to 2015", p: "Process plant design." }
   ] },
 
-  { kind: "opener", num: "SEVEN", pre: "THE", word: "IDEAS", art: 13,
+  { kind: "opener", num: "SIX", pre: "THE", word: "IDEAS", art: 13,
     topics: ["user behavior architecture", "building AI around people", "insights and opinions"],
     quote: "What's new is refusing to let the human be the variable.", by: "Reuben ASK, The Tyranny of the Default" },
-  { kicker: "Seven · The ideas", title: "Writing", blocks: [
+  { kicker: "Six · The ideas", title: "Writing", blocks: [
     { h: "Machines in Service of Minds", meta: "Essay · 12 November 2026 · Building AI around people", p: "Why AI should be built around how people think, work and learn, with the human in the lead by design, instead of leaving people to rebuild themselves around the machine. Four diagrams and a full reference list.", href: "essays/machines-in-service-of-minds/", cta: "Read the essay" },
     { h: "The Tyranny of the Default", meta: "Essay · 3 December 2025 · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "Read the essay" },
     { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Commentary on problem solving." },
     { h: "Publication record", p: "ORCID 0000-0001-8147-7609" }
   ] },
 
-  { kind: "opener", num: "EIGHT", pre: "THE", word: "RECORD", art: 14,
+  { kind: "opener", num: "SEVEN", pre: "THE", word: "RECORD", art: 14,
     topics: ["awards and recognition", "certifications", "membership", "languages"] },
-  { kicker: "Eight · The record", title: "Awards and recognition", blocks: [
+  { kicker: "Seven · The record", title: "Awards and recognition", blocks: [
     { h: "Best Student Conference Paper · 2023", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems, Hong Kong." },
     { h: "Best Graduating Student and Valedictorian · 2020", p: "Lanzhou University of Technology." },
     { h: "Chinese Government Outstanding International Student Award · 2019", p: "Ministry of Education of China: one of 582 international students selected from 127 universities nationwide." }
   ] },
-  { kicker: "Eight · The record", title: "Credentials", blocks: [
+  { kicker: "Seven · The record", title: "Credentials", blocks: [
     { h: "Internal Auditor · 2020", meta: "BSI Training Academy, Singapore", p: "ISO 9001, ISO 14001 and ISO 45001: quality, environmental, and occupational health and safety." },
     { h: "Advanced TESOL · 2018", meta: "American TESOL Institute, Shanghai", p: "Teaching English, including to children." },
     { h: "Membership", p: "Human Factors and Ergonomics Society (Emerging Country Membership)." },
@@ -552,7 +525,7 @@ const CV_PAGES_ZH = [
   { kind: "who" },
 
   { kind: "opener", num: "TWO", zt: "我的优势", art: 3,
-    topics: ["问题界定", "行为与系统", "构建与测试", "判断与评审", "领导力"],
+    topics: ["问题界定", "行为与系统", "构建与测试", "判断与评审", "领导力", "方法与工具"],
     quote: "智慧如猴面包树，一人无法独自环抱。", by: "埃维族与阿坎族谚语", original: "Nunya, adidoe, asi metunee o." },
   { kicker: "二 · 我的优势", title: "核心优势", art: 4, sub: "深入理解，用心创造，助人前行。", blocks: [
     { groups: [
@@ -568,47 +541,20 @@ const CV_PAGES_ZH = [
         { h: "评审与反馈", p: "给出清晰、公正的评估，帮助他人改进工作。" },
         { h: "AI 学习与沟通", p: "帮助个人和团队采用 AI，并用通俗易懂的方式解释技术理念。" },
         { h: "领导力与组织建设", p: "搭建团队与组织结构，使工作清晰、可衡量、高效。" } ] }
+    ] },
+    { h: "方法与工具", p: "这些工作背后的方法与工具，以及它们用在哪里。" },
+    { uses: [
+      { tools: "被试内实验 · 平衡设计 · 重复测量与混合效应分析 · 多重检验校正 · 敏感性分析", where: "51 名驾驶员的研究与两位硕士生的实验", go: "THREE" },
+      { tools: "Tobii 眼动追踪 · Xsens 动作捕捉 · NASA-TLX · 多模态同步数据处理", where: "驾驶员负荷评估（DWAM）", go: "THREE" },
+      { tools: "CARLA · CarSim · 模型预测控制 · 罗技方向盘与踏板 · Python 数据处理流程 · Neo4j 知识图谱 · Mask R-CNN", where: "驾驶模拟实验室、与西门子合作的知识图谱，以及碳化物颗粒分割", go: "THREE" },
+      { tools: "AI 辅助原型设计 · 网页应用与智能体工作流 · 课程与评估设计 · 教师培训", where: "Emerald Hill 设计教育学院与 Belio Technology", go: "FOUR" }
     ] }
   ] },
 
-  { kind: "opener", num: "THREE", zt: "我的方法", art: 5,
-    topics: ["研究设计与分析", "人因测量", "仿真与计算", "AI 与教育设计"],
-    quote: "科学是一种生活方式，是解决任何问题的方法，只有亲自运用才能真正掌握。", by: "克瓦米·恩克鲁玛，1964 年" },
-  { kicker: "三 · 我的方法", title: "方法实践", sub: "方法、工具，以及它们服务的工作。", blocks: [
-    { tabs: [
-      { label: "研究设计", n: "I", t: "设计问题。", sub: "先构建实验，再分析变化。", applied: "51 名驾驶员的研究与学生实验",
-        rows: [
-          { tool: "被试内实验与平衡设计", desc: ["设计辅助驾驶研究，以及两名硕士研究生的实验。"] },
-          { tool: "重复测量与混合效应分析", desc: ["为驾驶员负荷评估方法（DWAM）分析驾驶员负荷。"], tag: "多重检验校正 · 敏感性分析" }
-        ], pull: "清晰的问题决定实验的形态。", next: [{ go: "FOUR", label: "四 / 科研工作 · 驾驶员负荷" }] },
-      { label: "测量", n: "II", t: "观察完整的人。", sub: "从眼睛、身体和驾驶员自身感受三个维度进行人因测量。", applied: "驾驶研究 · DWAM",
-        rows: [
-          { tool: "Tobii 眼动追踪", desc: ["视觉负荷。", "测量驾驶任务中的视觉维度。"] },
-          { tool: "Xsens 动作捕捉", desc: ["身体负荷。", "逐个身体部位考察用力情况。"] },
-          { tool: "NASA-TLX", desc: ["主观负荷。", "记录驾驶员对自身体验的报告。"] },
-          { tool: "多模态数据同步", desc: ["把三种视角整合为一项负荷评估。"] }
-        ], next: [{ go: "FOUR", label: "四 / 科研工作 · 驾驶员负荷" }] },
-      { label: "仿真", n: "III", t: "构建可验证的系统。", sub: "仿真与计算：从驾驶实验室到制造与机器视觉。",
-        rows: [
-          { tool: "CARLA · CarSim · 罗技方向盘与踏板", desc: ["搭建课题组第一个驾驶模拟实验室。"], tag: "驾驶模拟" },
-          { tool: "模型预测控制", desc: ["实验室驾驶辅助系统中的转向、踏板及组合辅助。"], tag: "驾驶辅助" },
-          { tool: "Python 数据处理流程", desc: ["处理并分析驾驶研究的数据。"], tag: "科研计算" },
-          { tool: "Neo4j 知识图谱", desc: ["与西门子合作构建低碳制造知识图谱。"], tag: "可持续制造" },
-          { tool: "Mask R-CNN", desc: ["在兰州理工大学识别钢材显微图像中的碳化物颗粒。"], tag: "机器视觉" }
-        ], next: [{ go: "FOUR", label: "四 / 科研工作" }, { go: "FIVE", label: "五 / 实验室之外" }] },
-      { label: "教育", n: "IV", t: "让学习有用。", sub: "AI 与教育设计，把新能力与实际教学结合起来。",
-        rows: [
-          { tool: "AI 辅助原型设计 · Web 应用与智能体工作流", desc: ["Emerald Hill Design Education Institute 的 AI 课程。"], tag: "Emerald Hill" },
-          { tool: "课程与评估设计", desc: ["为纳米比亚 Belio Technology 设计的 AI 与机器人课程，以及 Emerald Hill 的课程。"], tag: "Belio Technology · Emerald Hill" },
-          { tool: "教师培训", desc: ["帮助 Emerald Hill 的教师把 AI 引入教学。"], tag: "Emerald Hill" }
-        ], pull: "工具的价值在于有人能用起来。", next: [{ go: "FIVE", label: "五 / 实验室之外 · 教育" }] }
-    ] }
-  ] },
-
-  { kind: "opener", num: "FOUR", zt: "科研工作", art: 6,
+  { kind: "opener", num: "THREE", zt: "科研工作", art: 6,
     topics: ["人与智能车辆", "驾驶员负荷", "智能可持续制造", "论文与荣誉"],
     quote: "语言中最危险的一句话是：“我们一直都是这么做的。”", by: "格蕾丝·霍珀，1976 年" },
-  { kicker: "四 · 科研工作", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
+  { kicker: "三 · 科研工作", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
     { b: "搭建课题组第一个驾驶模拟实验室，包括具备转向、踏板及组合辅助功能的驾驶辅助系统。" },
     { b: "提出驾驶员负荷评估方法（DWAM），综合视觉、身体与主观负荷，判断当驾驶任务转移给系统时，负荷是否变化、在哪里变化、朝哪个方向变化。" },
     { b: "指导两名硕士研究生设计并搭建实验，分析数据。" },
@@ -619,7 +565,7 @@ const CV_PAGES_ZH = [
       "两名硕士研究生均顺利毕业并已就业。"
     ] }
   ] },
-  { kicker: "四 · 科研工作", title: "智能可持续制造", art: 8, sub: "2021 年 9 月至 2023 年 12 月 · 浙江大学 · 2022 年 9 月至 2023 年 8 月与西门子（上海）合作", blocks: [
+  { kicker: "三 · 科研工作", title: "智能可持续制造", art: 8, sub: "2021 年 9 月至 2023 年 12 月 · 浙江大学 · 2022 年 9 月至 2023 年 8 月与西门子（上海）合作", blocks: [
     { b: "提出认知智能赋能制造的概念。" },
     { b: "研究面向离散制造系统、基于因果分析的质量问题求解。" },
     { b: "与西门子合作：构建数据驱动的低碳制造工艺 Neo4j 知识图谱，支持生命周期评估自动化。" },
@@ -632,10 +578,10 @@ const CV_PAGES_ZH = [
     ] }
   ] },
 
-  { kind: "opener", num: "FIVE", zt: "实验室之外", art: 10,
+  { kind: "opener", num: "FOUR", zt: "实验室之外", art: 10,
     topics: ["咨询", "AI 课程与顾问", "机器视觉研究", "组建媒体团队", "教学"],
     quote: "教育是进步的前提，在每个社会、每个家庭都是如此。", by: "科菲·安南，1997 年" },
-  { kicker: "五 · 实验室之外", title: "自由职业咨询", sub: "2024 年 4 月至今", blocks: [
+  { kicker: "四 · 实验室之外", title: "自由职业咨询", sub: "2024 年 4 月至今", blocks: [
     { h: "项目研究负责人兼顾问", meta: "Emerald Hill Design Education Institute，杭州 · 2024 年 4 月至今", p: "设计学院关于 AI、Web 应用与 AI 智能体的课程，帮助教师把 AI 引入教学，并就科研与管理为管理层提供建议。",
       impact: [{ stat: "18%", label: "学院营收增长。" }, { stat: "约30", label: "名学生与职场人士接受培训。" }] },
     { h: "管理顾问", meta: "Komodo Mining Services，加纳 · 2024 年 11 月", p: "把公司的服务重组为清晰、便于推广的服务体系，并设计人员管理制度，包括工作汇报与工作量化的方式。",
@@ -643,11 +589,11 @@ const CV_PAGES_ZH = [
     { h: "AI 与机器人课程顾问", meta: "Belio Technology（WaShalimba Group 子公司），纳米比亚 · 2025 年 6 月至 8 月", p: "为四类学习者设计循序渐进的 AI 与机器人课程：9 至 11 岁、12 至 15 岁、16 至 18 岁，以及成人与职场学习者。",
       impact: ["客户已使用该课程大纲申请资金，用于在纳米比亚温得和克建立人工智能与机器人学习中心。"] }
   ] },
-  { kicker: "五 · 实验室之外", title: "其他经历", blocks: [
+  { kicker: "四 · 实验室之外", title: "其他经历", blocks: [
     { h: "研究助理", meta: "兰州理工大学 · 2020 年 8 月至 2021 年 8 月", p: "延续硕士阶段的研究，探索分析钢材显微图像的其他方法；此前开发的 Mask R-CNN 方法可定位、分割并测量碳化物颗粒，取代逐张人工分析。协助导师完成指派的研究任务，包括会议组织的部分工作。",
       impact: [{ stat: "90%+", label: "的目标颗粒被 Mask R-CNN 方法成功定位与分割。" }, "第一作者论文，Journal of the Korean Society for Precision Engineering（2020）。"] }
   ] },
-  { kicker: "五 · 实验室之外", title: "领导与教学", art: 11, blocks: [
+  { kicker: "四 · 实验室之外", title: "领导与教学", art: 11, blocks: [
     { h: "创始主编", meta: "兰州理工大学国际教育学院 · 2018 年 3 月至 2021 年 8 月", p: "创建并带领学院第一个编辑与媒体团队，建立学院网站、YouTube 频道、Facebook 与 Instagram 主页、宣传材料以及海外合作项目。",
       impact: [{ stat: "约10", label: "人的媒体团队从零组建。" }, "开通四个线上渠道，助力国际学生招生。"] },
     { h: "助教", meta: "加纳大学，阿克拉 · 2015 年 8 月至 2016 年 8 月", p: "作为讲师助理为工科学生讲授代数、微积分一和二、环境工程以及热力学一和二。",
@@ -656,34 +602,34 @@ const CV_PAGES_ZH = [
       impact: ["所有学生均通过加纳初中毕业考试（BECE），并升入高中。"] }
   ] },
 
-  { kind: "opener", num: "SIX", zt: "教育背景", art: 12,
+  { kind: "opener", num: "FIVE", zt: "教育背景", art: 12,
     topics: ["浙江大学博士", "兰州理工大学硕士", "汉语学习", "加纳大学学士"],
     quote: "回头拾起遗忘之物，并没有错。", by: "阿坎族谚语 · Sankofa", original: "Se wo were fi na wosankofa a yenkyi." },
-  { kicker: "六 · 教育背景", title: "教育经历", blocks: [
+  { kicker: "五 · 教育背景", title: "教育经历", blocks: [
     { h: "博士，工业与系统工程", meta: "浙江大学 · 2021 年至 2027 年（预计）", p: "智能车辆中的驾驶员负荷评估与人的福祉。" },
     { h: "工程硕士，机械制造及其自动化", meta: "兰州理工大学 · 2017 年至 2020 年", p: "面向定量金相分析的数字图像处理。优秀毕业生，毕业生代表。" },
     { h: "汉语言与中国文化", meta: "兰州理工大学 · 2016 年至 2017 年", p: "HSK 四级与五级。" },
     { h: "工学学士，过程工程", meta: "加纳大学 · 2011 年至 2015 年", p: "过程工厂设计。" }
   ] },
 
-  { kind: "opener", num: "SEVEN", zt: "观点与写作", art: 13,
+  { kind: "opener", num: "SIX", zt: "观点与写作", art: 13,
     topics: ["用户行为架构", "围绕人构建人工智能", "见解与观点"],
     quote: "新意在于：不再让人成为那个变量。", by: "郝运（Reuben ASK），《默认设置的专制》" },
-  { kicker: "七 · 观点与写作", title: "写作", blocks: [
+  { kicker: "六 · 观点与写作", title: "写作", blocks: [
     { h: "Machines in Service of Minds（英文文章）", meta: "文章 · 2026年11月12日 · 围绕人来构建人工智能", p: "人工智能应当围绕人的思考、工作和学习方式来构建，并在设计上让人保持主导，而不是让人去重塑自己来适应机器。文章配有四幅图示和完整参考文献。", href: "essays/machines-in-service-of-minds/", cta: "阅读文章（英文）" },
     { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 2025年12月3日 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。", href: "essays/tyranny-of-the-default/", cta: "阅读文章（英文）" },
     { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于问题解决的评论文章。" },
     { h: "发表记录", p: "ORCID 0000-0001-8147-7609" }
   ] },
 
-  { kind: "opener", num: "EIGHT", zt: "荣誉与资历", art: 14,
+  { kind: "opener", num: "SEVEN", zt: "荣誉与资历", art: 14,
     topics: ["奖项与荣誉", "证书", "学会会员", "语言"] },
-  { kicker: "八 · 荣誉与资历", title: "奖项与荣誉", blocks: [
+  { kicker: "七 · 荣誉与资历", title: "奖项与荣誉", blocks: [
     { h: "最佳学生会议论文奖 · 2023 年", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems（工业大数据与智能系统前沿会议），香港。" },
     { h: "优秀毕业生、毕业生代表 · 2020 年", p: "兰州理工大学。" },
     { h: "中国政府优秀来华留学生奖 · 2019 年", p: "Chinese Government Outstanding International Student Award。中华人民共和国教育部：从全国 127 所高校中评选出的 582 名国际学生之一。" }
   ] },
-  { kicker: "八 · 荣誉与资历", title: "资质证书", blocks: [
+  { kicker: "七 · 荣誉与资历", title: "资质证书", blocks: [
     { h: "内审员 · 2020 年", meta: "BSI 培训学院，新加坡", p: "ISO 9001、ISO 14001 与 ISO 45001：质量、环境及职业健康安全管理体系。" },
     { h: "高级 TESOL 证书 · 2018 年", meta: "美国 TESOL 学院，上海", p: "英语教学，包括少儿英语教学。" },
     { h: "学会会员", p: "人因与工效学会（HFES），新兴国家会员。" },
@@ -709,7 +655,7 @@ document.documentElement.lang = ZH ? 'zh-CN' : 'en';
 if (ZH) { document.title = '郝运 Reuben ASK · 个人简历'; const f = document.createElement('link'); f.rel = 'stylesheet'; f.href = 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap'; document.head.appendChild(f); }
 const CV_PDF = ZH ? 'Reuben_Agbozo_CV_Chinese.pdf' : 'Reuben_Agbozo_CV.pdf';
 const CV_PAGE = ZH ? 'cv/zh/' : 'cv/';
-const NUM_ZH = { ONE: '一', TWO: '二', THREE: '三', FOUR: '四', FIVE: '五', SIX: '六', SEVEN: '七', EIGHT: '八' };
+const NUM_ZH = { ONE: '一', TWO: '二', THREE: '三', FOUR: '四', FIVE: '五', SIX: '六', SEVEN: '七' };
 const numLabel = (id) => ZH ? `第${NUM_ZH[id]}章` : `CHAPTER ${id}`;
 const numShort = (id) => ZH ? `第${NUM_ZH[id]}章` : id;
 const chName = (id) => ZH ? `${NUM_ZH[id]} · ${byId[id].title}` : `${id.charAt(0) + id.slice(1).toLowerCase()} · ${byId[id].title}`;
@@ -723,27 +669,25 @@ const chTitle = (p) => p.zt ? p.zt : (p.pre + ' ' + p.word).toLowerCase().replac
 /* ---- one headline and one supporting line per chapter ---- */
 const HEAD_EN = {
   ONE: ['A problem solver who designs around how people actually behave.', 'Works across engineering, design and education, and across cultures.'],
-  TWO: ['Turns messy problems into clear questions, then builds what answers them.', 'Problem framing, behavior-aware design, fast prototyping, review, auditing and leadership.'],
-  THREE: ['Measures what people do as well as what they say.', 'Eye tracking, motion capture, workload ratings and driving simulation, tied together by careful study design.'],
-  FOUR: ['Brought driver workload into the SAE levels of driving automation, with a way to measure it.', 'SAE defines each level only by what the driver must do; workload was never part of it. DWAM quantifies whether, where and in which direction workload changes.'],
-  FIVE: ['Shapes how organisations and classrooms work, with results to show.', 'Restructured a mining services firm that went on to win overseas contracts; AI curricula from age 9 to adult learners; every pupil through the BECE.'],
-  SIX: ['Engineering degrees on two continents, in two languages.', 'BSc Ghana, MEng Lanzhou, PhD Zhejiang (expected 2027), and HSK 5 Mandarin.'],
-  SEVEN: ['Argues that systems should adapt to people, not the other way round.', 'The Tyranny of the Default: toward a user behavior architecture.'],
-  EIGHT: ['Recognised along the way.', 'One of 582 international students honoured by China’s Ministry of Education; best student paper, 2023; valedictorian, 2020.']
+  TWO: ['Turns messy problems into clear questions, then builds what answers them.', 'Problem framing, behavior-aware design, fast prototyping, review, auditing and leadership, with the methods and tools behind them.'],
+  THREE: ['Brought driver workload into the SAE levels of driving automation, with a way to measure it.', 'SAE defines each level only by what the driver must do; workload was never part of it. DWAM quantifies whether, where and in which direction workload changes.'],
+  FOUR: ['Shapes how organisations and classrooms work, with results to show.', 'Restructured a mining services firm that went on to secure overseas partnerships; AI curricula from age 9 to adult learners; every pupil through the BECE.'],
+  FIVE: ['Engineering degrees on two continents, in two languages.', 'BSc Ghana, MEng Lanzhou, PhD Zhejiang (expected 2027), and HSK 5 Mandarin.'],
+  SIX: ['Argues that systems should adapt to people, not the other way round.', 'Two essays: building AI around people, and systems that adapt to sensed human behavior.'],
+  SEVEN: ['Recognised along the way.', 'One of 582 international students honoured by China’s Ministry of Education; best student paper, 2023; valedictorian, 2020.']
 };
 const HEAD_ZH = {
   ONE: ['善于解决问题，围绕人们的真实行为进行设计。', '横跨工程、设计与教育，也横跨不同文化。'],
-  TWO: ['把杂乱的问题变成清晰的问题，再构建出答案。', '问题界定、行为导向设计、快速原型、评审、审核与领导力。'],
-  THREE: ['不仅听人们怎么说，更测量人们怎么做。', '眼动追踪、动作捕捉、负荷评分与驾驶模拟，以严谨的研究设计串联起来。'],
-  FOUR: ['把驾驶员负荷引入 SAE 驾驶自动化分级，并给出测量方法。', 'SAE 只按驾驶员必须做什么来定义各级，从未考虑负荷。DWAM 量化负荷是否变化、在哪里变化、朝哪个方向变化。'],
-  FIVE: ['重塑组织与课堂的运作方式，并拿出成果。', '帮助一家矿业服务公司重组后赢得海外合同；为 9 岁到成人的学习者设计 AI 课程；所教学生全部通过 BECE。'],
-  SIX: ['在两大洲、用两种语言获得工程学位。', '加纳大学学士、兰州理工大学硕士、浙江大学博士（预计 2027 年），HSK 五级。'],
-  SEVEN: ['主张系统应当适应人，而不是让人适应系统。', '《默认设置的专制》：走向用户行为架构。'],
-  EIGHT: ['一路走来的认可。', '获中国教育部表彰的 582 名国际学生之一；2023 年最佳学生论文；2020 年毕业生代表。']
+  TWO: ['把杂乱的问题变成清晰的问题，再构建出答案。', '问题界定、行为导向设计、快速原型、评审、审核与领导力，以及背后的方法与工具。'],
+  THREE: ['把驾驶员负荷引入 SAE 驾驶自动化分级，并给出测量方法。', 'SAE 只按驾驶员必须做什么来定义各级，从未考虑负荷。DWAM 量化负荷是否变化、在哪里变化、朝哪个方向变化。'],
+  FOUR: ['重塑组织与课堂的运作方式，并拿出成果。', '帮助一家矿业服务公司重组后达成海外合作；为 9 岁到成人的学习者设计 AI 课程；所教学生全部通过 BECE。'],
+  FIVE: ['在两大洲、用两种语言获得工程学位。', '加纳大学学士、兰州理工大学硕士、浙江大学博士（预计 2027 年），HSK 五级。'],
+  SIX: ['主张系统应当适应人，而不是让人适应系统。', '两篇英文文章：围绕人构建人工智能，以及适应人的行为的系统。'],
+  SEVEN: ['一路走来的认可。', '获中国教育部表彰的 582 名国际学生之一；2023 年最佳学生论文；2020 年毕业生代表。']
 };
 const HEAD = ZH ? HEAD_ZH : HEAD_EN;
 
-/* ---- media: add entries here, e.g. FOUR: [{ type:'video', src:'research.mp4', poster:'research.jpg', caption:'…' }] ---- */
+/* ---- media: add entries here, e.g. THREE: [{ type:'video', src:'research.mp4', poster:'research.jpg', caption:'…' }] ---- */
 const MEDIA = {};
 
 /* ---- chapters, built from the book's page list ---- */
@@ -757,74 +701,73 @@ const byId = Object.fromEntries(CHAPTERS.map((c) => [c.id, c]));
 /* ---- knowledge graph: shared threads between chapters, each grounded in the CV text ---- */
 // each skill, its group, and a short phrase saying how each chapter uses it (all taken from the CV)
 const THREADS_EN = [
-  { t: 'Driver workload', g: 'research', ch: ['THREE', 'FOUR', 'SEVEN'], why: {
-    THREE: 'Measured with eye tracking, motion capture and NASA-TLX.',
-    FOUR: 'The core of the PhD: DWAM, tested with 51 drivers.',
-    SEVEN: 'The Tyranny of the Default: systems that adapt to sensed human behavior.' } },
-  { t: 'Eye tracking and motion capture', g: 'research', ch: ['THREE', 'FOUR'], why: {
-    THREE: 'Tobii eye tracking and Xsens motion capture.',
-    FOUR: 'Visual and physical workload in the driving study.' } },
-  { t: 'Driving simulation', g: 'research', ch: ['THREE', 'FOUR'], why: {
-    THREE: 'CARLA, CarSim and a Logitech steering and pedal rig.',
-    FOUR: 'Built the research group’s first driving-simulation lab.' } },
-  { t: 'Knowledge graphs', g: 'research', ch: ['THREE', 'FOUR'], why: {
-    THREE: 'Neo4j knowledge graphs.',
-    FOUR: 'A low-carbon manufacturing knowledge graph with Siemens.' } },
-  { t: 'Machine vision', g: 'research', ch: ['THREE', 'FIVE', 'SIX'], why: {
-    THREE: 'Mask R-CNN.',
-    FIVE: 'Found over 90% of carbide particles in steel images at Lanzhou University of Technology.',
-    SIX: 'MEng thesis on digital image processing.' } },
-  { t: 'AI in education', g: 'people', ch: ['TWO', 'THREE', 'FIVE'], why: {
-    TWO: 'Helps people and teams adopt AI.',
-    THREE: 'Curriculum and assessment design, and teacher training.',
-    FIVE: 'AI curricula for Emerald Hill and Belio Technology.' } },
-  { t: 'Teaching', g: 'people', ch: ['FIVE', 'EIGHT'], why: {
-    FIVE: 'Taught engineering at the University of Ghana, and science and maths in Ashaiman.',
-    EIGHT: 'Advanced TESOL certificate.' } },
-  { t: 'Teams and organisational design', g: 'people', ch: ['ONE', 'TWO', 'FIVE'], why: {
+  { t: 'Driver workload', g: 'research', ch: ['TWO', 'THREE', 'SIX'], why: {
+    TWO: 'Measured with eye tracking, motion capture and NASA-TLX.',
+    THREE: 'The core of the PhD: DWAM, tested with 51 drivers.',
+    SIX: 'The Tyranny of the Default: systems that adapt to sensed human behavior.' } },
+  { t: 'Eye tracking and motion capture', g: 'research', ch: ['TWO', 'THREE'], why: {
+    TWO: 'Tobii eye tracking and Xsens motion capture.',
+    THREE: 'Visual and physical workload in the driving study.' } },
+  { t: 'Driving simulation', g: 'research', ch: ['TWO', 'THREE'], why: {
+    TWO: 'CARLA, CarSim and a Logitech steering and pedal rig.',
+    THREE: 'Built the research group’s first driving-simulation lab.' } },
+  { t: 'Knowledge graphs', g: 'research', ch: ['TWO', 'THREE'], why: {
+    TWO: 'Neo4j knowledge graphs.',
+    THREE: 'A low-carbon manufacturing knowledge graph with Siemens.' } },
+  { t: 'Machine vision', g: 'research', ch: ['TWO', 'FOUR', 'FIVE'], why: {
+    TWO: 'Mask R-CNN.',
+    FOUR: 'Found over 90% of carbide particles in steel images at Lanzhou University of Technology.',
+    FIVE: 'MEng thesis on digital image processing.' } },
+  { t: 'AI in education', g: 'people', ch: ['TWO', 'FOUR'], why: {
+    TWO: 'Helps people and teams adopt AI; curriculum and assessment design, and teacher training.',
+    FOUR: 'AI curricula for Emerald Hill and Belio Technology.' } },
+  { t: 'Teaching', g: 'people', ch: ['FOUR', 'SEVEN'], why: {
+    FOUR: 'Taught engineering at the University of Ghana, and science and maths in Ashaiman.',
+    SEVEN: 'Advanced TESOL certificate.' } },
+  { t: 'Teams and organisational design', g: 'people', ch: ['ONE', 'TWO', 'FOUR'], why: {
     ONE: 'Founded and led a team; built a company’s organisational structure.',
     TWO: 'Builds teams and structures that make work measurable.',
-    FIVE: 'A media team of about 10; Komodo’s people management system.' } },
-  { t: 'Quality and auditing', g: 'industry', ch: ['TWO', 'FOUR', 'EIGHT'], why: {
+    FOUR: 'A media team of about 10; Komodo’s people management system.' } },
+  { t: 'Quality and auditing', g: 'industry', ch: ['TWO', 'THREE', 'SEVEN'], why: {
     TWO: 'Checks whether processes deliver what they promise.',
-    FOUR: 'Quality problem solving: Best Student Conference Paper.',
-    EIGHT: 'ISO 9001, 14001 and 45001 internal auditor.' } },
-  { t: 'Systems that adapt to people', g: 'people', ch: ['ONE', 'TWO', 'SEVEN'], why: {
+    THREE: 'Quality problem solving: Best Student Conference Paper.',
+    SEVEN: 'ISO 9001, 14001 and 45001 internal auditor.' } },
+  { t: 'Systems that adapt to people', g: 'people', ch: ['ONE', 'TWO', 'SIX'], why: {
     ONE: 'Designs around how people actually behave.',
     TWO: 'Systems that adapt to people, not the reverse.',
-    SEVEN: 'The Tyranny of the Default.' } },
-  { t: 'Manufacturing', g: 'industry', ch: ['FOUR', 'SIX', 'EIGHT'], why: {
-    FOUR: 'Smart sustainable manufacturing, the first PhD phase.',
-    SIX: 'MEng in mechanical manufacture and automation.',
-    EIGHT: 'Best Student Conference Paper on manufacturing quality.' } },
-  { t: 'China', g: 'industry', ch: ['SIX', 'EIGHT', 'FIVE'], why: {
-    SIX: 'MEng and PhD in China; HSK 5 Mandarin.',
-    EIGHT: 'Chinese Government Outstanding International Student Award.',
-    FIVE: 'Roles in Lanzhou and Hangzhou.' } },
-  { t: 'Ghana', g: 'industry', ch: ['SIX', 'FIVE'], why: {
-    SIX: 'BSc in process engineering, University of Ghana.',
-    FIVE: 'Teaching in Accra and Ashaiman; consulting for Komodo Mining Services.' } }
+    SIX: 'The Tyranny of the Default.' } },
+  { t: 'Manufacturing', g: 'industry', ch: ['THREE', 'FIVE', 'SEVEN'], why: {
+    THREE: 'Smart sustainable manufacturing, the first PhD phase.',
+    FIVE: 'MEng in mechanical manufacture and automation.',
+    SEVEN: 'Best Student Conference Paper on manufacturing quality.' } },
+  { t: 'China', g: 'industry', ch: ['FIVE', 'SEVEN', 'FOUR'], why: {
+    FIVE: 'MEng and PhD in China; HSK 5 Mandarin.',
+    SEVEN: 'Chinese Government Outstanding International Student Award.',
+    FOUR: 'Roles in Lanzhou and Hangzhou.' } },
+  { t: 'Ghana', g: 'industry', ch: ['FIVE', 'FOUR'], why: {
+    FIVE: 'BSc in process engineering, University of Ghana.',
+    FOUR: 'Teaching in Accra and Ashaiman; consulting for Komodo Mining Services.' } }
 ];
 const THREADS_ZH = [
-  { t: '驾驶员负荷', g: 'research', ch: ['THREE', 'FOUR', 'SEVEN'], why: {
-    THREE: '通过眼动追踪、动作捕捉与 NASA-TLX 测量。', FOUR: '博士研究的核心：DWAM，经 51 名驾驶员验证。', SEVEN: '《默认设置的专制》：根据感知到的人的行为进行调整的系统。' } },
-  { t: '眼动追踪与动作捕捉', g: 'research', ch: ['THREE', 'FOUR'], why: { THREE: 'Tobii 眼动追踪与 Xsens 动作捕捉。', FOUR: '驾驶研究中的视觉负荷与身体负荷。' } },
-  { t: '驾驶模拟', g: 'research', ch: ['THREE', 'FOUR'], why: { THREE: 'CARLA、CarSim 以及罗技方向盘与踏板。', FOUR: '搭建课题组第一个驾驶模拟实验室。' } },
-  { t: '知识图谱', g: 'research', ch: ['THREE', 'FOUR'], why: { THREE: 'Neo4j 知识图谱。', FOUR: '与西门子合作构建低碳制造知识图谱。' } },
-  { t: '机器视觉', g: 'research', ch: ['THREE', 'FIVE', 'SIX'], why: { THREE: 'Mask R-CNN。', FIVE: '在兰州理工大学识别出钢材图像中 90% 以上的碳化物颗粒。', SIX: '硕士论文研究数字图像处理。' } },
-  { t: 'AI 教育', g: 'people', ch: ['TWO', 'THREE', 'FIVE'], why: { TWO: '帮助个人和团队采用 AI。', THREE: '课程与评估设计，以及教师培训。', FIVE: '为 Emerald Hill 和 Belio Technology 设计 AI 课程。' } },
-  { t: '教学', g: 'people', ch: ['FIVE', 'EIGHT'], why: { FIVE: '在加纳大学讲授工科课程，在阿沙伊曼讲授科学与数学。', EIGHT: '高级 TESOL 证书。' } },
-  { t: '团队与组织设计', g: 'people', ch: ['ONE', 'TWO', 'FIVE'], why: { ONE: '从零组建并带领团队；为一家公司搭建组织结构。', TWO: '搭建让工作可衡量的团队与结构。', FIVE: '约 10 人的媒体团队；Komodo 的人员管理制度。' } },
-  { t: '质量与审核', g: 'industry', ch: ['TWO', 'FOUR', 'EIGHT'], why: { TWO: '检查流程是否兑现承诺。', FOUR: '质量问题求解：最佳学生会议论文。', EIGHT: 'ISO 9001、14001 与 45001 内审员。' } },
-  { t: '适应人的系统', g: 'people', ch: ['ONE', 'TWO', 'SEVEN'], why: { ONE: '围绕人们的真实行为进行设计。', TWO: '让系统适应人，而不是相反。', SEVEN: '《默认设置的专制》。' } },
-  { t: '制造', g: 'industry', ch: ['FOUR', 'SIX', 'EIGHT'], why: { FOUR: '智能可持续制造，博士研究第一阶段。', SIX: '机械制造及其自动化硕士。', EIGHT: '关于制造质量的最佳学生会议论文。' } },
-  { t: '中国', g: 'industry', ch: ['SIX', 'EIGHT', 'FIVE'], why: { SIX: '在中国攻读硕士与博士；HSK 五级。', EIGHT: '中国政府优秀来华留学生奖。', FIVE: '在兰州和杭州任职。' } },
-  { t: '加纳', g: 'industry', ch: ['SIX', 'FIVE'], why: { SIX: '加纳大学过程工程学士。', FIVE: '在阿克拉和阿沙伊曼任教；为 Komodo Mining Services 提供咨询。' } }
+  { t: '驾驶员负荷', g: 'research', ch: ['TWO', 'THREE', 'SIX'], why: {
+    TWO: '通过眼动追踪、动作捕捉与 NASA-TLX 测量。', THREE: '博士研究的核心：DWAM，经 51 名驾驶员验证。', SIX: '《默认设置的专制》：根据感知到的人的行为进行调整的系统。' } },
+  { t: '眼动追踪与动作捕捉', g: 'research', ch: ['TWO', 'THREE'], why: { TWO: 'Tobii 眼动追踪与 Xsens 动作捕捉。', THREE: '驾驶研究中的视觉负荷与身体负荷。' } },
+  { t: '驾驶模拟', g: 'research', ch: ['TWO', 'THREE'], why: { TWO: 'CARLA、CarSim 以及罗技方向盘与踏板。', THREE: '搭建课题组第一个驾驶模拟实验室。' } },
+  { t: '知识图谱', g: 'research', ch: ['TWO', 'THREE'], why: { TWO: 'Neo4j 知识图谱。', THREE: '与西门子合作构建低碳制造知识图谱。' } },
+  { t: '机器视觉', g: 'research', ch: ['TWO', 'FOUR', 'FIVE'], why: { TWO: 'Mask R-CNN。', FOUR: '在兰州理工大学识别出钢材图像中 90% 以上的碳化物颗粒。', FIVE: '硕士论文研究数字图像处理。' } },
+  { t: 'AI 教育', g: 'people', ch: ['TWO', 'FOUR'], why: { TWO: '帮助个人和团队采用 AI；课程与评估设计，以及教师培训。', FOUR: '为 Emerald Hill 和 Belio Technology 设计 AI 课程。' } },
+  { t: '教学', g: 'people', ch: ['FOUR', 'SEVEN'], why: { FOUR: '在加纳大学讲授工科课程，在阿沙伊曼讲授科学与数学。', SEVEN: '高级 TESOL 证书。' } },
+  { t: '团队与组织设计', g: 'people', ch: ['ONE', 'TWO', 'FOUR'], why: { ONE: '从零组建并带领团队；为一家公司搭建组织结构。', TWO: '搭建让工作可衡量的团队与结构。', FOUR: '约 10 人的媒体团队；Komodo 的人员管理制度。' } },
+  { t: '质量与审核', g: 'industry', ch: ['TWO', 'THREE', 'SEVEN'], why: { TWO: '检查流程是否兑现承诺。', THREE: '质量问题求解：最佳学生会议论文。', SEVEN: 'ISO 9001、14001 与 45001 内审员。' } },
+  { t: '适应人的系统', g: 'people', ch: ['ONE', 'TWO', 'SIX'], why: { ONE: '围绕人们的真实行为进行设计。', TWO: '让系统适应人，而不是相反。', SIX: '《默认设置的专制》。' } },
+  { t: '制造', g: 'industry', ch: ['THREE', 'FIVE', 'SEVEN'], why: { THREE: '智能可持续制造，博士研究第一阶段。', FIVE: '机械制造及其自动化硕士。', SEVEN: '关于制造质量的最佳学生会议论文。' } },
+  { t: '中国', g: 'industry', ch: ['FIVE', 'SEVEN', 'FOUR'], why: { FIVE: '在中国攻读硕士与博士；HSK 五级。', SEVEN: '中国政府优秀来华留学生奖。', FOUR: '在兰州和杭州任职。' } },
+  { t: '加纳', g: 'industry', ch: ['FIVE', 'FOUR'], why: { FIVE: '加纳大学过程工程学士。', FOUR: '在阿克拉和阿沙伊曼任教；为 Komodo Mining Services 提供咨询。' } }
 ];
 const THREADS = ZH ? THREADS_ZH : THREADS_EN;
 // one short phrase under each chapter name on the graphs
-const CH_SUB_EN = { ONE: 'profile', TWO: 'strengths', THREE: 'methods and tools', FOUR: 'PhD and papers', FIVE: 'jobs, consulting, teaching', SIX: 'education', SEVEN: 'writing', EIGHT: 'awards and certificates' };
-const CH_SUB_ZH = { ONE: '个人简介', TWO: '优势', THREE: '方法与工具', FOUR: '博士研究与论文', FIVE: '工作、咨询与教学', SIX: '教育', SEVEN: '写作', EIGHT: '奖项与证书' };
+const CH_SUB_EN = { ONE: 'profile', TWO: 'strengths', THREE: 'PhD and papers', FOUR: 'jobs, consulting, teaching', FIVE: 'education', SIX: 'writing', SEVEN: 'awards and certificates' };
+const CH_SUB_ZH = { ONE: '个人简介', TWO: '优势', THREE: '博士研究与论文', FOUR: '工作、咨询与教学', FIVE: '教育', SIX: '写作', SEVEN: '奖项与证书' };
 const CH_SUB = ZH ? CH_SUB_ZH : CH_SUB_EN;
 const GROUPS = [
   { id: 'research', name: L('Research methods', '研究方法') },
@@ -1025,9 +968,9 @@ function impactHtml(list) {
   return `<div class="impact"><p class="tag">${L('Impact', '成果')}</p>${stats.map((x) => `<div class="stat"><b>${esc(x.stat)}</b><span>${esc(x.label)}</span></div>`).join('')}${lines.length ? `<ul>${lines.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}</div>`;
 }
 // a method is only meaningful next to the work it was used in
-const CH_NAME = { FOUR: 'Four · The research', FIVE: 'Five · Beyond the lab' };
+const CH_NAME = { THREE: 'Three · The research', FOUR: 'Four · Beyond the lab' };
 function usesHtml(list) {
-  return `<div class="uses">${list.map((u) => `<div class="use"><p class="tool">${esc(u.tools)}</p><p class="where"><span class="tag">Used in</span>${esc(u.where)}${u.go ? ` <button type="button" class="golink" data-nav="${u.go}">${esc(CH_NAME[u.go] || u.go)} →</button>` : ''}</p></div>`).join('')}</div>`;
+  return `<div class="uses">${list.map((u) => `<div class="use"><p class="tool">${esc(u.tools)}</p><p class="where"><span class="tag">${L('Used in', '用于')}</span>${esc(u.where)}${u.go ? ` <button type="button" class="golink" data-nav="${u.go}">${esc(CH_NAME[u.go] || u.go)} →</button>` : ''}</p></div>`).join('')}</div>`;
 }
 // methods as four tabs: approach, instrument, and the work it served
 let tabSeq = 0;
@@ -1069,12 +1012,28 @@ function whoHtml() {
   <p>我善于解决问题，是一名用户行为架构师，关注人们如何在系统中思考、行动和适应。</p>
   <p>我能发现哪里让人用得不顺，界定真正的问题，并给出实用的解决方案：产品、原型、学习项目，以及一个组织的运作方式。</p>
   <p>我曾从零创建并带领团队，设计 AI 课程并培训教师使用 AI，还为一家公司搭建了组织结构和衡量目标的统一方法。</p>
-  <p>我的工作横跨工程、设计与教育，也横跨不同文化，用英语和普通话把复杂的想法变成人们用得上的东西。</p>`;
+  <p>我的工作横跨工程、设计与教育，也横跨不同文化，用英语和普通话把复杂的想法变成人们用得上的东西。</p>
+  <h3>我的工作方式</h3>
+  <ul class="how">
+    <li>我从人们的真实行为出发，而不是从“平均的人”出发。 <a class="readlink" href="essays/tyranny-of-the-default/">见《默认设置的专制》 →</a></li>
+    <li>我把功能放在风格之前。</li>
+    <li>我先测试最小的版本，再投入时间和资金。 <button type="button" class="golink" data-nav="THREE">见博士研究 →</button></li>
+    <li>我会说明证据能证明什么，不能证明什么。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li>
+    <li>我让人始终处于主导位置。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li>
+  </ul>`;
   return `<h2>Reuben Seyram Komla Agbozo</h2><p class="meta">Human Factors Researcher · User Behavior Architect</p>
   <p>I am a problem solver and user behavior architect focused on how people think, act and adapt within systems.</p>
   <p>I notice what isn't working for people, define the real problem, and build practical solutions: products, prototypes, learning programs and the way an organisation runs.</p>
   <p>I have founded and led a team from scratch, designed AI curricula and trained teachers to use AI, and developed a company's organisational structure and standardised ways of measuring its goals.</p>
-  <p>I work across engineering, design and education, and across cultures in English and Mandarin, turning complex ideas into things people can use.</p>`;
+  <p>I work across engineering, design and education, and across cultures in English and Mandarin, turning complex ideas into things people can use.</p>
+  <h3>How I work</h3>
+  <ul class="how">
+    <li>I start from how people actually behave, not from the average person. <a class="readlink" href="essays/tyranny-of-the-default/">See The Tyranny of the Default →</a></li>
+    <li>I put function before style.</li>
+    <li>I test the smallest version first, before committing time and money. <button type="button" class="golink" data-nav="THREE">See the doctoral research →</button></li>
+    <li>I say what the evidence shows and what it does not. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li>
+    <li>I keep the person in the lead. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li>
+  </ul>`;
 }
 function mediaHtml(list) {
   return (list || []).map((m) => m.type === 'video'
