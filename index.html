@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reuben ASK · Chapters</title>
 <meta name="description" content="Reuben ASK, user behavior architect. Scroll through seven chapters and open any one for the detail and the skills it shares with the rest.">
+<style>html.fw body{opacity:0}body{transition:opacity .35s ease}</style>
+<script>document.documentElement.classList.add("fw");setTimeout(function(){document.documentElement.classList.remove("fw")},3000)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Spectral+SC:wght@600&display=swap">
@@ -300,7 +302,7 @@ a{color:inherit}
 .graph[data-kind]{width:100%;margin-top:6px}
 .graph[data-kind] svg{width:100%;height:100%;display:block}
 .graph[data-kind="chapter"]{height:min(66svh,620px)}
-.skline{font-size:15px;line-height:1.7;margin:4px 0 8px}
+.skline{font-size:16px;line-height:1.7;margin:4px 0 8px}.skline b{font-family:var(--caps);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#a0583a;margin-right:6px;font-weight:600}
 .skilllist{display:none;margin-top:14px}
 .sl-g{margin:0 0 16px}.sl-h{font:12px/1 var(--caps);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:0 0 6px}
 .sl-s{padding:8px 0;border-top:1px solid #8a622433}.sl-s b{display:block;font-weight:600;margin-bottom:3px}.sl-s span{display:flex;flex-wrap:wrap;gap:4px 10px}.sl-s .golink{margin-left:0}
@@ -789,6 +791,17 @@ const THREADS_ZH = [
   { t: '质量审核', g: 'industry', ch: ['TWO', 'THREE', 'SEVEN'], why: { TWO: '检查流程是否兑现承诺。', THREE: '质量问题求解：最佳学生会议论文。', SEVEN: 'ISO 9001、14001 与 45001 内审员。' } },
   { t: '英语与普通话沟通', g: 'industry', ch: ['ONE', 'FIVE'], why: { ONE: '用英语和普通话跨文化工作。', FIVE: 'HSK 五级；硕士与博士均在中国就读。' } }
 ];
+const CH_USES_EN = {
+  TWO: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'Machine vision', 'Curriculum and assessment design', 'Team and organisational design', 'Human-centred system design', 'Quality auditing'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python pipelines'] },
+  THREE: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'Quality auditing'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Logitech steering and pedal rig', 'Model predictive control', 'Neo4j', 'Python pipelines'] },
+  FOUR: { skills: ['Machine vision', 'Curriculum and assessment design', 'Teaching', 'Team and organisational design'], tools: ['Mask R-CNN', 'AI-assisted prototyping', 'Web apps and agent workflows'] }
+};
+const CH_USES_ZH = {
+  TWO: { skills: ['负荷评估', '实验设计与分析', '知识图谱建模', '机器视觉', '课程与评估设计', '团队与组织设计', '以人为中心的系统设计', '质量审核'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python 数据处理流程'] },
+  THREE: { skills: ['负荷评估', '实验设计与分析', '知识图谱建模', '质量审核'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', '罗技方向盘与踏板', '模型预测控制', 'Neo4j', 'Python 数据处理流程'] },
+  FOUR: { skills: ['机器视觉', '课程与评估设计', '教学', '团队与组织设计'], tools: ['Mask R-CNN', 'AI 辅助原型设计', '网页应用与智能体工作流'] }
+};
+const CH_USES = ZH ? CH_USES_ZH : CH_USES_EN;
 const THREADS = ZH ? THREADS_ZH : THREADS_EN;
 // one short phrase under each chapter name on the graphs
 const CH_SUB_EN = { ONE: 'profile', TWO: 'what I can do and the tools I use', THREE: 'PhD and papers', FOUR: 'jobs, consulting, teaching', FIVE: 'education', SIX: 'writing', SEVEN: 'awards and certificates' };
@@ -1282,7 +1295,9 @@ function openChapter(id) {
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
   if (id === 'ONE') html += `<p style="margin-top:26px"><button type="button" class="golink" data-nav="BOOKS">${L('See the books that shaped me →', '看看塑造我的书 →')}</button></p>`;
-  if (id !== 'ONE') { const used = THREADS.filter((t) => t.ch.includes(id)).map((t) => esc(t.t)); if (used.length) html += `<h2>${L('Skills and tools used here', '本章用到的技能与工具')}</h2><p class="skline">${used.join(' · ')}</p><p><button type="button" class="golink" data-map="${id}">${L('See how they connect to the rest of my work →', '查看它们如何与其他工作相连 →')}</button></p>`; }
+  const cu = CH_USES[id];
+  if (cu && (cu.skills.length || cu.tools.length)) { const both = cu.skills.length && cu.tools.length; const head = both ? L('Skills and tools used here', '本章用到的技能与工具') : cu.skills.length ? L('Skills used here', '本章用到的技能') : L('Tools used here', '本章用到的工具');
+    html += `<h2>${head}</h2>${cu.skills.length ? `<p class="skline">${both ? `<b>${L('Skills', '技能')}</b> ` : ''}${cu.skills.map(esc).join(' · ')}</p>` : ''}${cu.tools.length ? `<p class="skline">${both ? `<b>${L('Tools', '工具')}</b> ` : ''}${cu.tools.map(esc).join(' · ')}</p>` : ''}<p><button type="button" class="golink" data-map="${id}">${L('See how they connect to the rest of my work →', '查看它们如何与其他工作相连 →')}</button></p>`; }
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -1505,6 +1520,7 @@ layout(); onScroll(); paint();
 /* ---------- opening animation: spark, two waves, two figures, contact, welcome ---------- */
 
 document.fonts?.ready.then(() => { layout(); onScroll(); });
+(() => { const done = () => document.documentElement.classList.remove('fw'); const loads = [document.fonts.load('600 40px "Cormorant Garamond"'), document.fonts.load('400 18px Spectral'), document.fonts.load('italic 400 18px Spectral')]; if (ZH) loads.push(document.fonts.load('400 18px "Noto Serif SC"', '郝运个人简历思维方式'), document.fonts.load('600 18px "Noto Serif SC"', '郝运个人简历')); Promise.all(loads).then(() => document.fonts.ready).then(done, done); })();
 </script>
 </body>
 </html>
