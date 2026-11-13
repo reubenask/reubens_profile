@@ -204,7 +204,10 @@ a{color:inherit}
 .acc details[open] summary{border-bottom:1px solid #d8c9a9;background:#f7f0de}
 .acc .at{display:block;font-family:var(--display);font-weight:600;font-size:clamp(26px,3.6vw,34px);color:var(--green);line-height:1.1}
 .acc .ad{display:block;margin-top:6px;font-size:16px;color:var(--paper-soft)}
-.acc .ab{padding:6px 22px 18px}
+.acc .ab{padding:10px 22px 22px}
+.acc .ab h3{font-size:clamp(25px,3.2vw,30px);line-height:1.15;margin:34px 0 12px;padding-top:0}
+.acc .ab h3:first-child{margin-top:14px}
+.acc .ab ul.how{margin-bottom:6px}
 .acc summary:focus-visible{outline:2px solid #a0583a;outline-offset:-2px}
 .paper ul.how.big li{font-size:18px;line-height:1.55}.paper ul.how.big .golink{font-size:12.5px}.paper ul.how.big a.readlink{font-size:15px}.paper ul.how{margin:6px 0 0;padding-left:1.2em}.paper ul.how li{margin:0 0 .7em}.paper ul.how a.readlink{font-size:14px;font-weight:500;white-space:nowrap}.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
 .paper .meta{font-style:italic;color:var(--paper-soft);font-size:14px;margin:2px 0 0}
@@ -425,7 +428,7 @@ const CV_PAGES_DATA = [
     quote: "Wisdom is like a baobab tree; no one individual can embrace it.", by: "Ewe and Akan proverb", original: "Nunya, adidoe, asi metunee o." },
   { kicker: "Two · What I bring", title: "Two parts", art: 4, sub: "What I can do, and the methods and tools I have used. Open either one.", blocks: [
     { acc: [
-      { t: "What I can do", d: "Nine things I do, each with where you can see it.", blocks: [
+      { t: "What I can do", d: "What I do, and where you can see it in my work.", blocks: [
     { h: "Understanding problems and people" },
     { how: [
       { p: "I turn vague, messy problems into clear questions a team can answer and act on.", go: "THREE", cta: "See the doctoral research →" },
@@ -552,7 +555,7 @@ const CV_PAGES_ZH = [
     quote: "智慧如猴面包树，一人无法独自环抱。", by: "埃维族与阿坎族谚语", original: "Nunya, adidoe, asi metunee o." },
   { kicker: "二 · 我能带来什么", title: "分为两部分", art: 4, sub: "我能做什么，以及我用过的方法与工具。点开任意一项查看。", blocks: [
     { acc: [
-      { t: "我能做什么", d: "九件我做的事，每一件都标明在哪里能看到。", blocks: [
+      { t: "我能做什么", d: "我做什么，以及在我的工作中哪里能看到。", blocks: [
     { h: "理解问题与人" },
     { how: [
       { p: "我把模糊、杂乱的问题转化为团队能够回答并付诸行动的清晰问题。", go: "THREE", cta: "见博士研究 →" },
