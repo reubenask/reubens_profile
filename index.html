@@ -203,6 +203,7 @@ a{color:inherit}
 .paper p,.paper li{color:#33302a}
 .paper .golink,.paper a.readlink,.paper ul.how a.readlink,.paper ul.how.big .golink,.paper ul.how.big a.readlink{display:inline;font:inherit;font-weight:600;letter-spacing:0;text-transform:none;color:var(--gold-d,#8a6224);background:none;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0;margin:0;white-space:normal;cursor:pointer;text-decoration:none}
 .paper .golink:hover,.paper a.readlink:hover{opacity:.7;background:none}
+.sl{margin:6px 0 18px}.sltrack{display:flex;align-items:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border:1px solid #d8c9a9;border-radius:10px;background:#fff}.sltrack::-webkit-scrollbar{display:none}.sltrack figure{flex:0 0 100%;margin:0;scroll-snap-align:start;padding:10px}.sltrack img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain}.sltrack figcaption{font-size:15px;line-height:1.45;color:#3d2a10;margin:8px 4px 2px}.slbar{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:8px;font-size:15px;color:#5b4a2a}.slbar button{background:none;border:0;border-bottom:1px solid #8a6224;padding:0 2px;font:inherit;font-size:20px;color:#8a6224;cursor:pointer}
 .eqwrap{margin:16px 0}.eq{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:19px}.eq i{font-style:normal;font-size:24px;color:#8a6224}.eq .t{display:inline-flex;flex-direction:column;padding:8px 14px;border:1px solid #c9a24f;border-radius:8px;font-weight:600;color:#0f2e22;line-height:1.25}.eq .t small{font-size:13px;font-weight:400;color:#5b4a2a}.eq .lhs{background:#e7f0e9;border-color:#0e2e24;font-size:22px}.eqcap{font-size:14.5px;color:#5b4a2a;margin:8px 0 0;font-style:italic}
 .seek{font-size:18px;line-height:1.55;background:#e7f0e9;border-left:4px solid var(--green);border-radius:2px 8px 8px 2px;padding:14px 18px;margin:20px 0;color:#0f2e22;font-weight:500}
 .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 22px}
@@ -484,6 +485,14 @@ const CV_PAGES_DATA = [
       { p: "I build teams and structures that make work clear, measurable and efficient.", go: "FOUR", cta: "See the leadership roles →" } ] }
       ] },
       { t: "Experience with methods and tools", d: "The instruments behind the work, and where each was used.", blocks: [
+        { slider: [
+          { img: "tools/rig.jpg", cap: "A participant driving in the lab, wearing Tobii glasses and an Xsens motion suit, with the live body model beside it." },
+          { img: "tools/workflow.jpg", cap: "How the simulator works: the driver's controls and the assist modes feed CARLA, which runs on the host PC." },
+          { img: "tools/tobii.jpg", cap: "Tobii Pro Glasses 3: the head unit records where the driver looks, and the recording unit is worn on the body." },
+          { img: "tools/trackers.jpg", cap: "Xsens motion trackers: where each sensor sits on the body." },
+          { img: "tools/hud.jpg", cap: "What the driver sees: the heads-up display, the route line and the assist modes." },
+          { img: "tools/town04.jpg", cap: "The test route in CARLA Town 04: city streets and highway interchanges." },
+          { img: "tools/logitech.jpg", cap: "The Logitech G29 wheel and pedals, and what each control does in my code." } ] },
         { how: [
       { l: "Study design and analysis.", p: "Within-subject experiments, counterbalancing, repeated-measures and mixed-effects analysis, multiple-testing correction, sensitivity analysis.", go: "THREE", cta: "Used in the 51-driver study →" },
       { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX (a standard rating scale for perceived workload), synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
@@ -615,6 +624,14 @@ const CV_PAGES_ZH = [
       { p: "我搭建团队与组织结构，使工作清晰、可衡量、高效。", go: "FOUR", cta: "见领导经历 →" } ] }
       ] },
       { t: "方法与工具实践", d: "这些工作背后的方法与工具，以及它们用在哪里。", blocks: [
+        { slider: [
+          { img: "tools/rig.jpg", cap: "一名受试者在实验室驾驶，佩戴 Tobii 眼镜和 Xsens 动作捕捉服，旁边是实时人体模型。" },
+          { img: "tools/workflow.jpg", cap: "模拟器如何工作：驾驶员的操控和辅助模式输入 CARLA，在主机上运行。" },
+          { img: "tools/tobii.jpg", cap: "Tobii Pro Glasses 3：头戴单元记录驾驶员看向哪里，记录单元佩戴在身上。" },
+          { img: "tools/trackers.jpg", cap: "Xsens 动作传感器：每个传感器在身体上的位置。" },
+          { img: "tools/hud.jpg", cap: "驾驶员看到的画面：平视显示、路线引导线和辅助模式。" },
+          { img: "tools/town04.jpg", cap: "CARLA Town 04 中的测试路线：城市街道与高速立交。" },
+          { img: "tools/logitech.jpg", cap: "罗技 G29 方向盘与踏板，以及每个控件在我的代码中的作用。" } ] },
         { how: [
       { l: "研究设计与分析。", p: "被试内实验、平衡设计、重复测量与混合效应分析、多重检验校正、敏感性分析。", go: "THREE", cta: "用于 51 名驾驶员的研究 →" },
       { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX（感知劳动的通用评分量表）、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员劳动评估 →" },
@@ -1052,6 +1069,7 @@ function blocksHtml(p) {
     if (b.impact) html += impactHtml(b.impact);
     if (b.pubs) html += pubsHtml();
     if (b.uses) html += usesHtml(b.uses);
+    if (b.slider) html += `<div class="sl"><div class="sltrack">${b.slider.map((x) => `<figure><img src="${esc(x.img)}" alt="${esc(x.cap)}" loading="lazy"><figcaption>${esc(x.cap)}</figcaption></figure>`).join('')}</div><div class="slbar"><button type="button" data-sl="-1" aria-label="Previous">←</button><span class="slcount">1 / ${b.slider.length}</span><button type="button" data-sl="1" aria-label="Next">→</button></div></div>`;
     if (b.acc) html += `<div class="acc">${b.acc.map((x) => `<details name="acc"><summary><span class="at">${esc(x.t)}</span><span class="ad">${esc(x.d)}</span></summary><div class="ab">${blocksHtml({ blocks: x.blocks })}</div></details>`).join('')}</div>`;
     if (b.how) html += `<ul class="how big">${b.how.map((it) => `<li>${it.l ? `<b>${esc(it.l)}</b> ` : ''}${esc(it.p)}${it.go ? ` <button type="button" class="golink" data-nav="${it.go}">${esc(it.cta)}</button>` : it.href ? ` <a class="readlink" href="${esc(it.href)}">${esc(it.cta)}</a>` : ''}</li>`).join('')}</ul>`;
     if (b.tabs) html += tabsHtml(b.tabs);
@@ -1599,6 +1617,9 @@ layout(); onScroll(); paint();
 
 document.fonts?.ready.then(() => { layout(); onScroll(); });
 (() => { const done = () => document.documentElement.classList.remove('fw'); const loads = [document.fonts.load('600 40px "Cormorant Garamond"'), document.fonts.load('400 18px Spectral'), document.fonts.load('italic 400 18px Spectral')]; if (ZH) loads.push(document.fonts.load('400 18px "Noto Serif SC"', '郝运个人简历思维方式'), document.fonts.load('600 18px "Noto Serif SC"', '郝运个人简历')); Promise.all(loads).then(() => document.fonts.ready).then(done, done); })();
+
+document.addEventListener('click', (e) => { const b = e.target.closest('[data-sl]'); if (!b) return; const t = b.closest('.sl').querySelector('.sltrack'); t.scrollBy({ left: +b.dataset.sl * t.clientWidth, behavior: 'smooth' }); });
+document.addEventListener('scroll', (e) => { const t = e.target; if (!t.classList || !t.classList.contains('sltrack')) return; const n = Math.round(t.scrollLeft / t.clientWidth) + 1; const c = t.parentNode.querySelector('.slcount'); if (c) c.textContent = n + ' / ' + t.children.length; }, true);
 </script>
 </body>
 </html>
