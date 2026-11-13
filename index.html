@@ -286,6 +286,11 @@ a{color:inherit}
 .graph[data-kind]{width:100%;margin-top:6px}
 .graph[data-kind] svg{width:100%;height:100%;display:block}
 .graph[data-kind="chapter"]{height:min(66svh,620px)}
+.skline{font-size:15px;line-height:1.7;margin:4px 0 8px}
+.skilllist{display:none;margin-top:14px}
+.sl-g{margin:0 0 16px}.sl-h{font:12px/1 var(--caps);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.sl-s{padding:8px 0;border-top:1px solid #8a622433}.sl-s b{display:block;font-weight:600;margin-bottom:3px}.sl-s span{display:flex;flex-wrap:wrap;gap:4px 10px}.sl-s .golink{margin-left:0}
+@media (max-width:640px){.mapwrap,.mapwrap .ginfo,.sheet.map .ginfo{display:none!important}.sheet.map .legend{display:none}.skilllist{display:block}}
 .gintro .note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
 /* the map page fills the screen: title, key, then the map and its card */
 .sheet.map .paper{height:calc(100svh - 76px - env(safe-area-inset-top,0px));margin-bottom:12px;display:flex;flex-direction:column;overflow:hidden;padding-top:clamp(16px,3vw,32px);padding-bottom:clamp(12px,2vw,24px)}
@@ -340,6 +345,8 @@ a{color:inherit}
 .legend .g-research i{background:#e6f1ea;border-color:#2e7a5c}
 .legend .g-people i{background:#f8eae2;border-color:#b0603c}
 .legend .g-industry i{background:#e7eef7;border-color:#3d6390}
+.sl-h i{width:22px;height:14px;border-radius:7px;border:2px solid;display:inline-block}
+.sl-h.g-research i{background:#e6f1ea;border-color:#2e7a5c}.sl-h.g-people i{background:#f8eae2;border-color:#b0603c}.sl-h.g-industry i{background:#e7eef7;border-color:#3d6390}
 
 .graph p.note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
 .graph svg{width:100%;height:auto;display:block;overflow:visible}
@@ -1223,7 +1230,7 @@ function showSheet(html, map) {
   drawGraphs(paper);
   wireTabs(paper);
   paper.querySelectorAll('[data-nav]').forEach((b) => b.onclick = () => openChapter(b.dataset.nav));
-  paper.querySelectorAll('[data-map]').forEach((b) => b.onclick = openMap);
+  paper.querySelectorAll('[data-map]').forEach((b) => b.onclick = () => openMap(b.dataset.map));
 }
 function closeSheet() {
   if ($('sheet').hidden) return;
@@ -1255,7 +1262,7 @@ function openChapter(id) {
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
   }
   if (id === 'ONE') html += `<p style="margin-top:26px"><button type="button" class="golink" data-nav="BOOKS">${L('See the books that shaped me →', '看看塑造我的书 →')}</button></p>`;
-  if (id !== 'ONE') html += `<h2>${L('How my skills connect', '我的技能如何关联')}</h2><div class="gintro"><p class="note">${L('Skills from this chapter that were also used in other chapters. Point at or tap a skill to see where; tap a chapter to go there.', '本章中的技能也用在了其他章节。指向或点击某项技能即可查看具体用在哪里；点击章节即可前往。')}</p>${legendHtml()}</div><div class="gwrap"><div class="graph" data-kind="chapter" data-id="${id}"></div>${infoHtml()}</div>`;
+  if (id !== 'ONE') { const used = THREADS.filter((t) => t.ch.includes(id)).map((t) => esc(t.t)); if (used.length) html += `<h2>${L('Skills used here', '本章用到的技能')}</h2><p class="skline">${used.join(' · ')}</p><p><button type="button" class="golink" data-map="${id}">${L('See how they connect to the rest of my work →', '查看它们如何与其他工作相连 →')}</button></p>`; }
   html += pager(id);
   showSheet(html);
   goStop(ITEMS.findIndex((it) => it.c && it.c.id === id));
@@ -1441,13 +1448,16 @@ function infoFor(kind, key) {
   return `<p class="gi-h"><b>${esc(chName(key))}</b><span class="gi-sub">${esc(CH_SUB[key] || '')}</span></p><ul>${used.map((t) => `<li><span class="gi-c">${esc(t.t)}</span>${esc(t.why?.[key] || '')}</li>`).join('')}</ul>`;
 }
 const legendHtml = () => `<p class="legend">${GROUPS.map((g) => `<span class="lg g-${g.id}"><i></i>${esc(g.name)}</span>`).join('')}</p>`;
-function openMap() {
+function openMap(ch) {
+  const list = GROUPS.map((g) => { const ts = THREADS.filter((t) => t.g === g.id); return ts.length ? `<div class="sl-g"><p class="sl-h g-${g.id}"><i></i>${esc(g.name)}</p>${ts.map((t) => `<div class="sl-s"><b>${esc(t.t)}</b><span>${t.ch.map((c) => `<button type="button" class="golink" data-nav="${c}">${esc(chName(c))}</button>`).join(' ')}</span></div>`).join('')}</div>` : ''; }).join('');
   showSheet(`<p class="num">${L('SKILL MAP', '技能图谱')}</p><h1 id="sheetTitle">${L('How my skills connect', '我的技能如何关联')}</h1>
     <p class="lede">${L(`${numWord(THREADS.length)} skills, each used in two or more parts of my work.`, `${THREADS.length} 项技能，每一项都用在了我工作的两个或更多方面。`)}</p>
     ${legendHtml()}
-    <div class="mapwrap gwrap"><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>`, true);
+    <div class="mapwrap gwrap"><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>
+    <div class="skilllist">${list}</div>`, true);
+  if (typeof ch === 'string' && ch) { const n = $('paper').querySelector(`.graph[data-kind="map"] .chnode[data-c="${ch}"]`); if (n) n.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); }
 }
-$('mapBtn').onclick = openMap;
+$('mapBtn').onclick = () => openMap();
 // header in the chosen language, and the switch between English and Chinese
 $('mapLbl').textContent = L('Skill map', '技能图谱'); $('mapBtn').setAttribute('aria-label', L('Skill map', '技能图谱')); $('mapBtn').title = L('Skill map', '技能图谱');
 $('pdfBtn').textContent = L('CV', '简历'); $('pdfBtn').href = CV_PAGE; $('essayBtn').textContent = L("Essays","文章");
