@@ -209,6 +209,13 @@ a{color:inherit}
 .glance b{display:block;font:600 30px/1 var(--display);color:var(--green)}
 .glance span{display:block;font-size:13.5px;line-height:1.3;margin-top:6px;color:#5b5446}
 @media (max-width:640px){.glance{grid-template-columns:repeat(2,1fr)}}
+.pubs{list-style:none;margin:6px 0 10px;padding:0;counter-reset:pb}
+.pubs li{padding:14px 0 14px 0;border-top:1px solid #d8c9a9}
+.pubs li:first-child{border-top:0}
+.pubs .pt{display:block;font:600 19px/1.35 var(--display);color:#7a3f22;text-decoration:none;border-bottom:0}
+.pubs .pt:hover{text-decoration:underline}
+.pubs .pm{display:block;margin-top:4px;font-size:15.5px;color:#33302a}
+.pubs .pd{display:block;margin-top:2px;font-size:13px;color:#7a7060;letter-spacing:.02em}
 .acc{margin:14px 0 6px;display:grid;gap:12px}
 .acc details{border:1px solid #d8c9a9;border-radius:14px;background:#fffdf6;overflow:hidden}
 .acc summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;position:relative;display:block}
@@ -549,26 +556,24 @@ const CV_PAGES_DATA = [
   { kind: "opener", num: "SIX", pre: "THE", word: "IDEAS", art: 13,
     topics: ["user behavior architecture", "building AI around people", "insights and opinions"],
     quote: "What's new is refusing to let the human be the variable.", by: "Reuben ASK, The Tyranny of the Default" },
-  { kicker: "Six · The ideas: writing and publications", title: "Writing", blocks: [
+  { kicker: "Six · The ideas: writing", title: "Writing", blocks: [
     { h: "Machines in Service of Minds", meta: "Essay · 12 November 2026 · Building AI around people", p: "Why AI should be built around how people think, work and learn, with the human in the lead by design, instead of leaving people to rebuild themselves around the machine. Four diagrams and a full reference list.", href: "essays/machines-in-service-of-minds/", cta: "Read the essay" },
     { h: "The Tyranny of the Default", meta: "Essay · 3 December 2025 · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "Read the essay" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Short commentary on how people and systems solve problems.", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "Open on LinkedIn" },
-    { h: "Publications", meta: "Peer-reviewed work, newest first", p: "Each item links to its DOI. The 2023 conference paper that won Best Student Conference Paper has no DOI; its extended journal version is listed first.", href: "https://orcid.org/0000-0001-8147-7609", cta: "Full record on ORCID" },
-    { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · Co-author", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
-    { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · Co-author", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
-    { h: "Enhancing big data for greentelligence across the production value chain", meta: "Green Manufacturing Open · 2023 · First author", href: "https://doi.org/10.20517/gmo.2022.02", cta: "DOI" },
-    { h: "Towards Cognitive Intelligence-Enabled Manufacturing", meta: "APMS 2022 conference, Springer · First author", href: "https://doi.org/10.1007/978-3-031-16411-8_50", cta: "DOI" },
-    { h: "Quantitative Metallographic Analysis of GCr15 Microstructure Using Mask R-CNN", meta: "Journal of the Korean Society for Precision Engineering · 2020 · First author", href: "https://doi.org/10.7736/JKSPE.019.144", cta: "DOI" }
+    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Short commentary on how people and systems solve problems.", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "Open on LinkedIn" }
   ] },
 
   { kind: "opener", num: "SEVEN", pre: "THE", word: "RECORD", art: 14,
-    topics: ["awards and recognition", "certifications", "membership", "languages"] },
-  { kicker: "Seven · The record: awards, certifications and languages", title: "Awards and recognition", blocks: [
+    topics: ["awards and recognition", "publications", "certifications", "membership", "languages"] },
+  { kicker: "Seven · The record: awards, publications, certifications and languages", title: "Awards and recognition", blocks: [
     { h: "Best Student Conference Paper · 2023", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems, Hong Kong." },
     { h: "Best Graduating Student and Valedictorian · 2020", p: "Lanzhou University of Technology." },
     { h: "Chinese Government Outstanding International Student Award · 2019", p: "Ministry of Education of China: one of 582 international students selected from 127 universities nationwide." }
   ] },
-  { kicker: "Seven · The record: awards, certifications and languages", title: "Credentials", blocks: [
+  { kicker: "Seven · The record: awards, publications, certifications and languages", title: "Publications", blocks: [
+    { p: "Peer-reviewed papers, newest first. Click a title to open it through its DOI. The 2023 Hong Kong conference paper that won Best Student Conference Paper has no DOI; its extended journal version is listed.", pubs: true },
+    { href: "https://orcid.org/0000-0001-8147-7609", cta: "Full record on ORCID" }
+  ] },
+  { kicker: "Seven · The record: awards, publications, certifications and languages", title: "Credentials", blocks: [
     { h: "Internal Auditor · 2020", meta: "BSI Training Academy, Singapore", p: "ISO 9001, ISO 14001 and ISO 45001: quality, environmental, and occupational health and safety." },
     { h: "Advanced TESOL · 2018", meta: "American TESOL Institute, Shanghai", p: "Teaching English, including to children." },
     { h: "Membership", p: "Human Factors and Ergonomics Society (Emerging Country Membership)." },
@@ -681,26 +686,24 @@ const CV_PAGES_ZH = [
   { kind: "opener", num: "SIX", zt: "观点与写作", art: 13,
     topics: ["用户行为架构", "围绕人构建人工智能", "见解与观点"],
     quote: "新意在于：不再让人成为那个变量。", by: "郝运（Reuben ASK），《默认设置的专制》" },
-  { kicker: "六 · 观点与写作：文章与论文", title: "写作", blocks: [
+  { kicker: "六 · 观点与写作", title: "写作", blocks: [
     { h: "Machines in Service of Minds（英文文章）", meta: "文章 · 2026年11月12日 · 围绕人来构建人工智能", p: "人工智能应当围绕人的思考、工作和学习方式来构建，并在设计上让人保持主导，而不是让人去重塑自己来适应机器。文章配有四幅图示和完整参考文献。", href: "essays/machines-in-service-of-minds/", cta: "阅读文章（英文）" },
     { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 2025年12月3日 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。", href: "essays/tyranny-of-the-default/", cta: "阅读文章（英文）" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于人与系统如何解决问题的短评。", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "在领英上打开" },
-    { h: "发表论文", meta: "同行评议成果，按时间由新到旧", p: "每篇均附 DOI 链接。获最佳学生会议论文的 2023 年会议论文没有 DOI，其扩展期刊版本列在最前。", href: "https://orcid.org/0000-0001-8147-7609", cta: "ORCID 完整记录" },
-    { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · 合著", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
-    { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · 合著", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
-    { h: "Enhancing big data for greentelligence across the production value chain", meta: "Green Manufacturing Open · 2023 · 第一作者", href: "https://doi.org/10.20517/gmo.2022.02", cta: "DOI" },
-    { h: "Towards Cognitive Intelligence-Enabled Manufacturing", meta: "APMS 2022 会议，Springer · 第一作者", href: "https://doi.org/10.1007/978-3-031-16411-8_50", cta: "DOI" },
-    { h: "Quantitative Metallographic Analysis of GCr15 Microstructure Using Mask R-CNN", meta: "Journal of the Korean Society for Precision Engineering · 2020 · 第一作者", href: "https://doi.org/10.7736/JKSPE.019.144", cta: "DOI" }
+    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于人与系统如何解决问题的短评。", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "在领英上打开" }
   ] },
 
   { kind: "opener", num: "SEVEN", zt: "荣誉与资历", art: 14,
-    topics: ["奖项与荣誉", "证书", "学会会员", "语言"] },
-  { kicker: "七 · 荣誉与资历：奖项、证书与语言", title: "奖项与荣誉", blocks: [
+    topics: ["奖项与荣誉", "发表论文", "证书", "学会会员", "语言"] },
+  { kicker: "七 · 荣誉与资历：奖项、论文、证书与语言", title: "奖项与荣誉", blocks: [
     { h: "最佳学生会议论文奖 · 2023 年", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems（工业大数据与智能系统前沿会议），香港。" },
     { h: "优秀毕业生、毕业生代表 · 2020 年", p: "兰州理工大学。" },
     { h: "中国政府优秀来华留学生奖 · 2019 年", p: "Chinese Government Outstanding International Student Award。中华人民共和国教育部：从全国 127 所高校中评选出的 582 名国际学生之一。" }
   ] },
-  { kicker: "七 · 荣誉与资历：奖项、证书与语言", title: "资质证书", blocks: [
+  { kicker: "七 · 荣誉与资历：奖项、论文、证书与语言", title: "发表论文", blocks: [
+    { p: "同行评议论文，按时间由新到旧。点击标题即可通过 DOI 打开。获最佳学生会议论文的 2023 年香港会议论文没有 DOI，其扩展期刊版本已列出。", pubs: true },
+    { href: "https://orcid.org/0000-0001-8147-7609", cta: "ORCID 完整记录" }
+  ] },
+  { kicker: "七 · 荣誉与资历：奖项、论文、证书与语言", title: "资质证书", blocks: [
     { h: "内审员 · 2020 年", meta: "BSI 培训学院，新加坡", p: "ISO 9001、ISO 14001 与 ISO 45001：质量、环境及职业健康安全管理体系。" },
     { h: "高级 TESOL 证书 · 2018 年", meta: "美国 TESOL 学院，上海", p: "英语教学，包括少儿英语教学。" },
     { h: "学会会员", p: "人因与工效学会（HFES），新兴国家会员。" },
@@ -840,6 +843,15 @@ const CH_USES_ZH = {
   FOUR: { skills: ['机器视觉', '课程与评估设计', '教学', '团队与组织设计'], tools: ['Mask R-CNN', 'AI 辅助原型设计', '网页应用与智能体工作流'] }
 };
 const CH_USES = ZH ? CH_USES_ZH : CH_USES_EN;
+const PUBS = [
+  { t: 'Unsupervised Identification of Driving Styles from Naturalistic Driving Data Through a Context-Normalized Framework', j: 'Sensors', y: 2026, doi: '10.3390/s26134309' },
+  { t: 'Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems', j: 'Journal of Engineering Design', y: 2025, role: 'co', doi: '10.1080/09544828.2023.2247858' },
+  { t: 'Knowledge graph-based mapping and recommendation to automate life cycle assessment', j: 'Advanced Engineering Informatics', y: 2024, role: 'co', doi: '10.1016/j.aei.2024.102752' },
+  { t: 'Enhancing big data for greentelligence across the production value chain', j: 'Green Manufacturing Open', y: 2023, role: 'first', doi: '10.20517/gmo.2022.02' },
+  { t: 'Towards Cognitive Intelligence-Enabled Manufacturing', j: 'APMS 2022 conference, Springer', y: 2022, role: 'first', doi: '10.1007/978-3-031-16411-8_50' },
+  { t: 'Quantitative Metallographic Analysis of GCr15 Microstructure Using Mask R-CNN', j: 'Journal of the Korean Society for Precision Engineering', y: 2020, role: 'first', doi: '10.7736/JKSPE.019.144' }
+];
+const pubsHtml = () => `<ol class="pubs">${PUBS.map((p) => `<li><a class="pt" href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">${esc(p.t)}</a><span class="pm">${esc(p.j)} · ${p.y}${p.role ? ' · ' + (p.role === 'first' ? L('First author', '第一作者') : L('Co-author', '合著')) : ''}</span><span class="pd">doi:${esc(p.doi)}</span></li>`).join('')}</ol>`;
 const THREADS = ZH ? THREADS_ZH : THREADS_EN;
 // one short phrase under each chapter name on the graphs
 const CH_SUB_EN = { ONE: 'profile', TWO: 'what I can do and the tools I use', THREE: 'PhD and papers', FOUR: 'jobs, consulting, teaching', FIVE: 'education', SIX: 'writing', SEVEN: 'awards and certificates' };
@@ -1031,6 +1043,7 @@ function blocksHtml(p) {
     if (b.href) html += `<p><a class="readlink" href="${esc(b.href)}">${esc(b.cta || L('Read it', '阅读'))} →</a></p>`;
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.impact) html += impactHtml(b.impact);
+    if (b.pubs) html += pubsHtml();
     if (b.uses) html += usesHtml(b.uses);
     if (b.acc) html += `<div class="acc">${b.acc.map((x) => `<details name="acc"><summary><span class="at">${esc(x.t)}</span><span class="ad">${esc(x.d)}</span></summary><div class="ab">${blocksHtml({ blocks: x.blocks })}</div></details>`).join('')}</div>`;
     if (b.how) html += `<ul class="how big">${b.how.map((it) => `<li>${it.l ? `<b>${esc(it.l)}</b> ` : ''}${esc(it.p)}${it.go ? ` <button type="button" class="golink" data-nav="${it.go}">${esc(it.cta)}</button>` : it.href ? ` <a class="readlink" href="${esc(it.href)}">${esc(it.cta)}</a>` : ''}</li>`).join('')}</ul>`;
@@ -1092,7 +1105,7 @@ function whoHtml() {
   <p>我曾从零创建并带领团队，设计 AI 课程并培训教师使用 AI，还为一家公司搭建了组织结构和衡量目标的统一方法。</p>
   <p>我的工作横跨工程、设计与教育，也横跨不同文化，用英语和普通话把复杂的想法变成人们用得上的东西。</p>
   <p class="seek">我正在寻找用户行为研究方向的岗位：通过行为数据与观察，分析人们如何使用产品、平台和 AI 系统，找出设计违背用户意愿之处，并提出更好地服务用户的改进。我也会构建 AI 智能体和内部应用，快速验证想法。我可以远程工作，也愿意迁居。</p>
-  <div class="glance"><div><b>51</b><span>名驾驶员参与我的博士研究</span></div><div><b>5</b><span>篇带 DOI 的论文</span></div><div><b>2</b><span>名硕士生在我指导下毕业</span></div><div><b>+18%</b><span>我所顾问学院的营收增长</span></div></div>
+  <div class="glance"><div><b>51</b><span>名驾驶员参与我的博士研究</span></div><div><b>${PUBS.length}</b><span>篇带 DOI 的论文</span></div><div><b>2</b><span>名硕士生在我指导下毕业</span></div><div><b>+18%</b><span>我所顾问学院的营收增长</span></div></div>
   <h3>我的工作方式</h3>
   <ul class="how">
     <li>我从人们的真实行为出发，而不是从“平均的人”出发。 <a class="readlink" href="essays/tyranny-of-the-default/">见《默认设置的专制》 →</a></li>
@@ -1108,7 +1121,7 @@ function whoHtml() {
   <p>I have founded and led a team from scratch, designed AI curricula and trained teachers to use AI, and developed a company's organisational structure and standardised ways of measuring its goals.</p>
   <p>I work across engineering, design and education, and across cultures in English and Mandarin, turning complex ideas into things people can use.</p>
   <p class="seek">I am looking for roles in user behavior research: analysing how people use products, platforms and AI systems from behavioral data and observation, finding where a design works against the user, and proposing changes that serve them. I also build AI agents and in-house apps to test ideas quickly. I am open to remote work and to relocating.</p>
-  <div class="glance"><div><b>51</b><span>drivers in my doctoral study</span></div><div><b>5</b><span>papers with DOIs</span></div><div><b>2</b><span>master's students guided to graduation</span></div><div><b>+18%</b><span>revenue at the institute I advise</span></div></div>
+  <div class="glance"><div><b>51</b><span>drivers in my doctoral study</span></div><div><b>${PUBS.length}</b><span>papers with DOIs</span></div><div><b>2</b><span>master's students guided to graduation</span></div><div><b>+18%</b><span>revenue at the institute I advise</span></div></div>
   <h3>How I work</h3>
   <ul class="how">
     <li>I start from how people actually behave, not from the average person. <a class="readlink" href="essays/tyranny-of-the-default/">See The Tyranny of the Default →</a></li>
