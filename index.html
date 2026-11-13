@@ -195,6 +195,17 @@ a{color:inherit}
 .quote .by{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:var(--paper-soft);margin-top:6px}
 .paper h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--green);margin:34px 0 4px;padding-top:22px;border-top:1px solid #cdbd9c}
 .paper h3{font-family:var(--display);font-size:22px;color:var(--navy);margin:16px 0 0}
+.acc{margin:14px 0 6px;display:grid;gap:12px}
+.acc details{border:1px solid #d8c9a9;border-radius:14px;background:#fffdf6;overflow:hidden}
+.acc summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;position:relative;display:block}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font:300 30px/1 var(--display);color:#a0583a}
+.acc details[open] summary::after{content:"\2212"}
+.acc details[open] summary{border-bottom:1px solid #d8c9a9;background:#f7f0de}
+.acc .at{display:block;font-family:var(--display);font-weight:600;font-size:clamp(26px,3.6vw,34px);color:var(--green);line-height:1.1}
+.acc .ad{display:block;margin-top:6px;font-size:16px;color:var(--paper-soft)}
+.acc .ab{padding:6px 22px 18px}
+.acc summary:focus-visible{outline:2px solid #a0583a;outline-offset:-2px}
 .paper ul.how.big li{font-size:18px;line-height:1.55}.paper ul.how.big .golink{font-size:12.5px}.paper ul.how.big a.readlink{font-size:15px}.paper ul.how{margin:6px 0 0;padding-left:1.2em}.paper ul.how li{margin:0 0 .7em}.paper ul.how a.readlink{font-size:14px;font-weight:500;white-space:nowrap}.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
 .paper .meta{font-style:italic;color:var(--paper-soft);font-size:14px;margin:2px 0 0}
 .paper p,.paper li{font-size:16.5px;line-height:1.6}
@@ -409,10 +420,12 @@ const CV_PAGES_DATA = [
     quote: "We face neither East nor West: we face forward.", by: "Kwame Nkrumah" },
   { kind: "who" },
 
-  { kind: "opener", num: "TWO", pre: "METHODS", word: "AND TOOLS", art: 3,
-    topics: ["what I can do", "how it shows up in my work", "methods and tools I have used"],
+  { kind: "opener", num: "TWO", pre: "WHAT I", word: "BRING", art: 3,
+    topics: ["what I can do", "methods and tools I have used"],
     quote: "Wisdom is like a baobab tree; no one individual can embrace it.", by: "Ewe and Akan proverb", original: "Nunya, adidoe, asi metunee o." },
-  { kicker: "Two · Experience with methods and tools", title: "What I can do, and what I have used", art: 4, sub: "Each line says what I do and where you can see it in my work.", blocks: [
+  { kicker: "Two · What I bring", title: "Two parts", art: 4, sub: "What I can do, and the methods and tools I have used. Open either one.", blocks: [
+    { acc: [
+      { t: "What I can do", d: "Nine things I do, each with where you can see it.", blocks: [
     { h: "Understanding problems and people" },
     { how: [
       { p: "I turn vague, messy problems into clear questions a team can answer and act on.", go: "THREE", cta: "See the doctoral research →" },
@@ -427,13 +440,16 @@ const CV_PAGES_DATA = [
     { how: [
       { p: "I give clear, fair assessments that help others improve their work." },
       { p: "I help people and teams adopt AI, and explain technical ideas in terms anyone can use.", go: "FOUR", cta: "See the consulting work →" },
-      { p: "I build teams and structures that make work clear, measurable and efficient.", go: "FOUR", cta: "See the leadership roles →" } ] },
-    { h: "Methods and tools I have used", p: "The instruments behind the work, and where each was used." },
-    { how: [
+      { p: "I build teams and structures that make work clear, measurable and efficient.", go: "FOUR", cta: "See the leadership roles →" } ] }
+      ] },
+      { t: "Experience with methods and tools", d: "The instruments behind the work, and where each was used.", blocks: [
+        { how: [
       { l: "Study design and analysis.", p: "Within-subject experiments, counterbalancing, repeated-measures and mixed-effects analysis, multiple-testing correction, sensitivity analysis.", go: "THREE", cta: "Used in the 51-driver study →" },
       { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX, synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
       { l: "Simulation and computation.", p: "CARLA, CarSim, model predictive control, Logitech steering and pedal interfaces, Python pipelines, Neo4j knowledge graphs, Mask R-CNN.", go: "THREE", cta: "Used in the simulation lab and the Siemens work →" },
       { l: "AI and educational design.", p: "AI-assisted prototyping, web-app and agent workflows, curriculum and assessment design, teacher training.", go: "FOUR", cta: "Used at Emerald Hill and Belio →" } ] }
+      ] }
+    ] }
   ] },
 
   { kind: "opener", num: "THREE", pre: "THE", word: "RESEARCH", art: 6,
@@ -531,10 +547,12 @@ const CV_PAGES_ZH = [
     quote: "我们既不面向东方，也不面向西方：我们面向前方。", by: "克瓦米·恩克鲁玛" },
   { kind: "who" },
 
-  { kind: "opener", num: "TWO", zt: "方法与工具", art: 3,
-    topics: ["我能做什么", "它在工作中如何体现", "我用过的方法与工具"],
+  { kind: "opener", num: "TWO", zt: "我能带来什么", art: 3,
+    topics: ["我能做什么", "我用过的方法与工具"],
     quote: "智慧如猴面包树，一人无法独自环抱。", by: "埃维族与阿坎族谚语", original: "Nunya, adidoe, asi metunee o." },
-  { kicker: "二 · 方法与工具实践", title: "我能做什么，我用过什么", art: 4, sub: "每一条都说明我做什么，以及在哪里能看到。", blocks: [
+  { kicker: "二 · 我能带来什么", title: "分为两部分", art: 4, sub: "我能做什么，以及我用过的方法与工具。点开任意一项查看。", blocks: [
+    { acc: [
+      { t: "我能做什么", d: "九件我做的事，每一件都标明在哪里能看到。", blocks: [
     { h: "理解问题与人" },
     { how: [
       { p: "我把模糊、杂乱的问题转化为团队能够回答并付诸行动的清晰问题。", go: "THREE", cta: "见博士研究 →" },
@@ -549,13 +567,16 @@ const CV_PAGES_ZH = [
     { how: [
       { p: "我给出清晰、公正的评估，帮助他人改进工作。" },
       { p: "我帮助个人和团队采用 AI，并用通俗易懂的方式解释技术理念。", go: "FOUR", cta: "见咨询工作 →" },
-      { p: "我搭建团队与组织结构，使工作清晰、可衡量、高效。", go: "FOUR", cta: "见领导经历 →" } ] },
-    { h: "我用过的方法与工具", p: "这些工作背后的方法与工具，以及它们用在哪里。" },
-    { how: [
+      { p: "我搭建团队与组织结构，使工作清晰、可衡量、高效。", go: "FOUR", cta: "见领导经历 →" } ] }
+      ] },
+      { t: "方法与工具实践", d: "这些工作背后的方法与工具，以及它们用在哪里。", blocks: [
+        { how: [
       { l: "研究设计与分析。", p: "被试内实验、平衡设计、重复测量与混合效应分析、多重检验校正、敏感性分析。", go: "THREE", cta: "用于 51 名驾驶员的研究 →" },
       { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员负荷评估 →" },
       { l: "仿真与计算。", p: "CARLA、CarSim、模型预测控制、罗技方向盘与踏板、Python 数据处理流程、Neo4j 知识图谱、Mask R-CNN。", go: "THREE", cta: "用于模拟实验室与西门子合作 →" },
       { l: "AI 与教育设计。", p: "AI 辅助原型设计、网页应用与智能体工作流、课程与评估设计、教师培训。", go: "FOUR", cta: "用于 Emerald Hill 与 Belio →" } ] }
+      ] }
+    ] }
   ] },
 
   { kind: "opener", num: "THREE", zt: "科研工作", art: 6,
@@ -963,6 +984,7 @@ function blocksHtml(p) {
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.impact) html += impactHtml(b.impact);
     if (b.uses) html += usesHtml(b.uses);
+    if (b.acc) html += `<div class="acc">${b.acc.map((x) => `<details name="acc"><summary><span class="at">${esc(x.t)}</span><span class="ad">${esc(x.d)}</span></summary><div class="ab">${blocksHtml({ blocks: x.blocks })}</div></details>`).join('')}</div>`;
     if (b.how) html += `<ul class="how big">${b.how.map((it) => `<li>${it.l ? `<b>${esc(it.l)}</b> ` : ''}${esc(it.p)}${it.go ? ` <button type="button" class="golink" data-nav="${it.go}">${esc(it.cta)}</button>` : it.href ? ` <a class="readlink" href="${esc(it.href)}">${esc(it.cta)}</a>` : ''}</li>`).join('')}</ul>`;
     if (b.tabs) html += tabsHtml(b.tabs);
     if (b.groups) html += b.groups.map((g) => `<section class="sgroup"><p class="gn">${esc(g.n)}</p><div><h3 class="gt">${esc(g.t)}</h3>${g.items.map((it) => `<p class="sh">${esc(it.h)}</p><p class="sp">${esc(it.p)}</p>`).join('')}</div></section>`).join('');
