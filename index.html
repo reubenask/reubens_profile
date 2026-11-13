@@ -767,7 +767,17 @@ const NUM_ZH = { ONE: '一', TWO: '二', THREE: '三', FOUR: '四', FIVE: '五',
 const numLabel = (id) => ZH ? `第${NUM_ZH[id]}章` : `CHAPTER ${id}`;
 const numShort = (id) => ZH ? `第${NUM_ZH[id]}章` : id;
 const chName = (id) => ZH ? `${NUM_ZH[id]} · ${byId[id].title}` : `${id.charAt(0) + id.slice(1).toLowerCase()} · ${byId[id].title}`;
-const PAGES = ZH ? CV_PAGES_ZH : CV_PAGES_DATA;
+const RAW_PAGES = ZH ? CV_PAGES_ZH : CV_PAGES_DATA;
+// Chapter Four: each role becomes a click-to-open box (same content, shorter page).
+const PAGES = RAW_PAGES.map((p) => {
+  if (!p.blocks || !/^(Four|四)/.test(p.kicker || '') || !p.blocks.some((b) => b.h)) return p;
+  const items = [];
+  p.blocks.forEach((b) => {
+    if (b.h) { const { h, meta, ...rest } = b; items.push({ t: h, d: meta || '', blocks: Object.keys(rest).length ? [rest] : [] }); }
+    else if (items.length) items[items.length - 1].blocks.push(b);
+  });
+  return { ...p, blocks: [{ acc: items }] };
+});
 const hangzhouTime = () => new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Shanghai' }).format(new Date());
 // page illustrations are switched off for now; set to true to bring them back
 const SHOW_ART = false;
