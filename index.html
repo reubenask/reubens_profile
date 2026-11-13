@@ -512,6 +512,12 @@ const CV_PAGES_DATA = [
     { b: "Proposed the Driver Workload Assessment Methodology (DWAM) to calculate driver workload for each driving mode, so it shows whether, where and in which direction workload changes when driving tasks shift to the system." },
     { eq: { lhs: "DWAM", a: "Objective workload", as: "visual + physical", b: "Correlation with", bs: "subjective workload", cap: "Driver Workload Assessment Methodology: objective workload is derived from visual and physical activity, then correlated with what drivers report." } },
     { b: "Guided two master's students in designing and building their experiments and analysing their data." },
+    { how: [
+      { l: "Design.", p: "2 × 2 within-subject: steering support (off or on) by pedal support (off or on), giving four conditions: manual driving, steering, pedal and combined support. Every driver completed all four." },
+      { l: "Counterbalancing.", p: "Williams Latin square, so each condition comes first, and follows each other condition, equally often." },
+      { l: "Equipment.", p: "Driving simulator with a Logitech G29 steering wheel and pedals; Tobii Pro Glasses 3 for eye tracking; Xsens motion-capture suit for body movement." },
+      { l: "Software and measures.", p: "CARLA (Town 04 route) and CarSim; model predictive control for the assist modes; NASA-TLX and a subjective workload questionnaire; Python pipelines for synchronized multimodal data." },
+      { l: "Skills.", p: "Experimental design, counterbalancing, repeated-measures analysis, workload assessment, human-factors measurement." } ] },
     { impact: [
       { stat: "51", label: "drivers, each completing four conditions in the simulator: manual driving and steering, pedal and combined support." },
       "Proposed to system designers that driver workload be added to the SAE levels of driving automation (the standard scale from no automation to full automation), which define only what the driver must do, together with a methodology (DWAM) to quantify it for each level of support.",
@@ -663,6 +669,12 @@ const CV_PAGES_ZH = [
     { b: "提出驾驶员劳动评估方法（DWAM），为每种驾驶模式计算驾驶员劳动，判断当驾驶任务转移给系统时，劳动是否变化、在哪里变化、朝哪个方向变化。" },
     { eq: { lhs: "DWAM", a: "客观劳动", as: "视觉 + 身体", b: "与……的相关", bs: "主观劳动", cap: "驾驶员劳动评估方法：由视觉与身体活动得出客观劳动，再与驾驶员的主观报告做相关分析。" } },
     { b: "指导两名硕士研究生设计并搭建实验，分析数据。" },
+    { how: [
+      { l: "设计。", p: "2 × 2 被试内设计：转向辅助（关或开）与踏板辅助（关或开），共四种条件：手动驾驶，以及转向、踏板和组合辅助。每名驾驶员完成全部四种条件。" },
+      { l: "平衡。", p: "采用 Williams 拉丁方，使每种条件出现在首位以及紧随其他各条件之后的次数相同。" },
+      { l: "设备。", p: "驾驶模拟器，配罗技 G29 方向盘与踏板；Tobii Pro Glasses 3 眼动仪；Xsens 动作捕捉服。" },
+      { l: "软件与测量。", p: "CARLA（Town 04 路线）与 CarSim；用于辅助模式的模型预测控制；NASA-TLX 与主观劳动问卷；用于多模态同步数据的 Python 处理流程。" },
+      { l: "技能。", p: "实验设计、平衡设计、重复测量分析、劳动评估、人因测量。" } ] },
     { impact: [
       { stat: "51", label: "名驾驶员，每人在模拟器中完成四种条件：手动驾驶，以及转向、踏板和组合辅助。" },
       "向系统设计者提出把驾驶员劳动纳入 SAE 驾驶自动化分级（从无自动化到完全自动化的通用分级）：该分级只规定驾驶员必须做什么；同时提出量化各级辅助下劳动的方法（DWAM）。",
