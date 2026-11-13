@@ -497,7 +497,8 @@ const CV_PAGES_DATA = [
       { l: "Study design and analysis.", p: "Within-subject experiments, counterbalancing, repeated-measures and mixed-effects analysis, multiple-testing correction, sensitivity analysis.", go: "THREE", cta: "Used in the 51-driver study →" },
       { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX (a standard rating scale for perceived workload), synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
       { l: "Simulation and computation.", p: "CARLA, CarSim, model predictive control, Logitech steering and pedal interfaces, Python pipelines, Neo4j knowledge graphs, Mask R-CNN.", go: "THREE", cta: "Used in the simulation lab and the Siemens work →" },
-      { l: "AI and educational design.", p: "AI-assisted prototyping, web-app and agent workflows, curriculum and assessment design, teacher training.", go: "FOUR", cta: "Used at Emerald Hill and Belio →" } ] }
+      { l: "AI and educational design.", p: "AI-assisted prototyping, web-app and agent workflows, curriculum and assessment design, teacher training.", go: "FOUR", cta: "Used at Emerald Hill and Belio →" },
+      { l: "Auditing and compliance.", p: "Gap analysis and internal auditing against ISO 9001, 14001 and 45001; safety and environmental controls; integrated management system design.", go: "FOUR", cta: "Used at IgnisOak Advisory →" } ] }
       ] }
     ] }
   ] },
@@ -643,7 +644,8 @@ const CV_PAGES_ZH = [
       { l: "研究设计与分析。", p: "被试内实验、平衡设计、重复测量与混合效应分析、多重检验校正、敏感性分析。", go: "THREE", cta: "用于 51 名驾驶员的研究 →" },
       { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX（感知劳动的通用评分量表）、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员劳动评估 →" },
       { l: "仿真与计算。", p: "CARLA、CarSim、模型预测控制、罗技方向盘与踏板、Python 数据处理流程、Neo4j 知识图谱、Mask R-CNN。", go: "THREE", cta: "用于模拟实验室与西门子合作 →" },
-      { l: "AI 与教育设计。", p: "AI 辅助原型设计、网页应用与智能体工作流、课程与评估设计、教师培训。", go: "FOUR", cta: "用于 Emerald Hill 与 Belio →" } ] }
+      { l: "AI 与教育设计。", p: "AI 辅助原型设计、网页应用与智能体工作流、课程与评估设计、教师培训。", go: "FOUR", cta: "用于 Emerald Hill 与 Belio →" },
+      { l: "审核与合规。", p: "依据 ISO 9001、14001 与 45001 的差距分析和内部审核；安全与环境控制；一体化管理体系设计。", go: "FOUR", cta: "用于 IgnisOak Advisory →" } ] }
       ] }
     ] }
   ] },
@@ -853,10 +855,14 @@ const THREADS_EN = [
     ONE: 'Designs around how people actually behave.',
     TWO: 'Systems that adapt to people, not the reverse.',
     SIX: 'The Tyranny of the Default.' } },
-  { t: 'Quality auditing', g: 'industry', ch: ['TWO', 'THREE', 'SEVEN'], why: {
+  { t: 'ISO auditing and management systems', g: 'industry', ch: ['TWO', 'THREE', 'FOUR', 'SEVEN'], why: {
     TWO: 'Checks whether processes deliver what they promise.',
     THREE: 'Quality problem solving: Best Student Conference Paper.',
+    FOUR: 'Gap audits and an integrated management system across ISO 9001, 14001 and 45001.',
     SEVEN: 'ISO 9001, 14001 and 45001 internal auditor.' } },
+  { t: 'Safety and environmental compliance', g: 'industry', ch: ['TWO', 'FOUR'], why: {
+    TWO: 'Aligns engineering controls with safety standards and audits environmental systems.',
+    FOUR: 'Gas detection, atmospheric safety and fire and explosion risk controls against ISO 45001; emissions tracking against ISO 14001.' } },
   { t: 'English and Mandarin communication', g: 'industry', ch: ['ONE', 'FIVE'], why: {
     ONE: 'Works across cultures in English and Mandarin.',
     FIVE: 'HSK 5 Mandarin; MEng and PhD studied in Chinese.' } }
@@ -873,18 +879,19 @@ const THREADS_ZH = [
   { t: '教学', g: 'people', ch: ['FOUR', 'SEVEN'], why: { FOUR: '在加纳大学讲授工科课程，在阿沙伊曼讲授科学与数学。', SEVEN: '高级 TESOL 证书。' } },
   { t: '团队与组织设计', g: 'people', ch: ['ONE', 'TWO', 'FOUR'], why: { ONE: '从零组建并带领团队；为一家公司搭建组织结构。', TWO: '搭建让工作可衡量的团队与结构。', FOUR: '约 10 人的媒体团队；Komodo 的人员管理制度。' } },
   { t: '以人为中心的系统设计', g: 'people', ch: ['ONE', 'TWO', 'SIX'], why: { ONE: '围绕人们的真实行为进行设计。', TWO: '让系统适应人，而不是相反。', SIX: '《默认设置的专制》。' } },
-  { t: '质量审核', g: 'industry', ch: ['TWO', 'THREE', 'SEVEN'], why: { TWO: '检查流程是否兑现承诺。', THREE: '质量问题求解：最佳学生会议论文。', SEVEN: 'ISO 9001、14001 与 45001 内审员。' } },
+  { t: 'ISO 审核与管理体系', g: 'industry', ch: ['TWO', 'THREE', 'FOUR', 'SEVEN'], why: { TWO: '检查流程是否兑现承诺。', THREE: '质量问题求解：最佳学生会议论文。', FOUR: '涵盖 ISO 9001、14001 与 45001 的差距审核与一体化管理体系。', SEVEN: 'ISO 9001、14001 与 45001 内审员。' } },
+  { t: '安全与环境合规', g: 'industry', ch: ['TWO', 'FOUR'], why: { TWO: '将工程控制措施与安全标准对齐，并审核环境系统。', FOUR: '依据 ISO 45001 管控气体检测、大气安全与火灾爆炸风险；依据 ISO 14001 审核排放追踪。' } },
   { t: '英语与普通话沟通', g: 'industry', ch: ['ONE', 'FIVE'], why: { ONE: '用英语和普通话跨文化工作。', FIVE: 'HSK 五级；硕士与博士均在中国就读。' } }
 ];
 const CH_USES_EN = {
-  TWO: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'Machine vision', 'Curriculum and assessment design', 'Team and organisational design', 'Human-centred system design', 'Quality auditing'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python pipelines'] },
-  THREE: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'Quality auditing'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Logitech steering and pedal rig', 'Model predictive control', 'Neo4j', 'Python pipelines'] },
-  FOUR: { skills: ['Machine vision', 'Curriculum and assessment design', 'Teaching', 'Team and organisational design'], tools: ['Mask R-CNN', 'AI-assisted prototyping', 'Web apps and agent workflows'] }
+  TWO: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'Machine vision', 'Curriculum and assessment design', 'Team and organisational design', 'Human-centred system design', 'ISO auditing and management systems', 'Safety and environmental compliance'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python pipelines'] },
+  THREE: { skills: ['Workload assessment', 'Experimental design and analysis', 'Knowledge-graph modelling', 'ISO auditing and management systems'], tools: ['Tobii eye tracking', 'Xsens motion capture', 'NASA-TLX', 'CARLA', 'CarSim', 'Logitech steering and pedal rig', 'Model predictive control', 'Neo4j', 'Python pipelines'] },
+  FOUR: { skills: ['Machine vision', 'Curriculum and assessment design', 'Teaching', 'Team and organisational design', 'ISO auditing and management systems', 'Safety and environmental compliance'], tools: ['Mask R-CNN', 'AI-assisted prototyping', 'Web apps and agent workflows', 'ISO 9001, 14001 and 45001 frameworks'] }
 };
 const CH_USES_ZH = {
-  TWO: { skills: ['劳动评估', '实验设计与分析', '知识图谱建模', '机器视觉', '课程与评估设计', '团队与组织设计', '以人为中心的系统设计', '质量审核'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python 数据处理流程'] },
-  THREE: { skills: ['劳动评估', '实验设计与分析', '知识图谱建模', '质量审核'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', '罗技方向盘与踏板', '模型预测控制', 'Neo4j', 'Python 数据处理流程'] },
-  FOUR: { skills: ['机器视觉', '课程与评估设计', '教学', '团队与组织设计'], tools: ['Mask R-CNN', 'AI 辅助原型设计', '网页应用与智能体工作流'] }
+  TWO: { skills: ['劳动评估', '实验设计与分析', '知识图谱建模', '机器视觉', '课程与评估设计', '团队与组织设计', '以人为中心的系统设计', 'ISO 审核与管理体系', '安全与环境合规'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', 'Neo4j', 'Mask R-CNN', 'Python 数据处理流程'] },
+  THREE: { skills: ['劳动评估', '实验设计与分析', '知识图谱建模', 'ISO 审核与管理体系'], tools: ['Tobii 眼动追踪', 'Xsens 动作捕捉', 'NASA-TLX', 'CARLA', 'CarSim', '罗技方向盘与踏板', '模型预测控制', 'Neo4j', 'Python 数据处理流程'] },
+  FOUR: { skills: ['机器视觉', '课程与评估设计', '教学', '团队与组织设计', 'ISO 审核与管理体系', '安全与环境合规'], tools: ['Mask R-CNN', 'AI 辅助原型设计', '网页应用与智能体工作流', 'ISO 9001、14001 与 45001 标准框架'] }
 };
 const CH_USES = ZH ? CH_USES_ZH : CH_USES_EN;
 const PUBS = [
@@ -1020,9 +1027,11 @@ function layout() {
   $('spacer').style.height = ((ITEMS.length - 1) * STEP + innerHeight) + 'px';
 }
 let rot = 0, target = 0, raf = 0, current = -1;
+// on load (and when the browser restores the scroll position after a refresh) jump straight to the right chapter instead of easing through the others
+let settling = true; setTimeout(() => { settling = false; }, 1200); ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, () => { settling = false; }, { once: true, passive: true }));
 function paint() {
   raf = 0;
-  rot += (target - rot) * (reduce.matches ? 1 : .14);
+  rot += (target - rot) * (reduce.matches || settling ? 1 : .14);
   if (Math.abs(target - rot) < .001) rot = target;
   wheel.style.transform = `translateZ(${-RADIUS}px) rotateX(${rot * ANGLE}deg)`;
   const nearest = Math.round(rot);
