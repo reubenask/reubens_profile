@@ -203,6 +203,7 @@ a{color:inherit}
 .paper p,.paper li{color:#33302a}
 .paper .golink,.paper a.readlink,.paper ul.how a.readlink,.paper ul.how.big .golink,.paper ul.how.big a.readlink{display:inline;font:inherit;font-weight:600;letter-spacing:0;text-transform:none;color:var(--gold-d,#8a6224);background:none;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0;margin:0;white-space:normal;cursor:pointer;text-decoration:none}
 .paper .golink:hover,.paper a.readlink:hover{opacity:.7;background:none}
+.eqwrap{margin:16px 0}.eq{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:19px}.eq i{font-style:normal;font-size:24px;color:#8a6224}.eq .t{display:inline-flex;flex-direction:column;padding:8px 14px;border:1px solid #c9a24f;border-radius:8px;font-weight:600;color:#0f2e22;line-height:1.25}.eq .t small{font-size:13px;font-weight:400;color:#5b4a2a}.eq .lhs{background:#e7f0e9;border-color:#0e2e24;font-size:22px}.eqcap{font-size:14.5px;color:#5b4a2a;margin:8px 0 0;font-style:italic}
 .seek{font-size:18px;line-height:1.55;background:#e7f0e9;border-left:4px solid var(--green);border-radius:2px 8px 8px 2px;padding:14px 18px;margin:20px 0;color:#0f2e22;font-weight:500}
 .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 22px}
 .glance div{background:#fffdf6;border:1px solid #d8c9a9;border-radius:12px;padding:12px 10px;text-align:center}
@@ -497,7 +498,8 @@ const CV_PAGES_DATA = [
     quote: "The most dangerous phrase in the language is “We've always done it this way.”", by: "Grace Hopper, 1976" },
   { kicker: "Three · The research: PhD and earlier research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
     { b: "Built the research group's first driving-simulation lab, including a driver assistance system with steering, pedal and combined support." },
-    { b: "Developed the Driver Workload Assessment Methodology (DWAM), which combines visual, physical and reported workload to show whether, where and in which direction workload changes when driving tasks shift to the system." },
+    { b: "Proposed the Driver Workload Assessment Methodology (DWAM) to calculate driver workload for each driving mode, so it shows whether, where and in which direction workload changes when driving tasks shift to the system." },
+    { eq: { lhs: "DWAM", a: "Objective workload", as: "visual + physical", b: "Correlation with", bs: "subjective workload", cap: "Driver Workload Assessment Methodology: objective workload is derived from visual and physical activity, then correlated with what drivers report." } },
     { b: "Guided two master's students in designing and building their experiments and analysing their data." },
     { impact: [
       { stat: "51", label: "drivers in the study. Every support mode reduced workload, each in a different part of the body." },
@@ -627,7 +629,8 @@ const CV_PAGES_ZH = [
     quote: "语言中最危险的一句话是：“我们一直都是这么做的。”", by: "格蕾丝·霍珀，1976 年" },
   { kicker: "三 · 科研工作：博士及早期研究", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
     { b: "搭建课题组第一个驾驶模拟实验室，包括具备转向、踏板及组合辅助功能的驾驶辅助系统。" },
-    { b: "提出驾驶员劳动评估方法（DWAM），综合视觉、身体与主观劳动，判断当驾驶任务转移给系统时，劳动是否变化、在哪里变化、朝哪个方向变化。" },
+    { b: "提出驾驶员劳动评估方法（DWAM），为每种驾驶模式计算驾驶员劳动，判断当驾驶任务转移给系统时，劳动是否变化、在哪里变化、朝哪个方向变化。" },
+    { eq: { lhs: "DWAM", a: "客观劳动", as: "视觉 + 身体", b: "与……的相关", bs: "主观劳动", cap: "驾驶员劳动评估方法：由视觉与身体活动得出客观劳动，再与驾驶员的主观报告做相关分析。" } },
     { b: "指导两名硕士研究生设计并搭建实验，分析数据。" },
     { impact: [
       { stat: "51", label: "名驾驶员参与研究。每种辅助模式都降低了劳动，且分别体现在身体的不同部位。" },
@@ -1045,6 +1048,7 @@ function blocksHtml(p) {
     if (b.p) html += `<p>${esc(b.p)}</p>`;
     if (b.href) html += `<p><a class="readlink" href="${esc(b.href)}">${esc(b.cta || L('Read it', '阅读'))} →</a></p>`;
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
+    if (b.eq) html += `<div class="eqwrap"><div class="eq"><span class="t lhs">${esc(b.eq.lhs)}</span><i>=</i><span class="t">${esc(b.eq.a)}<small>${esc(b.eq.as)}</small></span><i>+</i><span class="t">${esc(b.eq.b)}<small>${esc(b.eq.bs)}</small></span></div><p class="eqcap">${esc(b.eq.cap)}</p></div>`;
     if (b.impact) html += impactHtml(b.impact);
     if (b.pubs) html += pubsHtml();
     if (b.uses) html += usesHtml(b.uses);
