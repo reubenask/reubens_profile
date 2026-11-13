@@ -197,6 +197,18 @@ a{color:inherit}
 .quote .by{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:var(--paper-soft);margin-top:6px}
 .paper h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--green);margin:34px 0 4px;padding-top:22px;border-top:1px solid #cdbd9c}
 .paper h3{font-family:var(--display);font-size:22px;color:var(--navy);margin:16px 0 0}
+
+.paper h3{color:#7a3f22}
+.paper h2{color:var(--green)}
+.paper p,.paper li{color:#33302a}
+.paper .golink,.paper a.readlink,.paper ul.how a.readlink,.paper ul.how.big .golink,.paper ul.how.big a.readlink{display:inline-block;font:600 14.5px/1.2 var(--ui,inherit);letter-spacing:.02em;text-transform:none;color:#6b4a14;background:#f4e8c8;border:1px solid #c9a24f;border-bottom:1px solid #c9a24f;border-radius:999px;padding:6px 13px;margin:4px 0 0;white-space:normal}
+.paper .golink:hover,.paper a.readlink:hover{background:#ecd9a4}
+.seek{font-size:18px;line-height:1.55;border-left:3px solid #c9a24f;padding-left:14px;margin:18px 0}
+.glance{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 22px}
+.glance div{background:#fffdf6;border:1px solid #d8c9a9;border-radius:12px;padding:12px 10px;text-align:center}
+.glance b{display:block;font:600 30px/1 var(--display);color:var(--green)}
+.glance span{display:block;font-size:13.5px;line-height:1.3;margin-top:6px;color:#5b5446}
+@media (max-width:640px){.glance{grid-template-columns:repeat(2,1fr)}}
 .acc{margin:14px 0 6px;display:grid;gap:12px}
 .acc details{border:1px solid #d8c9a9;border-radius:14px;background:#fffdf6;overflow:hidden}
 .acc summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;position:relative;display:block}
@@ -306,7 +318,23 @@ a{color:inherit}
 .skilllist{display:none;margin-top:14px}
 .sl-g{margin:0 0 16px}.sl-h{font:12px/1 var(--caps);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:0 0 6px}
 .sl-s{padding:8px 0;border-top:1px solid #8a622433}.sl-s b{display:block;font-weight:600;margin-bottom:3px}.sl-s span{display:flex;flex-wrap:wrap;gap:4px 10px}.sl-s .golink{margin-left:0}
-@media (max-width:640px){.mapwrap,.mapwrap .ginfo,.sheet.map .ginfo{display:none!important}.sheet.map .legend{display:none}.skilllist{display:block}}
+.mapfs-open,.mapfs-close,.fslegend,.mapfs-hint{display:none}
+@media (max-width:640px){
+  .skilllist{display:none}
+  .mapwrap{display:none}
+  .mapfs-open{display:block;margin:14px 0 6px;padding:16px;border-radius:14px;border:1px solid #c9a24f;background:#f4e8c8;color:#4d3510;font:600 17px/1.3 var(--display);text-align:center;width:100%}
+  .mapfs-hint{display:block;font-size:14.5px;color:#5b5446;margin:6px 0 0;text-align:center}
+  .sheet.map .legend{display:none}
+  .mapwrap.fs{display:block;position:fixed;z-index:80;left:0;top:0;width:100vw;height:100vh;width:100dvw;height:100dvh;background:#faf6ec;padding:8px;box-sizing:border-box}
+  .mapwrap.fs .graph{height:100%}
+  .mapwrap.fs .mapfs-close{display:block;position:absolute;right:10px;top:8px;z-index:5;border:1px solid #c9a24f;background:#f4e8c8;border-radius:999px;padding:8px 14px;font:600 15px/1 var(--display);color:#4d3510}
+  .mapwrap.fs .fslegend{display:block;position:absolute;left:10px;top:8px;z-index:5;font-size:12.5px}
+  .mapwrap.fs .fslegend .legend{display:flex!important;gap:10px;margin:0}
+}
+@media (max-width:640px) and (orientation:portrait){
+  .mapwrap.fs{width:100vh;height:100vw;width:100dvh;height:100dvw;transform-origin:0 0;transform:translateX(100vw) rotate(90deg);transform:translateX(100dvw) rotate(90deg)}
+}
+
 .gintro .note{font-style:italic;color:var(--paper-soft);font-size:14.5px;margin:0 0 6px}
 /* the map page fills the screen: title, key, then the map and its card */
 .sheet.map .paper{height:calc(100svh - 76px - env(safe-area-inset-top,0px));margin-bottom:12px;display:flex;flex-direction:column;overflow:hidden;padding-top:clamp(16px,3vw,32px);padding-bottom:clamp(12px,2vw,24px)}
@@ -450,7 +478,7 @@ const CV_PAGES_DATA = [
       { t: "Experience with methods and tools", d: "The instruments behind the work, and where each was used.", blocks: [
         { how: [
       { l: "Study design and analysis.", p: "Within-subject experiments, counterbalancing, repeated-measures and mixed-effects analysis, multiple-testing correction, sensitivity analysis.", go: "THREE", cta: "Used in the 51-driver study →" },
-      { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX, synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
+      { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX (a standard rating scale for perceived workload), synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
       { l: "Simulation and computation.", p: "CARLA, CarSim, model predictive control, Logitech steering and pedal interfaces, Python pipelines, Neo4j knowledge graphs, Mask R-CNN.", go: "THREE", cta: "Used in the simulation lab and the Siemens work →" },
       { l: "AI and educational design.", p: "AI-assisted prototyping, web-app and agent workflows, curriculum and assessment design, teacher training.", go: "FOUR", cta: "Used at Emerald Hill and Belio →" } ] }
       ] }
@@ -460,18 +488,18 @@ const CV_PAGES_DATA = [
   { kind: "opener", num: "THREE", pre: "THE", word: "RESEARCH", art: 6,
     topics: ["human–intelligent vehicles", "driver workload", "smart sustainable manufacturing", "papers and recognition"],
     quote: "The most dangerous phrase in the language is “We've always done it this way.”", by: "Grace Hopper, 1976" },
-  { kicker: "Three · The research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
+  { kicker: "Three · The research: PhD and earlier research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
     { b: "Built the research group's first driving-simulation lab, including a driver assistance system with steering, pedal and combined support." },
     { b: "Developed the Driver Workload Assessment Methodology (DWAM), which combines visual, physical and reported workload to show whether, where and in which direction workload changes when driving tasks shift to the system." },
     { b: "Guided two master's students in designing and building their experiments and analysing their data." },
     { impact: [
-      { stat: "51", label: "drivers studied. Every support mode reduced workload, each in a different part of the body." },
-      "Introduced driver workload into the SAE levels of driving automation, which define only what the driver must do, together with a methodology (DWAM) to quantify it for each level of support.",
+      { stat: "51", label: "drivers in the study. Every support mode reduced workload, each in a different part of the body." },
+      "Proposed adding driver workload to the SAE levels of driving automation (the standard scale from no automation to full automation), which define only what the driver must do, together with a methodology (DWAM) to quantify it for each level of support.",
       "The lab now supports the group's ongoing and future studies.",
       "Both master's students graduated successfully and are now employed."
     ] }
   ] },
-  { kicker: "Three · The research", title: "Smart sustainable manufacturing", art: 8, sub: "Sep 2021 to Dec 2023 · Zhejiang University · with Siemens, Shanghai, Sep 2022 to Aug 2023", blocks: [
+  { kicker: "Three · The research: PhD and earlier research", title: "Smart sustainable manufacturing", art: 8, sub: "Sep 2021 to Dec 2023 · Zhejiang University · with Siemens, Shanghai, Sep 2022 to Aug 2023", blocks: [
     { b: "Proposed the concept of cognitive intelligence-enabled manufacturing." },
     { b: "Investigated causality-based quality problem solving for discrete manufacturing systems." },
     { b: "With Siemens: built a data-driven Neo4j knowledge graph of low-carbon manufacturing processes to support automated life cycle assessment." },
@@ -487,19 +515,19 @@ const CV_PAGES_DATA = [
   { kind: "opener", num: "FOUR", pre: "BEYOND THE", word: "LAB", art: 10,
     topics: ["consulting", "AI curriculum and advising", "machine vision research", "building a media team", "teaching"],
     quote: "Education is the premise of progress, in every society, in every family.", by: "Kofi Annan, 1997" },
-  { kicker: "Four · Beyond the lab", title: "Freelance consulting", sub: "Apr 2024 to present", blocks: [
-    { h: "Program Research Lead and Advisor", meta: "Emerald Hill Design Education Institute, Hangzhou · Apr 2024 to present", p: "Designed the institute's curriculum on AI, web apps and AI agents, helped teachers bring AI into their teaching, and advised leadership on research and management.",
-      impact: [{ stat: "18%", label: "increase in the institute's revenue." }, { stat: "~30", label: "students and working professionals trained." }] },
+  { kicker: "Four · Beyond the lab: work and teaching", title: "Consulting and advisory", sub: "Apr 2024 to present", blocks: [
+    { h: "Program Research Lead and Advisor", meta: "Emerald Hill Design Education Institute, Hangzhou · Part-time advisory · Apr 2024 to present", p: "Designed the institute's curriculum on AI, web apps and AI agents, helped teachers bring AI into their teaching, and advised leadership on research and management.",
+      impact: [{ stat: "18%", label: "increase in the institute's revenue during my role." }, { stat: "~30", label: "students and working professionals trained." }] },
     { h: "Management Consultant", meta: "Komodo Mining Services, Ghana · Nov 2024", p: "Restructured the company's service offerings into a clear, marketable set of services, and designed its people management system, including how work is reported and quantified.",
       impact: ["The new service structure helped the company secure overseas partnerships.", "Consistent reporting and measurable work output across the team."] },
     { h: "AI and Robotics Curriculum Consultant", meta: "Belio Technology (a subsidiary of WaShalimba Group), Namibia · Jun to Aug 2025", p: "Designed progressive AI and robotics curricula for four learner groups: ages 9 to 11, 12 to 15 and 16 to 18, and adult and professional learners.",
       impact: ["The client used the curriculum outline in its application for funding to set up an AI and robotics learning centre in Windhoek, Namibia."] }
   ] },
-  { kicker: "Four · Beyond the lab", title: "Further experience", blocks: [
+  { kicker: "Four · Beyond the lab: work and teaching", title: "Further experience", blocks: [
     { h: "Research Assistant", meta: "Lanzhou University of Technology · Aug 2020 to Aug 2021", p: "Continued my master's research on steel microscopy images, exploring alternative approaches to the Mask R-CNN method I developed to locate, segment and measure carbide particles without manual image-by-image analysis. Assisted supervisors with assigned research tasks, including elements of conference organisation.",
       impact: [{ stat: "90%+", label: "of target particles located and segmented by the Mask R-CNN method." }, "First-author paper, Journal of the Korean Society for Precision Engineering (2020)."] }
   ] },
-  { kicker: "Four · Beyond the lab", title: "Leadership and teaching", art: 11, blocks: [
+  { kicker: "Four · Beyond the lab: work and teaching", title: "Leadership and teaching", art: 11, blocks: [
     { h: "Founding Editor in Chief", meta: "School of International Education, Lanzhou University of Technology · Mar 2018 to Aug 2021", p: "Founded and led the school's first editorial and media team, and created its website, YouTube channel, Facebook and Instagram pages, promotional materials and an overseas partnership program.",
       impact: [{ stat: "~10", label: "people in a media team built from scratch." }, "Four online channels launched to support international student admissions."] },
     { h: "Teaching Assistant", meta: "University of Ghana, Accra · Aug 2015 to Aug 2016", p: "Taught engineering students as a lecturer's assistant in algebra, calculus 1 and 2, environmental engineering, and thermodynamics 1 and 2.",
@@ -511,31 +539,36 @@ const CV_PAGES_DATA = [
   { kind: "opener", num: "FIVE", pre: "THE", word: "FOUNDATIONS", art: 12,
     topics: ["PhD, Zhejiang University", "MEng, Lanzhou University of Technology", "Chinese language", "BSc, University of Ghana"],
     quote: "It is not wrong to go back for that which you have forgotten.", by: "Akan proverb · Sankofa", original: "Se wo were fi na wosankofa a yenkyi." },
-  { kicker: "Five · The foundations", title: "Education", blocks: [
+  { kicker: "Five · The foundations: education", title: "Education", blocks: [
     { h: "PhD, Industrial and Systems Engineering", meta: "Zhejiang University · 2021 to 2027 (expected)", p: "Driver workload assessment and human well-being in smart vehicles." },
     { h: "MEng, Mechanical Manufacture and Automation", meta: "Lanzhou University of Technology · 2017 to 2020", p: "Digital image processing for quantitative metallography. Best Graduating Student and Valedictorian." },
-    { h: "Chinese Language and Culture", meta: "Lanzhou University of Technology · 2016 to 2017", p: "HSK levels 4 and 5." },
+    { h: "Chinese Language and Culture", meta: "Lanzhou University of Technology · 2016 to 2017", p: "HSK levels 4 and 5 (the standard Mandarin proficiency test)." },
     { h: "BSc Engineering, Process Engineering", meta: "University of Ghana · 2011 to 2015", p: "Process plant design." }
   ] },
 
   { kind: "opener", num: "SIX", pre: "THE", word: "IDEAS", art: 13,
     topics: ["user behavior architecture", "building AI around people", "insights and opinions"],
     quote: "What's new is refusing to let the human be the variable.", by: "Reuben ASK, The Tyranny of the Default" },
-  { kicker: "Six · The ideas", title: "Writing", blocks: [
+  { kicker: "Six · The ideas: writing and publications", title: "Writing", blocks: [
     { h: "Machines in Service of Minds", meta: "Essay · 12 November 2026 · Building AI around people", p: "Why AI should be built around how people think, work and learn, with the human in the lead by design, instead of leaving people to rebuild themselves around the machine. Four diagrams and a full reference list.", href: "essays/machines-in-service-of-minds/", cta: "Read the essay" },
     { h: "The Tyranny of the Default", meta: "Essay · 3 December 2025 · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "Read the essay" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Commentary on problem solving." },
-    { h: "Publication record", p: "ORCID 0000-0001-8147-7609" }
+    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Short commentary on how people and systems solve problems." },
+    { h: "Publications", meta: "Peer-reviewed work, newest first", p: "Each item links to its DOI. The 2023 conference paper that won Best Student Conference Paper has no DOI; its extended journal version is listed first.", href: "https://orcid.org/0000-0001-8147-7609", cta: "Full record on ORCID" },
+    { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · Co-author", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
+    { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · Co-author", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
+    { h: "Enhancing big data for greentelligence across the production value chain", meta: "Green Manufacturing Open · 2023 · First author", href: "https://doi.org/10.20517/gmo.2022.02", cta: "DOI" },
+    { h: "Towards Cognitive Intelligence-Enabled Manufacturing", meta: "APMS 2022 conference, Springer · First author", href: "https://doi.org/10.1007/978-3-031-16411-8_50", cta: "DOI" },
+    { h: "Quantitative Metallographic Analysis of GCr15 Microstructure Using Mask R-CNN", meta: "Journal of the Korean Society for Precision Engineering · 2020 · First author", href: "https://doi.org/10.7736/JKSPE.019.144", cta: "DOI" }
   ] },
 
   { kind: "opener", num: "SEVEN", pre: "THE", word: "RECORD", art: 14,
     topics: ["awards and recognition", "certifications", "membership", "languages"] },
-  { kicker: "Seven · The record", title: "Awards and recognition", blocks: [
+  { kicker: "Seven · The record: awards, certifications and languages", title: "Awards and recognition", blocks: [
     { h: "Best Student Conference Paper · 2023", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems, Hong Kong." },
     { h: "Best Graduating Student and Valedictorian · 2020", p: "Lanzhou University of Technology." },
     { h: "Chinese Government Outstanding International Student Award · 2019", p: "Ministry of Education of China: one of 582 international students selected from 127 universities nationwide." }
   ] },
-  { kicker: "Seven · The record", title: "Credentials", blocks: [
+  { kicker: "Seven · The record: awards, certifications and languages", title: "Credentials", blocks: [
     { h: "Internal Auditor · 2020", meta: "BSI Training Academy, Singapore", p: "ISO 9001, ISO 14001 and ISO 45001: quality, environmental, and occupational health and safety." },
     { h: "Advanced TESOL · 2018", meta: "American TESOL Institute, Shanghai", p: "Teaching English, including to children." },
     { h: "Membership", p: "Human Factors and Ergonomics Society (Emerging Country Membership)." },
@@ -577,7 +610,7 @@ const CV_PAGES_ZH = [
       { t: "方法与工具实践", d: "这些工作背后的方法与工具，以及它们用在哪里。", blocks: [
         { how: [
       { l: "研究设计与分析。", p: "被试内实验、平衡设计、重复测量与混合效应分析、多重检验校正、敏感性分析。", go: "THREE", cta: "用于 51 名驾驶员的研究 →" },
-      { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员劳动评估 →" },
+      { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX（感知劳动的通用评分量表）、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员劳动评估 →" },
       { l: "仿真与计算。", p: "CARLA、CarSim、模型预测控制、罗技方向盘与踏板、Python 数据处理流程、Neo4j 知识图谱、Mask R-CNN。", go: "THREE", cta: "用于模拟实验室与西门子合作 →" },
       { l: "AI 与教育设计。", p: "AI 辅助原型设计、网页应用与智能体工作流、课程与评估设计、教师培训。", go: "FOUR", cta: "用于 Emerald Hill 与 Belio →" } ] }
       ] }
@@ -587,18 +620,18 @@ const CV_PAGES_ZH = [
   { kind: "opener", num: "THREE", zt: "科研工作", art: 6,
     topics: ["人与智能车辆", "驾驶员劳动", "智能可持续制造", "论文与荣誉"],
     quote: "语言中最危险的一句话是：“我们一直都是这么做的。”", by: "格蕾丝·霍珀，1976 年" },
-  { kicker: "三 · 科研工作", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
+  { kicker: "三 · 科研工作：博士及早期研究", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
     { b: "搭建课题组第一个驾驶模拟实验室，包括具备转向、踏板及组合辅助功能的驾驶辅助系统。" },
     { b: "提出驾驶员劳动评估方法（DWAM），综合视觉、身体与主观劳动，判断当驾驶任务转移给系统时，劳动是否变化、在哪里变化、朝哪个方向变化。" },
     { b: "指导两名硕士研究生设计并搭建实验，分析数据。" },
     { impact: [
       { stat: "51", label: "名驾驶员参与研究。每种辅助模式都降低了劳动，且分别体现在身体的不同部位。" },
-      "在 SAE 驾驶自动化分级中引入驾驶员劳动：该分级只规定驾驶员必须做什么；同时提出量化各级辅助下劳动的方法（DWAM）。",
+      "提出把驾驶员劳动纳入 SAE 驾驶自动化分级（从无自动化到完全自动化的通用分级）：该分级只规定驾驶员必须做什么；同时提出量化各级辅助下劳动的方法（DWAM）。",
       "该实验室现支撑课题组当前及未来的研究。",
       "两名硕士研究生均顺利毕业并已就业。"
     ] }
   ] },
-  { kicker: "三 · 科研工作", title: "智能可持续制造", art: 8, sub: "2021 年 9 月至 2023 年 12 月 · 浙江大学 · 2022 年 9 月至 2023 年 8 月与西门子（上海）合作", blocks: [
+  { kicker: "三 · 科研工作：博士及早期研究", title: "智能可持续制造", art: 8, sub: "2021 年 9 月至 2023 年 12 月 · 浙江大学 · 2022 年 9 月至 2023 年 8 月与西门子（上海）合作", blocks: [
     { b: "提出认知智能赋能制造的概念。" },
     { b: "研究面向离散制造系统、基于因果分析的质量问题求解。" },
     { b: "与西门子合作：构建数据驱动的低碳制造工艺 Neo4j 知识图谱，支持生命周期评估自动化。" },
@@ -614,19 +647,19 @@ const CV_PAGES_ZH = [
   { kind: "opener", num: "FOUR", zt: "实验室之外", art: 10,
     topics: ["咨询", "AI 课程与顾问", "机器视觉研究", "组建媒体团队", "教学"],
     quote: "教育是进步的前提，在每个社会、每个家庭都是如此。", by: "科菲·安南，1997 年" },
-  { kicker: "四 · 实验室之外", title: "自由职业咨询", sub: "2024 年 4 月至今", blocks: [
-    { h: "项目研究负责人兼顾问", meta: "Emerald Hill Design Education Institute，杭州 · 2024 年 4 月至今", p: "设计学院关于 AI、Web 应用与 AI 智能体的课程，帮助教师把 AI 引入教学，并就科研与管理为管理层提供建议。",
-      impact: [{ stat: "18%", label: "学院营收增长。" }, { stat: "约30", label: "名学生与职场人士接受培训。" }] },
+  { kicker: "四 · 实验室之外：工作与教学", title: "咨询与顾问工作", sub: "2024 年 4 月至今", blocks: [
+    { h: "项目研究负责人兼顾问", meta: "Emerald Hill Design Education Institute，杭州 · 兼职顾问 · 2024 年 4 月至今", p: "设计学院关于 AI、Web 应用与 AI 智能体的课程，帮助教师把 AI 引入教学，并就科研与管理为管理层提供建议。",
+      impact: [{ stat: "18%", label: "学院营收增长（任职期间）。" }, { stat: "约30", label: "名学生与职场人士接受培训。" }] },
     { h: "管理顾问", meta: "Komodo Mining Services，加纳 · 2024 年 11 月", p: "把公司的服务重组为清晰、便于推广的服务体系，并设计人员管理制度，包括工作汇报与工作量化的方式。",
       impact: ["新的服务结构帮助公司建立海外合作。", "团队实现统一汇报与可衡量的工作产出。"] },
     { h: "AI 与机器人课程顾问", meta: "Belio Technology（WaShalimba Group 子公司），纳米比亚 · 2025 年 6 月至 8 月", p: "为四类学习者设计循序渐进的 AI 与机器人课程：9 至 11 岁、12 至 15 岁、16 至 18 岁，以及成人与职场学习者。",
       impact: ["客户已使用该课程大纲申请资金，用于在纳米比亚温得和克建立人工智能与机器人学习中心。"] }
   ] },
-  { kicker: "四 · 实验室之外", title: "其他经历", blocks: [
+  { kicker: "四 · 实验室之外：工作与教学", title: "其他经历", blocks: [
     { h: "研究助理", meta: "兰州理工大学 · 2020 年 8 月至 2021 年 8 月", p: "延续硕士阶段的研究，探索分析钢材显微图像的其他方法；此前开发的 Mask R-CNN 方法可定位、分割并测量碳化物颗粒，取代逐张人工分析。协助导师完成指派的研究任务，包括会议组织的部分工作。",
       impact: [{ stat: "90%+", label: "的目标颗粒被 Mask R-CNN 方法成功定位与分割。" }, "第一作者论文，Journal of the Korean Society for Precision Engineering（2020）。"] }
   ] },
-  { kicker: "四 · 实验室之外", title: "领导与教学", art: 11, blocks: [
+  { kicker: "四 · 实验室之外：工作与教学", title: "领导与教学", art: 11, blocks: [
     { h: "创始主编", meta: "兰州理工大学国际教育学院 · 2018 年 3 月至 2021 年 8 月", p: "创建并带领学院第一个编辑与媒体团队，建立学院网站、YouTube 频道、Facebook 与 Instagram 主页、宣传材料以及海外合作项目。",
       impact: [{ stat: "约10", label: "人的媒体团队从零组建。" }, "开通四个线上渠道，助力国际学生招生。"] },
     { h: "助教", meta: "加纳大学，阿克拉 · 2015 年 8 月至 2016 年 8 月", p: "作为讲师助理为工科学生讲授代数、微积分一和二、环境工程以及热力学一和二。",
@@ -641,28 +674,33 @@ const CV_PAGES_ZH = [
   { kicker: "五 · 教育背景", title: "教育经历", blocks: [
     { h: "博士，工业与系统工程", meta: "浙江大学 · 2021 年至 2027 年（预计）", p: "智能车辆中的驾驶员劳动评估与人的福祉。" },
     { h: "工程硕士，机械制造及其自动化", meta: "兰州理工大学 · 2017 年至 2020 年", p: "面向定量金相分析的数字图像处理。优秀毕业生，毕业生代表。" },
-    { h: "汉语言与中国文化", meta: "兰州理工大学 · 2016 年至 2017 年", p: "HSK 四级与五级。" },
+    { h: "汉语言与中国文化", meta: "兰州理工大学 · 2016 年至 2017 年", p: "HSK 四级与五级（通用的汉语水平考试）。" },
     { h: "工学学士，过程工程", meta: "加纳大学 · 2011 年至 2015 年", p: "过程工厂设计。" }
   ] },
 
   { kind: "opener", num: "SIX", zt: "观点与写作", art: 13,
     topics: ["用户行为架构", "围绕人构建人工智能", "见解与观点"],
     quote: "新意在于：不再让人成为那个变量。", by: "郝运（Reuben ASK），《默认设置的专制》" },
-  { kicker: "六 · 观点与写作", title: "写作", blocks: [
+  { kicker: "六 · 观点与写作：文章与论文", title: "写作", blocks: [
     { h: "Machines in Service of Minds（英文文章）", meta: "文章 · 2026年11月12日 · 围绕人来构建人工智能", p: "人工智能应当围绕人的思考、工作和学习方式来构建，并在设计上让人保持主导，而不是让人去重塑自己来适应机器。文章配有四幅图示和完整参考文献。", href: "essays/machines-in-service-of-minds/", cta: "阅读文章（英文）" },
     { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 2025年12月3日 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。", href: "essays/tyranny-of-the-default/", cta: "阅读文章（英文）" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于问题解决的评论文章。" },
-    { h: "发表记录", p: "ORCID 0000-0001-8147-7609" }
+    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于人与系统如何解决问题的短评。" },
+    { h: "发表论文", meta: "同行评议成果，按时间由新到旧", p: "每篇均附 DOI 链接。获最佳学生会议论文的 2023 年会议论文没有 DOI，其扩展期刊版本列在最前。", href: "https://orcid.org/0000-0001-8147-7609", cta: "ORCID 完整记录" },
+    { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · 合著", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
+    { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · 合著", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
+    { h: "Enhancing big data for greentelligence across the production value chain", meta: "Green Manufacturing Open · 2023 · 第一作者", href: "https://doi.org/10.20517/gmo.2022.02", cta: "DOI" },
+    { h: "Towards Cognitive Intelligence-Enabled Manufacturing", meta: "APMS 2022 会议，Springer · 第一作者", href: "https://doi.org/10.1007/978-3-031-16411-8_50", cta: "DOI" },
+    { h: "Quantitative Metallographic Analysis of GCr15 Microstructure Using Mask R-CNN", meta: "Journal of the Korean Society for Precision Engineering · 2020 · 第一作者", href: "https://doi.org/10.7736/JKSPE.019.144", cta: "DOI" }
   ] },
 
   { kind: "opener", num: "SEVEN", zt: "荣誉与资历", art: 14,
     topics: ["奖项与荣誉", "证书", "学会会员", "语言"] },
-  { kicker: "七 · 荣誉与资历", title: "奖项与荣誉", blocks: [
+  { kicker: "七 · 荣誉与资历：奖项、证书与语言", title: "奖项与荣誉", blocks: [
     { h: "最佳学生会议论文奖 · 2023 年", p: "NSFC-RGC Conference on Frontiers of Industrial Big Data and Intelligent Systems（工业大数据与智能系统前沿会议），香港。" },
     { h: "优秀毕业生、毕业生代表 · 2020 年", p: "兰州理工大学。" },
     { h: "中国政府优秀来华留学生奖 · 2019 年", p: "Chinese Government Outstanding International Student Award。中华人民共和国教育部：从全国 127 所高校中评选出的 582 名国际学生之一。" }
   ] },
-  { kicker: "七 · 荣誉与资历", title: "资质证书", blocks: [
+  { kicker: "七 · 荣誉与资历：奖项、证书与语言", title: "资质证书", blocks: [
     { h: "内审员 · 2020 年", meta: "BSI 培训学院，新加坡", p: "ISO 9001、ISO 14001 与 ISO 45001：质量、环境及职业健康安全管理体系。" },
     { h: "高级 TESOL 证书 · 2018 年", meta: "美国 TESOL 学院，上海", p: "英语教学，包括少儿英语教学。" },
     { h: "学会会员", p: "人因与工效学会（HFES），新兴国家会员。" },
@@ -1048,11 +1086,13 @@ function wireTabs(root) {
   });
 }
 function whoHtml() {
-  if (ZH) return `<h2>郝运 · Reuben Seyram Komla Agbozo</h2><p class="meta">人因研究者 · 用户行为架构师</p>
+  if (ZH) return `<h2>郝运 · Reuben Seyram Komla Agbozo</h2><p class="meta">用户行为架构师 · 行为分析、人因与人机智能交互</p>
   <p>我善于解决问题，是一名用户行为架构师，关注人们如何在系统中思考、行动和适应。</p>
   <p>我能发现哪里让人用得不顺，界定真正的问题，并给出实用的解决方案：产品、原型、学习项目，以及一个组织的运作方式。</p>
   <p>我曾从零创建并带领团队，设计 AI 课程并培训教师使用 AI，还为一家公司搭建了组织结构和衡量目标的统一方法。</p>
   <p>我的工作横跨工程、设计与教育，也横跨不同文化，用英语和普通话把复杂的想法变成人们用得上的东西。</p>
+  <p class="seek">我正在寻找用户行为研究方向的岗位：通过行为数据与观察，分析人们如何使用产品、平台和 AI 系统，找出设计违背用户意愿之处，并提出更好地服务用户的改进。我也会构建 AI 智能体和内部应用，快速验证想法。我可以远程工作，也愿意迁居。</p>
+  <div class="glance"><div><b>51</b><span>名驾驶员参与我的博士研究</span></div><div><b>5</b><span>篇带 DOI 的论文</span></div><div><b>2</b><span>名硕士生在我指导下毕业</span></div><div><b>+18%</b><span>我所顾问学院的营收增长</span></div></div>
   <h3>我的工作方式</h3>
   <ul class="how">
     <li>我从人们的真实行为出发，而不是从“平均的人”出发。 <a class="readlink" href="essays/tyranny-of-the-default/">见《默认设置的专制》 →</a></li>
@@ -1060,12 +1100,15 @@ function whoHtml() {
     <li>我先测试最小的版本，再投入时间和资金。 <button type="button" class="golink" data-nav="THREE">见博士研究 →</button></li>
     <li>我会说明证据能证明什么，不能证明什么。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li>
     <li>我让人始终处于主导位置。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li>
-  </ul>`;
-  return `<h2>Reuben Seyram Komla Agbozo</h2><p class="meta">Human Factors Researcher · User Behavior Architect</p>
+  </ul>
+  <p class="meta">我愿意提供推荐人。</p>`;
+  return `<h2>Reuben Seyram Komla Agbozo</h2><p class="meta">User Behavior Architect · Behavior Analysis, Human Factors and Human–AI Interaction</p>
   <p>I am a problem solver and user behavior architect focused on how people think, act and adapt within systems.</p>
   <p>I notice what isn't working for people, define the real problem, and build practical solutions: products, prototypes, learning programs and the way an organisation runs.</p>
   <p>I have founded and led a team from scratch, designed AI curricula and trained teachers to use AI, and developed a company's organisational structure and standardised ways of measuring its goals.</p>
   <p>I work across engineering, design and education, and across cultures in English and Mandarin, turning complex ideas into things people can use.</p>
+  <p class="seek">I am looking for roles in user behavior research: analysing how people use products, platforms and AI systems from behavioral data and observation, finding where a design works against the user, and proposing changes that serve them. I also build AI agents and in-house apps to test ideas quickly. I am open to remote work and to relocating.</p>
+  <div class="glance"><div><b>51</b><span>drivers in my doctoral study</span></div><div><b>5</b><span>papers with DOIs</span></div><div><b>2</b><span>master's students guided to graduation</span></div><div><b>+18%</b><span>revenue at the institute I advise</span></div></div>
   <h3>How I work</h3>
   <ul class="how">
     <li>I start from how people actually behave, not from the average person. <a class="readlink" href="essays/tyranny-of-the-default/">See The Tyranny of the Default →</a></li>
@@ -1073,7 +1116,8 @@ function whoHtml() {
     <li>I test the smallest version first, before committing time and money. <button type="button" class="golink" data-nav="THREE">See the doctoral research →</button></li>
     <li>I say what the evidence shows and what it does not. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li>
     <li>I keep the person in the lead. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li>
-  </ul>`;
+  </ul>
+  <p class="meta">References available on request.</p>`;
 }
 function mediaHtml(list) {
   return (list || []).map((m) => m.type === 'video'
@@ -1488,9 +1532,23 @@ function openMap(ch) {
   showSheet(`<p class="num">${L('SKILL MAP', '技能图谱')}</p><h1 id="sheetTitle">${L('How my skills connect', '我的技能如何关联')}</h1>
     <p class="lede">${L(`${numWord(THREADS.length)} skills and tools, each used in two or more parts of my work.`, `${THREADS.length} 项技能与工具，每一项都用在了我工作的两个或更多方面。`)}</p>
     ${legendHtml()}
-    <div class="mapwrap gwrap"><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>
+    <button type="button" class="mapfs-open">${L('Open the map full screen', '全屏打开图谱')}</button><p class="mapfs-hint">${L('Best viewed sideways. Turn your phone, or tap to open it turned for you.', '横屏查看效果最佳。请横置手机，或点按后自动旋转显示。')}</p>
+    <div class="mapwrap gwrap"><button type="button" class="mapfs-close">${L('Close ×', '关闭 ×')}</button><div class="fslegend">${legendHtml()}</div><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>
     <div class="skilllist">${list}</div>`, true);
-  if (typeof ch === 'string' && ch) { const n = $('paper').querySelector(`.graph[data-kind="map"] .chnode[data-c="${ch}"]`); if (n) n.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); }
+  const paper = $('paper'), wrap = paper.querySelector('.mapwrap');
+  const pre = () => { if (typeof ch === 'string' && ch) { const n = paper.querySelector(`.graph[data-kind="map"] .chnode[data-c="${ch}"]`); if (n) n.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); } };
+  pre();
+  const redraw = () => { drawGraphs(paper); pre(); };
+  paper.querySelector('button.mapfs-open').onclick = () => {
+    wrap.classList.add('fs'); document.body.classList.add('mapfs');
+    try { document.documentElement.requestFullscreen?.().then(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {}); } catch (e) {}
+    setTimeout(redraw, 60);
+  };
+  paper.querySelector('.mapfs-close').onclick = () => {
+    wrap.classList.remove('fs'); document.body.classList.remove('mapfs');
+    try { screen.orientation?.unlock?.(); if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+    setTimeout(redraw, 60);
+  };
 }
 $('mapBtn').onclick = () => openMap();
 // header in the chosen language, and the switch between English and Chinese
