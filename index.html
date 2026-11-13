@@ -780,7 +780,17 @@ const numShort = (id) => ZH ? `第${NUM_ZH[id]}章` : id;
 const chName = (id) => ZH ? `${NUM_ZH[id]} · ${byId[id].title}` : `${id.charAt(0) + id.slice(1).toLowerCase()} · ${byId[id].title}`;
 const RAW_PAGES = ZH ? CV_PAGES_ZH : CV_PAGES_DATA;
 // Chapter Four: each role becomes a click-to-open box (same content, shorter page).
-const PAGES = RAW_PAGES.map((p) => {
+// Chapter Three: the two research pages become one page with two click-to-open sections.
+const RAW_MERGED = []; 
+RAW_PAGES.forEach((p) => {
+  if (p.blocks && /^(Three|三) /.test(p.kicker || '') && p.title) {
+    const last = RAW_MERGED[RAW_MERGED.length - 1];
+    const item = { t: (p.title === 'Doctoral research' ? 'Driver workload' : p.title === '博士研究' ? '驾驶员劳动评估' : p.title), d: p.sub || '', blocks: p.blocks };
+    if (last && last.__three) last.blocks[0].acc.push(item);
+    else RAW_MERGED.push({ kicker: p.kicker, title: ZH ? '博士及早期研究' : 'PhD and earlier research', __three: true, blocks: [{ acc: [item] }] });
+  } else RAW_MERGED.push(p);
+});
+const PAGES = RAW_MERGED.map((p) => {
   if (!p.blocks || !/^(Four|四)/.test(p.kicker || '') || !p.blocks.some((b) => b.h)) return p;
   const items = [];
   p.blocks.forEach((b) => {
