@@ -552,7 +552,7 @@ const CV_PAGES_DATA = [
   { kicker: "Six · The ideas: writing and publications", title: "Writing", blocks: [
     { h: "Machines in Service of Minds", meta: "Essay · 12 November 2026 · Building AI around people", p: "Why AI should be built around how people think, work and learn, with the human in the lead by design, instead of leaving people to rebuild themselves around the machine. Four diagrams and a full reference list.", href: "essays/machines-in-service-of-minds/", cta: "Read the essay" },
     { h: "The Tyranny of the Default", meta: "Essay · 3 December 2025 · Toward a User Behavior Architecture", p: "How systems could adapt to sensed human behavior rather than impose a fixed default, so that people no longer have to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "Read the essay" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Short commentary on how people and systems solve problems." },
+    { h: "Reuben ASK: Insights & Opinions", meta: "LinkedIn", p: "Short commentary on how people and systems solve problems.", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "Open on LinkedIn" },
     { h: "Publications", meta: "Peer-reviewed work, newest first", p: "Each item links to its DOI. The 2023 conference paper that won Best Student Conference Paper has no DOI; its extended journal version is listed first.", href: "https://orcid.org/0000-0001-8147-7609", cta: "Full record on ORCID" },
     { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · Co-author", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
     { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · Co-author", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
@@ -684,7 +684,7 @@ const CV_PAGES_ZH = [
   { kicker: "六 · 观点与写作：文章与论文", title: "写作", blocks: [
     { h: "Machines in Service of Minds（英文文章）", meta: "文章 · 2026年11月12日 · 围绕人来构建人工智能", p: "人工智能应当围绕人的思考、工作和学习方式来构建，并在设计上让人保持主导，而不是让人去重塑自己来适应机器。文章配有四幅图示和完整参考文献。", href: "essays/machines-in-service-of-minds/", cta: "阅读文章（英文）" },
     { h: "《默认设置的专制》（The Tyranny of the Default）", meta: "文章 · 2025年12月3日 · 走向用户行为架构", p: "探讨系统如何根据感知到的人的行为进行调整，而不是强加固定的默认设置，从而让人不必再去适应系统。", href: "essays/tyranny-of-the-default/", cta: "阅读文章（英文）" },
-    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于人与系统如何解决问题的短评。" },
+    { h: "Reuben ASK: Insights & Opinions", meta: "领英（LinkedIn）", p: "关于人与系统如何解决问题的短评。", href: "https://www.linkedin.com/company/reuben-ask-insights-opinions/", cta: "在领英上打开" },
     { h: "发表论文", meta: "同行评议成果，按时间由新到旧", p: "每篇均附 DOI 链接。获最佳学生会议论文的 2023 年会议论文没有 DOI，其扩展期刊版本列在最前。", href: "https://orcid.org/0000-0001-8147-7609", cta: "ORCID 完整记录" },
     { h: "Two-stage approach to causality analysis-based quality problem solving for discrete manufacturing systems", meta: "Journal of Engineering Design · 2025 · 合著", href: "https://doi.org/10.1080/09544828.2023.2247858", cta: "DOI" },
     { h: "Knowledge graph-based mapping and recommendation to automate life cycle assessment", meta: "Advanced Engineering Informatics · 2024 · 合著", href: "https://doi.org/10.1016/j.aei.2024.102752", cta: "DOI" },
@@ -1506,7 +1506,7 @@ function openContact() {
     <div class="cgrid">
       <div><p class="cl">${L('Elsewhere', '个人网站')}</p><p><a href="https://reubenask.com" target="_blank" rel="noopener">reubenask.com <span aria-hidden="true">↗</span></a></p></div>
       <div><p class="cl">${L('Publications', '发表成果')}</p><p><a href="https://orcid.org/0000-0001-8147-7609" target="_blank" rel="noopener">${L('ORCID profile', 'ORCID 主页')} <span aria-hidden="true">↗</span></a></p></div>
-      <div><p class="cl">${L('LinkedIn', '领英')}</p><p>Reuben ASK</p></div>
+      <div><p class="cl">${L('LinkedIn', '领英')}</p><p><a class="readlink" href="https://www.linkedin.com/company/reuben-ask-insights-opinions/" target="_blank" rel="noopener">Reuben ASK</a></p></div>
       <div><p class="cl">${L('Professional record', '完整履历')}</p><p><a href="${CV_PAGE}">${L('Full CV', '完整简历')} <span aria-hidden="true">→</span></a></p></div>
     </div>
     <div class="csign"><p class="cname">${L('Reuben ASK', '郝运 · Reuben ASK')}</p><p class="cwhere">${L('Hangzhou, China · local time', '中国杭州 · 当地时间')} <span class="clock">${hangzhouTime()}</span><br>${L('References available on request.', '如需推荐人信息，欢迎索取。')}</p></div>
