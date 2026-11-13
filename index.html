@@ -195,7 +195,7 @@ a{color:inherit}
 .quote .by{font-family:var(--caps);font-size:11px;letter-spacing:.18em;color:var(--paper-soft);margin-top:6px}
 .paper h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--green);margin:34px 0 4px;padding-top:22px;border-top:1px solid #cdbd9c}
 .paper h3{font-family:var(--display);font-size:22px;color:var(--navy);margin:16px 0 0}
-.paper ul.how{margin:6px 0 0;padding-left:1.2em}.paper ul.how li{margin:0 0 .7em}.paper ul.how a.readlink{font-size:14px;font-weight:500;white-space:nowrap}.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
+.paper ul.how.big li{font-size:18px;line-height:1.55}.paper ul.how.big .golink{font-size:12.5px}.paper ul.how.big a.readlink{font-size:15px}.paper ul.how{margin:6px 0 0;padding-left:1.2em}.paper ul.how li{margin:0 0 .7em}.paper ul.how a.readlink{font-size:14px;font-weight:500;white-space:nowrap}.paper a.readlink{color:var(--gold-d,#8a6224);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}.paper a.readlink:hover{opacity:.75}
 .paper .meta{font-style:italic;color:var(--paper-soft);font-size:14px;margin:2px 0 0}
 .paper p,.paper li{font-size:16.5px;line-height:1.6}
 .paper ul{padding-left:20px;margin:8px 0}
@@ -409,31 +409,31 @@ const CV_PAGES_DATA = [
     quote: "We face neither East nor West: we face forward.", by: "Kwame Nkrumah" },
   { kind: "who" },
 
-  { kind: "opener", num: "TWO", pre: "WHAT I", word: "BRING", art: 3,
-    topics: ["problem framing", "behavior and systems", "building and testing", "judgment and review", "leadership", "methods and tools"],
+  { kind: "opener", num: "TWO", pre: "METHODS", word: "AND TOOLS", art: 3,
+    topics: ["what I can do", "how it shows up in my work", "methods and tools I have used"],
     quote: "Wisdom is like a baobab tree; no one individual can embrace it.", by: "Ewe and Akan proverb", original: "Nunya, adidoe, asi metunee o." },
-  { kicker: "Two · What I bring", title: "Core strengths", art: 4, sub: "Understand deeply. Make thoughtfully. Help others move forward.", blocks: [
-    { groups: [
-      { n: "I", t: "Understand.", items: [
-        { h: "Problem framing", p: "Turns vague, messy problems into clear questions a team can answer and act on." },
-        { h: "Human behavior and systems", p: "Designs systems that adapt to how people actually behave, instead of asking people to adapt to the system." },
-        { h: "Learning new fields fast", p: "Becomes productive quickly in unfamiliar fields and carries ideas from one domain into another." } ] },
-      { n: "II", t: "Make.", items: [
-        { h: "Building and testing", p: "Builds working prototypes quickly, so ideas are tested before time and money are committed." },
-        { h: "Analytical judgment", p: "Combines hard data with what people report to reach conclusions that hold up under scrutiny." },
-        { h: "Auditing and quality systems", p: "Checks whether processes deliver what they promise and finds where they fall short." } ] },
-      { n: "III", t: "Enable.", items: [
-        { h: "Critical review", p: "Gives clear, fair assessments that help others improve their work." },
-        { h: "AI learning and communication", p: "Helps people and teams adopt AI, and explains technical ideas in terms anyone can use." },
-        { h: "Leadership and organisation", p: "Builds teams and structures that make work clear, measurable and efficient." } ] }
-    ] },
-    { h: "Methods and tools", p: "The instruments behind the work, and where each was used." },
-    { uses: [
-      { tools: "Within-subject experiments · counterbalancing · repeated-measures and mixed-effects analysis · multiple-testing correction · sensitivity analysis", where: "The 51-driver study and the master's students' experiments", go: "THREE" },
-      { tools: "Tobii eye tracking · Xsens motion capture · NASA-TLX · synchronized multimodal data processing", where: "Driver workload assessment (DWAM)", go: "THREE" },
-      { tools: "CARLA · CarSim · model predictive control · Logitech steering and pedal interfaces · Python pipelines · Neo4j knowledge graphs · Mask R-CNN", where: "The driving-simulation lab, the Siemens knowledge graph and carbide-particle segmentation", go: "THREE" },
-      { tools: "AI-assisted prototyping · web-app and agent workflows · curriculum and assessment design · teacher training", where: "Emerald Hill Design Education Institute and Belio Technology", go: "FOUR" }
-    ] }
+  { kicker: "Two · Experience with methods and tools", title: "What I can do, and what I have used", art: 4, sub: "Each line says what I do and where you can see it in my work.", blocks: [
+    { h: "Understanding problems and people" },
+    { how: [
+      { p: "I turn vague, messy problems into clear questions a team can answer and act on.", go: "THREE", cta: "See the doctoral research →" },
+      { p: "I design systems that adapt to how people actually behave, instead of asking people to adapt to the system.", href: "essays/tyranny-of-the-default/", cta: "See The Tyranny of the Default →" },
+      { p: "I become productive quickly in unfamiliar fields, and carry ideas from one domain into another.", go: "THREE", cta: "See how manufacturing led to driving →" } ] },
+    { h: "Building and testing" },
+    { how: [
+      { p: "I build working prototypes quickly, so ideas are tested before time and money are committed.", go: "THREE", cta: "See the driving-simulation lab →" },
+      { p: "I combine hard data with what people report, to reach conclusions that hold up under scrutiny.", go: "THREE", cta: "See the 51-driver study →" },
+      { p: "I check whether processes deliver what they promise, and find where they fall short.", go: "SEVEN", cta: "See the auditing credential →" } ] },
+    { h: "Helping others do their best work" },
+    { how: [
+      { p: "I give clear, fair assessments that help others improve their work." },
+      { p: "I help people and teams adopt AI, and explain technical ideas in terms anyone can use.", go: "FOUR", cta: "See the consulting work →" },
+      { p: "I build teams and structures that make work clear, measurable and efficient.", go: "FOUR", cta: "See the leadership roles →" } ] },
+    { h: "Methods and tools I have used", p: "The instruments behind the work, and where each was used." },
+    { how: [
+      { l: "Study design and analysis.", p: "Within-subject experiments, counterbalancing, repeated-measures and mixed-effects analysis, multiple-testing correction, sensitivity analysis.", go: "THREE", cta: "Used in the 51-driver study →" },
+      { l: "Human-factors measurement.", p: "Tobii eye tracking, Xsens motion capture, NASA-TLX, synchronized multimodal data processing.", go: "THREE", cta: "Used in driver workload assessment →" },
+      { l: "Simulation and computation.", p: "CARLA, CarSim, model predictive control, Logitech steering and pedal interfaces, Python pipelines, Neo4j knowledge graphs, Mask R-CNN.", go: "THREE", cta: "Used in the simulation lab and the Siemens work →" },
+      { l: "AI and educational design.", p: "AI-assisted prototyping, web-app and agent workflows, curriculum and assessment design, teacher training.", go: "FOUR", cta: "Used at Emerald Hill and Belio →" } ] }
   ] },
 
   { kind: "opener", num: "THREE", pre: "THE", word: "RESEARCH", art: 6,
@@ -531,31 +531,31 @@ const CV_PAGES_ZH = [
     quote: "我们既不面向东方，也不面向西方：我们面向前方。", by: "克瓦米·恩克鲁玛" },
   { kind: "who" },
 
-  { kind: "opener", num: "TWO", zt: "我的优势", art: 3,
-    topics: ["问题界定", "行为与系统", "构建与测试", "判断与评审", "领导力", "方法与工具"],
+  { kind: "opener", num: "TWO", zt: "方法与工具", art: 3,
+    topics: ["我能做什么", "它在工作中如何体现", "我用过的方法与工具"],
     quote: "智慧如猴面包树，一人无法独自环抱。", by: "埃维族与阿坎族谚语", original: "Nunya, adidoe, asi metunee o." },
-  { kicker: "二 · 我的优势", title: "核心优势", art: 4, sub: "深入理解，用心创造，助人前行。", blocks: [
-    { groups: [
-      { n: "I", t: "理解。", items: [
-        { h: "问题界定", p: "把模糊、杂乱的问题转化为团队能够回答并付诸行动的清晰问题。" },
-        { h: "人的行为与系统", p: "设计能够适应人们真实行为的系统，而不是要求人去适应系统。" },
-        { h: "快速学习新领域", p: "在陌生领域中迅速上手，并把一个领域的思路带入另一个领域。" } ] },
-      { n: "II", t: "创造。", items: [
-        { h: "构建与测试", p: "快速搭建可运行的原型，在投入时间和资金之前先验证想法。" },
-        { h: "分析判断", p: "把客观数据与人的主观反馈结合起来，得出经得起推敲的结论。" },
-        { h: "审核与质量体系", p: "检查流程是否兑现承诺，并找出不足之处。" } ] },
-      { n: "III", t: "赋能。", items: [
-        { h: "评审与反馈", p: "给出清晰、公正的评估，帮助他人改进工作。" },
-        { h: "AI 学习与沟通", p: "帮助个人和团队采用 AI，并用通俗易懂的方式解释技术理念。" },
-        { h: "领导力与组织建设", p: "搭建团队与组织结构，使工作清晰、可衡量、高效。" } ] }
-    ] },
-    { h: "方法与工具", p: "这些工作背后的方法与工具，以及它们用在哪里。" },
-    { uses: [
-      { tools: "被试内实验 · 平衡设计 · 重复测量与混合效应分析 · 多重检验校正 · 敏感性分析", where: "51 名驾驶员的研究与两位硕士生的实验", go: "THREE" },
-      { tools: "Tobii 眼动追踪 · Xsens 动作捕捉 · NASA-TLX · 多模态同步数据处理", where: "驾驶员负荷评估（DWAM）", go: "THREE" },
-      { tools: "CARLA · CarSim · 模型预测控制 · 罗技方向盘与踏板 · Python 数据处理流程 · Neo4j 知识图谱 · Mask R-CNN", where: "驾驶模拟实验室、与西门子合作的知识图谱，以及碳化物颗粒分割", go: "THREE" },
-      { tools: "AI 辅助原型设计 · 网页应用与智能体工作流 · 课程与评估设计 · 教师培训", where: "Emerald Hill 设计教育学院与 Belio Technology", go: "FOUR" }
-    ] }
+  { kicker: "二 · 方法与工具实践", title: "我能做什么，我用过什么", art: 4, sub: "每一条都说明我做什么，以及在哪里能看到。", blocks: [
+    { h: "理解问题与人" },
+    { how: [
+      { p: "我把模糊、杂乱的问题转化为团队能够回答并付诸行动的清晰问题。", go: "THREE", cta: "见博士研究 →" },
+      { p: "我设计能够适应人们真实行为的系统，而不是要求人去适应系统。", href: "essays/tyranny-of-the-default/", cta: "见《默认设置的专制》 →" },
+      { p: "我在陌生领域中迅速上手，并把一个领域的思路带入另一个领域。", go: "THREE", cta: "见从制造到驾驶的转变 →" } ] },
+    { h: "构建与测试" },
+    { how: [
+      { p: "我快速搭建可运行的原型，在投入时间和资金之前先验证想法。", go: "THREE", cta: "见驾驶模拟实验室 →" },
+      { p: "我把客观数据与人的主观反馈结合起来，得出经得起推敲的结论。", go: "THREE", cta: "见 51 名驾驶员的研究 →" },
+      { p: "我检查流程是否兑现承诺，并找出不足之处。", go: "SEVEN", cta: "见审核资质 →" } ] },
+    { h: "帮助他人做好工作" },
+    { how: [
+      { p: "我给出清晰、公正的评估，帮助他人改进工作。" },
+      { p: "我帮助个人和团队采用 AI，并用通俗易懂的方式解释技术理念。", go: "FOUR", cta: "见咨询工作 →" },
+      { p: "我搭建团队与组织结构，使工作清晰、可衡量、高效。", go: "FOUR", cta: "见领导经历 →" } ] },
+    { h: "我用过的方法与工具", p: "这些工作背后的方法与工具，以及它们用在哪里。" },
+    { how: [
+      { l: "研究设计与分析。", p: "被试内实验、平衡设计、重复测量与混合效应分析、多重检验校正、敏感性分析。", go: "THREE", cta: "用于 51 名驾驶员的研究 →" },
+      { l: "人因测量。", p: "Tobii 眼动追踪、Xsens 动作捕捉、NASA-TLX、多模态同步数据处理。", go: "THREE", cta: "用于驾驶员负荷评估 →" },
+      { l: "仿真与计算。", p: "CARLA、CarSim、模型预测控制、罗技方向盘与踏板、Python 数据处理流程、Neo4j 知识图谱、Mask R-CNN。", go: "THREE", cta: "用于模拟实验室与西门子合作 →" },
+      { l: "AI 与教育设计。", p: "AI 辅助原型设计、网页应用与智能体工作流、课程与评估设计、教师培训。", go: "FOUR", cta: "用于 Emerald Hill 与 Belio →" } ] }
   ] },
 
   { kind: "opener", num: "THREE", zt: "科研工作", art: 6,
@@ -773,8 +773,8 @@ const THREADS_ZH = [
 ];
 const THREADS = ZH ? THREADS_ZH : THREADS_EN;
 // one short phrase under each chapter name on the graphs
-const CH_SUB_EN = { ONE: 'profile', TWO: 'strengths', THREE: 'PhD and papers', FOUR: 'jobs, consulting, teaching', FIVE: 'education', SIX: 'writing', SEVEN: 'awards and certificates' };
-const CH_SUB_ZH = { ONE: '个人简介', TWO: '优势', THREE: '博士研究与论文', FOUR: '工作、咨询与教学', FIVE: '教育', SIX: '写作', SEVEN: '奖项与证书' };
+const CH_SUB_EN = { ONE: 'profile', TWO: 'what I can do and the tools I use', THREE: 'PhD and papers', FOUR: 'jobs, consulting, teaching', FIVE: 'education', SIX: 'writing', SEVEN: 'awards and certificates' };
+const CH_SUB_ZH = { ONE: '个人简介', TWO: '我能做什么与所用工具', THREE: '博士研究与论文', FOUR: '工作、咨询与教学', FIVE: '教育', SIX: '写作', SEVEN: '奖项与证书' };
 const CH_SUB = ZH ? CH_SUB_ZH : CH_SUB_EN;
 const GROUPS = [
   { id: 'research', name: L('Research methods', '研究方法') },
@@ -963,6 +963,7 @@ function blocksHtml(p) {
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.impact) html += impactHtml(b.impact);
     if (b.uses) html += usesHtml(b.uses);
+    if (b.how) html += `<ul class="how big">${b.how.map((it) => `<li>${it.l ? `<b>${esc(it.l)}</b> ` : ''}${esc(it.p)}${it.go ? ` <button type="button" class="golink" data-nav="${it.go}">${esc(it.cta)}</button>` : it.href ? ` <a class="readlink" href="${esc(it.href)}">${esc(it.cta)}</a>` : ''}</li>`).join('')}</ul>`;
     if (b.tabs) html += tabsHtml(b.tabs);
     if (b.groups) html += b.groups.map((g) => `<section class="sgroup"><p class="gn">${esc(g.n)}</p><div><h3 class="gt">${esc(g.t)}</h3>${g.items.map((it) => `<p class="sh">${esc(it.h)}</p><p class="sp">${esc(it.p)}</p>`).join('')}</div></section>`).join('');
   }
