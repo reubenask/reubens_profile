@@ -72,7 +72,7 @@ a{color:inherit}
 .rail button{background:none;border:0;padding:5px 6px;cursor:pointer;font-family:var(--caps);font-size:10.5px;letter-spacing:.18em;color:#b9b29c88;text-align:right}
 .rail button[aria-current="true"]{color:var(--gold)}
 .rail button:hover{color:var(--ink)}
-.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}
+.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}.chire{margin:18px 0 22px;max-width:640px}.chire p{margin:0 0 8px}.chire p b{font-weight:600}.chire .cl{font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a0583a;margin-bottom:10px}
 .hint{position:fixed;z-index:3;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));text-align:center;font-style:italic;color:var(--muted);font-size:14px;pointer-events:none;transition:opacity .6s}
 .spacer{width:1px}
 @media (max-width:700px){.rail{display:none}.mark{font-size:18px}}
@@ -1024,7 +1024,7 @@ const wheel = $('wheel'), bgSoft = $('bgSoft'), bgBlur = $('bgBlur');
 let ANGLE = 15, RADIUS = 520, STEP = 260;
 function itemHtml(it) {
   if (it.kind === 'sep') return '<span>✦</span>';
-  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect: A human factors researcher helping find better ways for people to interact with machines and intelligent systems.', 'Reuben ASK · 用户行为架构师：一名人因研究员，致力于为人与机器和智能系统的交互寻找更好的方式。')}</span></button>`;
+  if (it.kind === 'intro') return `<button type="button" data-open="ONE"><span class="main">${L('Reuben ASK', '郝运')}</span><span class="sub">${L('User Behavior Architect: I help teams test how people interact with automated systems and use behavioral data to improve the design.', 'Reuben ASK · 用户行为架构师：我帮助团队测试人如何与自动化系统交互，并用行为数据改进设计。')}</span></button>`;
   if (it.kind === 'books') return `<button type="button" data-open="BOOKS"><span class="k">${L('Reading library', '阅读书架')}</span><span class="main">${L('Books that shaped how I think.', '塑造我思考方式的书。')}</span><span class="sub">${L(`${BOOKS.length} books, each with its biggest takeaway`, `${BOOKS.length} 本书，每本一条最大的收获`)}</span><span class="open">${L('Open the shelf', '打开书架')}</span></button>`;
   if (it.kind === 'contact') return `<button type="button" data-open="CONTACT"><span class="k">${L('Contact', '联系方式')}</span><span class="main">${L('Frame. Measure. Build.', '界定。量化。构建。')}</span><span class="sub">${L('Email, ORCID, LinkedIn and the full CV', '邮箱、ORCID、领英与完整简历')}</span><span class="open">${L('Open', '打开')}</span></button>`;
   const [line, sub] = HEAD[it.c.id];
@@ -1602,6 +1602,9 @@ function openContact() {
     <p class="num">${L('THE NEXT CHAPTER', '下一章')}</p>
     <h1 id="sheetTitle" class="cbig">${L('Frame. Measure.<br><em>Build.</em>', '界定。量化。<br><em>构建。</em>')}</h1>
     <p class="cinvite">${L('Have a question worth working on?<br>Let’s begin a conversation.', '有值得一起解决的问题吗？<br>欢迎与我联系。')}</p>
+    <div class="chire"><p class="cl">${L('What I can help with', '我可以提供的帮助')}</p>
+      <p><b>${L('Human factors study design.', '人因研究设计。')}</b> ${L('A test protocol, measures and an analysis plan.', '测试方案、测量指标和分析计划。')}</p>
+      <p><b>${L('Behavioral data analysis.', '行为数据分析。')}</b> ${L('Analysis of existing study or product data, with a findings brief and recommendations.', '分析现有研究或产品数据，提供结论简报和建议。')}</p></div>
     <a class="cmail" href="mailto:reuben@zju.edu.cn">reuben@zju.edu.cn <span aria-hidden="true">↗</span></a>
     <div class="cgrid">
       <div><p class="cl">${L('Elsewhere', '个人网站')}</p><p><a href="https://reubenask.com" target="_blank" rel="noopener">reubenask.com <span aria-hidden="true">↗</span></a></p></div>
@@ -1674,7 +1677,7 @@ $('langBtn').onclick = () => { const to = ZH ? 'en' : 'zh'; const u = new URL(lo
   }, { passive: true });
 })();
 
-{ const hl = document.createElement('p'); hl.className = 'homelinks'; hl.id = 'homelinks'; hl.innerHTML = `<button type="button" data-go="THREE">${L('See the driver workload study', '查看驾驶员劳动研究')}</button><button type="button" data-go="CONTACT">${L('Contact', '联系方式')}</button>`; hl.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (b) openChapter(b.dataset.go); }); document.body.appendChild(hl); }
+{ const hl = document.createElement('p'); hl.className = 'homelinks'; hl.id = 'homelinks'; hl.innerHTML = `<button type="button" data-go="THREE">${L('See the driver workload study', '查看驾驶员劳动研究')}</button><button type="button" data-go="CONTACT">${L('Discuss a project', '洽谈项目')}</button>`; hl.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (b) openChapter(b.dataset.go); }); document.body.appendChild(hl); }
 layout(); onScroll(); paint();
 /* ---------- opening animation: spark, two waves, two figures, contact, welcome ---------- */
 
