@@ -360,6 +360,11 @@ a{color:inherit}
   .mapwrap .ginfo.side{position:absolute;left:0;right:0;bottom:0;max-height:46%;overflow:auto;box-shadow:0 12px 30px #0003}
   .mapwrap .ginfo.side:has(.gi-hint){padding:8px 12px}
 }
+@media (max-width:640px){
+  .sheet.map .paper{height:auto;overflow:visible}
+  .mapwrap{flex:none}
+  .mapwrap .graph{height:min(170vw,780px)}
+}
 
 .graph svg .cnode{cursor:pointer}
 .graph svg .cnode:focus{outline:none}
@@ -1275,6 +1280,31 @@ function relax(items, fixed, box) {
     if (!done) { A.x = A.ax; A.y = A.ay; }
     placed.push(A);
   }
+  spread(items, fixed, box);
+}
+// after the greedy placement: let labels push gently apart so they spread out evenly and never touch
+function spread(items, fixed, box) {
+  const overlaps = () => { let n = 0; const all = items.concat(fixed); for (let i = 0; i < items.length; i++) for (let j = i + 1; j < all.length; j++) { const a = items[i], b = all[j]; if (Math.abs(a.x - b.x) < (a.w + b.w) / 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2) n++; } return n; };
+  const before = items.map((p) => [p.x, p.y]), nBefore = overlaps();
+  const pad = 10, reach = 46, all = items.concat(fixed);
+  for (let it = 0; it < 700; it++) {
+    const cool = 1 - it / 760;
+    for (let i = 0; i < items.length; i++) {
+      const a = items[i]; let fx = 0, fy = 0;
+      for (let j = 0; j < all.length; j++) {
+        const b = all[j]; if (b === a) continue;
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const ox = (a.w + b.w) / 2 + pad - Math.abs(dx), oy = (a.h + b.h) / 2 + pad - Math.abs(dy);
+        const gx = Math.max(0, -ox), gy = Math.max(0, -oy), d = Math.hypot(gx, gy);
+        if (ox > 0 && oy > 0) { if (ox < oy) fx += (dx >= 0 ? 1 : -1) * ox * .5; else fy += (dy >= 0 ? 1 : -1) * oy * .5; }
+        else if (d < reach) { const k = (reach - d) / reach * 2.2, L2 = Math.hypot(dx, dy) || 1; fx += dx / L2 * k; fy += dy / L2 * k; }
+      }
+      fx += (a.ax - a.x) * .012; fy += (a.ay - a.y) * .012;
+      a.x = Math.min(box[2] - a.w / 2, Math.max(box[0] + a.w / 2, a.x + fx * cool));
+      a.y = Math.min(box[3] - a.h / 2, Math.max(box[1] + a.h / 2, a.y + fy * cool));
+    }
+  }
+  if (overlaps() > nBefore) items.forEach((p, i) => { p.x = before[i][0]; p.y = before[i][1]; });
 }
 function pillSvg(p, i) {
   return `<g class="cnode g-${p.t.g}" data-t="${i}" data-chs="${p.t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(p.t.t)}: ${L('show where it was used', '查看用在哪里')}" transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)})"><rect x="${-p.w / 2}" y="${-PILL_H / 2}" width="${p.w}" height="${PILL_H}" rx="${PILL_H / 2}"/><text text-anchor="middle" dy="6.5">${esc(p.t.t)}</text></g>`;
@@ -1300,7 +1330,7 @@ function frame(box) {
   const cw = Math.max(280, box.clientWidth), ch = Math.max(320, box.clientHeight);
   const s = cw < 640 ? 1.75 : cw < 900 ? 1.4 : 1.25;
   const W = Math.round(cw * s), H = Math.round(ch * s);
-  return { W, H, compact: W < 1050 };
+  return { W, H, compact: W < 1050 || H < 720 };
 }
 function edgesAndNodes(tp, pos, extraEdge) {
   let edges = '', nodes = '';
@@ -1342,7 +1372,7 @@ function graphSvg(centerId, W, H, compact) {
 /* the whole map: chapters on a ring that matches the screen's shape, skills inside, grouped by colour */
 function mapSvg(W, H, compact) {
   const cx = W / 2, R = compact ? 17 : 21;
-  const mx = compact ? 115 : 165, myT = compact ? 80 : 115, myB = compact ? 78 : 112;
+  const mx = compact ? (W < 700 ? 66 : 115) : 165, myT = compact ? 80 : 115, myB = compact ? 78 : 112;
   const rx = W / 2 - mx, ry = (H - myT - myB) / 2, cy = myT + ry;
   const pos = {};
   CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
