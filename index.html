@@ -72,7 +72,7 @@ a{color:inherit}
 .rail button{background:none;border:0;padding:5px 6px;cursor:pointer;font-family:var(--caps);font-size:10.5px;letter-spacing:.18em;color:#b9b29c88;text-align:right}
 .rail button[aria-current="true"]{color:var(--gold)}
 .rail button:hover{color:var(--ink)}
-.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}.math{margin:10px 0 16px;overflow-x:auto}.math p{margin:4px 0;text-align:center;font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;line-height:1.5;white-space:nowrap}.chire{margin:18px 0 22px;max-width:640px}.chire p{margin:0 0 8px}.chire p b{font-weight:600}.chire .cl{font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a0583a;margin-bottom:10px}
+.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}.paper sub{font-size:.7em;line-height:0;vertical-align:-.28em}.math{margin:10px 0 16px;overflow-x:auto}.math p{margin:4px 0;text-align:center;font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;line-height:1.5;white-space:nowrap}.chire{margin:18px 0 22px;max-width:640px}.chire p{margin:0 0 8px}.chire p b{font-weight:600}.chire .cl{font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a0583a;margin-bottom:10px}
 .hint{position:fixed;z-index:3;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));text-align:center;font-style:italic;color:var(--muted);font-size:14px;pointer-events:none;transition:opacity .6s}
 .spacer{width:1px}
 @media (max-width:700px){.rail{display:none}.mark{font-size:18px}}
@@ -1142,8 +1142,8 @@ function blocksHtml(p) {
     flush();
     if (b.h) html += `<h3>${esc(b.h)}</h3>`;
     if (b.meta) html += `<p class="meta">${esc(b.meta)}</p>`;
-    if (b.p) html += `<p>${esc(b.p)}</p>`;
-    if (b.math) html += `<div class="math">${b.math.map((m) => `<p>${esc(m)}</p>`).join('')}</div>`;
+    if (b.p) html += `<p>${subs(esc(b.p))}</p>`;
+    if (b.math) html += `<div class="math">${b.math.map((m) => `<p>${subs(esc(m))}</p>`).join('')}</div>`;
     if (b.href) html += `<p><a class="readlink" href="${esc(b.href)}">${esc(b.cta || L('Read it', '阅读'))} →</a></p>`;
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.eq) html += `<div class="eqwrap"><div class="eq"><span class="t lhs">${esc(b.eq.lhs)}</span><i>=</i><span class="t">${esc(b.eq.a)}<small>${esc(b.eq.as)}</small></span><i>+</i><span class="t">${esc(b.eq.b)}<small>${esc(b.eq.bs)}</small></span></div><p class="eqcap">${esc(b.eq.cap)}</p></div>`;
@@ -1170,6 +1170,7 @@ function usesHtml(list) {
   return `<div class="uses">${list.map((u) => `<div class="use"><p class="tool">${esc(u.tools)}</p><p class="where"><span class="tag">${L('Used in', '用于')}</span>${esc(u.where)}${u.go ? ` <button type="button" class="golink" data-nav="${u.go}">${esc(CH_NAME[u.go] || u.go)} →</button>` : ''}</p></div>`).join('')}</div>`;
 }
 // methods as four tabs: approach, instrument, and the work it served
+const subs = (t) => t.replace(/([A-Za-z\u03b4\u0394])_([A-Za-z]+)/g, '$1<sub>$2</sub>');
 let tabSeq = 0;
 function tabsHtml(tabs) {
   const id = 'mt' + (++tabSeq);
