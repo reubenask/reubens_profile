@@ -72,7 +72,7 @@ a{color:inherit}
 .rail button{background:none;border:0;padding:5px 6px;cursor:pointer;font-family:var(--caps);font-size:10.5px;letter-spacing:.18em;color:#b9b29c88;text-align:right}
 .rail button[aria-current="true"]{color:var(--gold)}
 .rail button:hover{color:var(--ink)}
-.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}.chire{margin:18px 0 22px;max-width:640px}.chire p{margin:0 0 8px}.chire p b{font-weight:600}.chire .cl{font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a0583a;margin-bottom:10px}
+.homelinks{position:fixed;z-index:4;left:0;right:0;bottom:calc(50px + env(safe-area-inset-bottom,0px));text-align:center;font-size:16px;color:var(--gold);transition:opacity .6s}.homelinks button{background:none;border:0;border-bottom:1px solid currentColor;color:inherit;font:inherit;cursor:pointer;padding:0 1px;margin:0 10px}.homelinks button:hover{opacity:.75}.math{margin:10px 0 16px;overflow-x:auto}.math p{margin:4px 0;text-align:center;font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;line-height:1.5;white-space:nowrap}.chire{margin:18px 0 22px;max-width:640px}.chire p{margin:0 0 8px}.chire p b{font-weight:600}.chire .cl{font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a0583a;margin-bottom:10px}
 .hint{position:fixed;z-index:3;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));text-align:center;font-style:italic;color:var(--muted);font-size:14px;pointer-events:none;transition:opacity .6s}
 .spacer{width:1px}
 @media (max-width:700px){.rail{display:none}.mark{font-size:18px}}
@@ -510,7 +510,16 @@ const CV_PAGES_DATA = [
   { kicker: "Three · The research: PhD and earlier research", title: "Doctoral research", art: 17, sub: "Human–intelligent vehicle interaction · Jan 2024 to present · Zhejiang University", blocks: [
     { b: "Built the research group's first driving-simulation lab, including a driver assistance system with steering, pedal and combined support." },
     { b: "Proposed the Driver Workload Assessment Methodology (DWAM) to calculate driver workload for each driving mode, so it shows whether, where and in which direction workload changes when driving tasks shift to the system." },
-    { eq: { lhs: "DWAM", a: "Objective workload", as: "visual + physical", b: "Correlation with", bs: "subjective workload", cap: "Driver Workload Assessment Methodology: objective workload is derived from visual and physical activity, then correlated with what drivers report." } },
+    { eq: { lhs: "DWAM", a: "Objective measurement", as: "visual + physical", b: "Subjective measurement", bs: "weighted NASA-TLX", cap: "Four stages of the Driver Workload Assessment Methodology: workload model formulation, data collection, workload assessment, and workload change evaluation. Assessment produces the component scores; evaluation applies decision rules to the evidence from comparisons with the no-support reference. Visual workload is built on pupil diameter, blink rate, fixation ratio and visit rate." } },
+    { h: "Workload assessment and change evaluation" },
+    { p: "The Driver Workload Assessment Methodology (DWAM) assesses driver workload using a set of objective and subjective components:" },
+    { math: ["C = C_obj ∪ C_subj, where", "C_obj = {V, P_head, P_upper, P_lower} and C_subj = {S}."] },
+    { p: "V is the Visual Workload Index, and P_head, P_upper, and P_lower are the movement-based scores for the head, upper body, and lower body, respectively. S is the weighted NASA-TLX score for each driving condition. The union defines the set of components used in the evaluation. The five scores are retained separately and are not combined into an overall workload score." },
+    { p: "Workload assessment yields a score for each component in each driving condition. Workload change evaluation then compares each supported condition A with the no-support reference R within the same participants. For each component, the paired changes are summarised with an estimated effect and its uncertainty. The component classification and data-quality status are also recorded. Together, these form the evidence set δ_C. The ordered decision rules Δ are applied as follows:" },
+    { math: ["Evaluation(A | R) = Δ(δ_C | A, R)   (2.1)"] },
+    { p: "The evaluation yields one of five conclusions relative to no support: relative reduction, relative increase, redistribution, no meaningful change, or inconclusive. Keeping the components separate allows the evaluation to identify where workload changes and in which direction." },
+    { h: "Subjective workload" },
+    { p: "The weighted NASA-TLX was administered after each drive and provided the subjective workload score S for the formal DWAM evaluation. The study-specific Subjective Workload Questionnaire (SWQ) was administered after participants completed all four drives. Its domain scores were used to help interpret the findings and were not included in the decision rules." },
     { b: "Guided two master's students in designing and building their experiments and analysing their data." },
     { how: [
       { l: "Experimental design.", p: "2 × 2 within-subject with Williams Latin square counterbalancing: steering support (off or on) by pedal support (off or on), giving four conditions (manual driving, steering, pedal and combined support). Every driver completed all four, and each condition comes first, and follows each other condition, equally often." },
@@ -666,7 +675,16 @@ const CV_PAGES_ZH = [
   { kicker: "三 · 科研工作：博士及早期研究", title: "博士研究", art: 17, sub: "人与智能车辆交互 · 2024 年 1 月至今 · 浙江大学", blocks: [
     { b: "搭建课题组第一个驾驶模拟实验室，包括具备转向、踏板及组合辅助功能的驾驶辅助系统。" },
     { b: "提出驾驶员劳动评估方法（DWAM），为每种驾驶模式计算驾驶员劳动，判断当驾驶任务转移给系统时，劳动是否变化、在哪里变化、朝哪个方向变化。" },
-    { eq: { lhs: "DWAM", a: "客观劳动", as: "视觉 + 身体", b: "与……的相关", bs: "主观劳动", cap: "驾驶员劳动评估方法：由视觉与身体活动得出客观劳动，再与驾驶员的主观报告做相关分析。" } },
+    { eq: { lhs: "DWAM", a: "客观测量", as: "视觉 + 身体", b: "主观测量", bs: "加权 NASA-TLX", cap: "驾驶员劳动评估方法的四个阶段：劳动模型构建、数据采集、劳动评估和劳动变化评价。评估得出各组成部分的得分；评价则依据与无辅助基准比较所得的证据，应用判定规则。视觉劳动以瞳孔直径、眨眼率、注视比例和访问率为基础。" } },
+    { h: "劳动评估与变化评价" },
+    { p: "驾驶员劳动评估方法（DWAM）使用一组客观与主观成分来评估驾驶员劳动：" },
+    { math: ["C = C_obj ∪ C_subj，其中", "C_obj = {V, P_head, P_upper, P_lower}，C_subj = {S}。"] },
+    { p: "V 为视觉劳动指数，P_head、P_upper 和 P_lower 分别为头部、上身和下身基于动作的得分。S 为每种驾驶条件下的加权 NASA-TLX 得分。并集界定了评价所使用的成分集合。这五个得分分别保留，不合成为一个总体劳动得分。" },
+    { p: "劳动评估为每种驾驶条件下的每个成分给出一个得分。劳动变化评价随后在同一批被试内，将每种有辅助条件 A 与无辅助基准 R 进行比较。对每个成分，配对差值以估计效应及其不确定性来概括，同时记录成分分类和数据质量状态。它们共同构成证据集 δ_C。按顺序应用判定规则 Δ：" },
+    { math: ["Evaluation(A | R) = Δ(δ_C | A, R)   (2.1)"] },
+    { p: "相对于无辅助，评价得出五种结论之一：相对降低、相对升高、重新分配、无显著变化或无定论。各成分分开保留，使评价能够识别劳动在哪里变化以及朝哪个方向变化。" },
+    { h: "主观劳动" },
+    { p: "每次驾驶结束后填写加权 NASA-TLX，其得分 S 用于 DWAM 的正式评价。四次驾驶全部完成后，被试填写本研究专用的主观劳动问卷（SWQ）。其各维度得分用于帮助解释研究发现，不纳入判定规则。" },
     { b: "指导两名硕士研究生设计并搭建实验，分析数据。" },
     { how: [
       { l: "实验设计。", p: "2 × 2 被试内设计，采用 Williams 拉丁方平衡：转向辅助（关或开）与踏板辅助（关或开），共四种条件（手动驾驶，以及转向、踏板和组合辅助）。每名驾驶员完成全部四种条件，且每种条件出现在首位以及紧随其他各条件之后的次数相同。" },
@@ -1125,6 +1143,7 @@ function blocksHtml(p) {
     if (b.h) html += `<h3>${esc(b.h)}</h3>`;
     if (b.meta) html += `<p class="meta">${esc(b.meta)}</p>`;
     if (b.p) html += `<p>${esc(b.p)}</p>`;
+    if (b.math) html += `<div class="math">${b.math.map((m) => `<p>${esc(m)}</p>`).join('')}</div>`;
     if (b.href) html += `<p><a class="readlink" href="${esc(b.href)}">${esc(b.cta || L('Read it', '阅读'))} →</a></p>`;
     if (b.stat) html += `<div class="stat"><b>${esc(b.stat)}</b><span>${esc(b.label)}</span></div>`;
     if (b.eq) html += `<div class="eqwrap"><div class="eq"><span class="t lhs">${esc(b.eq.lhs)}</span><i>=</i><span class="t">${esc(b.eq.a)}<small>${esc(b.eq.as)}</small></span><i>+</i><span class="t">${esc(b.eq.b)}<small>${esc(b.eq.bs)}</small></span></div><p class="eqcap">${esc(b.eq.cap)}</p></div>`;
