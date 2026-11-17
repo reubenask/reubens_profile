@@ -337,6 +337,7 @@ a{color:inherit}
   .sheet.map .legend{display:none}
   .mapwrap.fs{display:block;position:fixed;z-index:80;left:0;top:0;width:100vw;height:100vh;width:100dvw;height:100dvh;background:#faf6ec;padding:8px;box-sizing:border-box}
   .mapwrap.fs .graph{height:100%}
+  .mapwrap.fs .ginfo.side{left:25%;right:auto;width:36%;top:46px;bottom:auto;max-height:calc(100% - 56px)}
   .mapwrap.fs .mapfs-close{display:block;position:absolute;right:10px;top:8px;z-index:5;border:1px solid #c9a24f;background:#f4e8c8;border-radius:999px;padding:8px 14px;font:600 15px/1 var(--display);color:#4d3510}
   .mapwrap.fs .fslegend{display:block;position:absolute;left:10px;top:8px;z-index:5;font-size:12.5px}
   .mapwrap.fs .fslegend .legend{display:flex!important;gap:10px;margin:0}
@@ -360,13 +361,18 @@ a{color:inherit}
   .mapwrap .ginfo.side{position:absolute;left:0;right:0;bottom:0;max-height:46%;overflow:auto;box-shadow:0 12px 30px #0003}
   .mapwrap .ginfo.side:has(.gi-hint){padding:8px 12px}
 }
+@media (max-height:520px) and (min-width:641px){
+  .sheet.map .paper{height:auto;overflow:visible}
+  .mapwrap{flex:none}
+  .mapwrap .graph{height:560px}
+}
 @media (max-width:640px){
   .sheet.map .paper{height:auto;overflow:visible}
   .mapwrap{flex:none}
-  .mapwrap .graph{height:min(170vw,780px)}
+  .mapwrap .graph{height:min(112vw,600px)}
 }
 
-.graph svg .cnode{cursor:pointer}
+.graph svg .colh{font:600 14px var(--body);letter-spacing:.2em;fill:#a77f2f}.graph svg .cnode{cursor:pointer}
 .graph svg .cnode:focus{outline:none}
 .graph svg .cnode:focus-visible rect{stroke-width:3}
 .graph svg .cnode.g-research rect{fill:#e6f1ea;stroke:#2e7a5c}
@@ -1370,27 +1376,34 @@ function graphSvg(centerId, W, H, compact) {
   nodes += `<g class="chnode self" transform="translate(${cx},${ccy})"><circle r="24"/><text text-anchor="middle" y="56">${esc(me.title)}</text></g>`;
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skills from ${esc(me.title)} that also appear in other chapters">${edges}${nodes}</svg>`;
 }
-/* the whole map: chapters on a ring that matches the screen's shape, skills inside, grouped by colour */
+/* the whole map: chapters in a column on the left, skills in a column on the right (grouped by colour); lines appear on selection */
 function mapSvg(W, H, compact) {
-  const cx = W / 2, R = compact ? 17 : 21;
-  const mx = compact ? (W < 700 ? 66 : 115) : 165, myT = compact ? 80 : 115, myB = compact ? 78 : 112;
-  const rx = W / 2 - mx, ry = (H - myT - myB) / 2, cy = myT + ry;
+  const narrow = W < 700, top = 86, bot = 26, n = THREADS.length;
+  const order = GROUPS.flatMap((g) => THREADS.filter((t) => t.g === g.id));
+  const rowH = Math.min(52, (H - top - bot) / n), ph = Math.min(narrow ? 32 : 40, rowH - 6);
+  const fs = narrow ? 15.5 : Math.max(14, Math.min(20, ph * .55)), k = fs / 19;
+  const R = narrow ? 11 : 14, xl = 30 + R;
+  const widths = order.map((t) => pillWidth(t.t) * k);
+  const xr = W - 20 - Math.max(...widths);
+  const cstep = (H - top - bot) / CHAPTERS.length;
   const pos = {};
-  CHAPTERS.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / CHAPTERS.length; pos[c.id] = [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
-  const mean = (ids) => { const pts = ids.map((c) => pos[c]); return [pts.reduce((acc, p) => acc + p[0], 0) / pts.length, pts.reduce((acc, p) => acc + p[1], 0) / pts.length]; };
-  // each group gets one home area, between the chapters its skills come from
-  const home = {};
-  GROUPS.forEach((g) => { const m = mean(THREADS.filter((t) => t.g === g.id).flatMap((t) => t.ch)); home[g.id] = [cx + (m[0] - cx) * 1.6, cy + (m[1] - cy) * 1.45]; });
-  const tp = THREADS.map((t) => {
-    const m = mean(t.ch), hm = home[t.g];
-    const x = cx + ((hm[0] - cx) * .65 + (m[0] - cx) * .35) * .9, y = cy + ((hm[1] - cy) * .65 + (m[1] - cy) * .35);
-    return { t, x, y, ax: x, ay: y, w: pillWidth(t.t), h: PILL_H };
+  CHAPTERS.forEach((c, i) => { pos[c.id] = [xl, top + (i + .5) * cstep]; });
+  let edges = '', nodes = '';
+  order.forEach((t, i) => {
+    const y = top + (i + .5) * ((H - top - bot) / n), w = widths[i];
+    t.ch.forEach((c) => {
+      const [x0, y0] = pos[c], mid = x0 + (xr - x0) * .5;
+      edges += `<path class="edge g-${t.g}" data-t="${THREADS.indexOf(t)}" data-c="${c}" d="M${x0},${y0.toFixed(1)} C${mid.toFixed(1)},${y0.toFixed(1)} ${mid.toFixed(1)},${y.toFixed(1)} ${xr.toFixed(1)},${y.toFixed(1)}"/>`;
+    });
+    nodes += `<g class="cnode g-${t.g}" data-t="${THREADS.indexOf(t)}" data-chs="${t.ch.join(' ')}" tabindex="0" role="button" aria-label="${esc(t.t)}: ${L('show where it was used', '查看用在哪里')}" transform="translate(${(xr + w / 2).toFixed(1)},${y.toFixed(1)})"><rect x="${-w / 2}" y="${-ph / 2}" width="${w}" height="${ph}" rx="${ph / 2}"/><text text-anchor="middle" dy="${(fs * .34).toFixed(1)}" style="font-size:${fs.toFixed(1)}px">${esc(t.t)}</text></g>`;
   });
-  const fixed = CHAPTERS.map((c) => chapterBox(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact));
-  relax(tp, fixed, [6, 6, W - 6, H - 6]);
-  let [edges, nodes] = edgesAndNodes(tp, pos);
-  CHAPTERS.forEach((c) => { nodes += chapterSvg(c.id, pos[c.id][0], pos[c.id][1], pos[c.id][1] > cy + 10, R, compact); });
-  return `<svg class="calm" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skill map across all chapters">${edges}${nodes}</svg>`;
+  CHAPTERS.forEach((c) => {
+    const [x, y] = pos[c.id], ch = byId[c.id], tx = R + 12;
+    const tf = narrow ? 18 : 24;
+    nodes += `<g class="chnode" tabindex="0" role="link" data-go="${c.id}" data-c="${c.id}" aria-label="Open chapter ${c.id.toLowerCase()}: ${esc(ch.title)}, ${esc(CH_SUB[c.id] || '')}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="${R}"/><text class="n" x="${tx}" y="${narrow ? -6 : -8}" style="font-size:${narrow ? 11 : 13}px">${numShort(c.id)}</text><text x="${tx}" y="${narrow ? 14 : 17}" style="font-size:${tf}px">${esc(ch.title)}</text></g>`;
+  });
+  const head = `<text class="colh" x="30" y="66">${L('CHAPTERS', '章节')}</text><text class="colh" x="${xr.toFixed(1)}" y="66">${L('SKILLS AND TOOLS', '技能与工具')}</text>`;
+  return `<svg class="calm" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Skill map across all chapters">${head}${edges}${nodes}</svg>`;
 }
 // draw every graph on the page at the size of its box; redrawn when the screen changes size or turns
 function drawGraphs(root) {
