@@ -1018,6 +1018,7 @@ const BOOK_ART = {
   moon: '<path d="M62 14a38 38 0 1 0 22 62A32 32 0 0 1 62 14z"/><path class="a" d="M70 30l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>',
   cloud: '<path d="M24 74a16 16 0 0 1 2-32 22 22 0 0 1 42-4 18 18 0 0 1 8 36z"/><path class="a" d="M30 84h40v4H30z"/>',
   six: '<circle class="a" cx="50" cy="50" r="9"/><circle cx="50" cy="18" r="9"/><circle cx="78" cy="34" r="9"/><circle cx="78" cy="66" r="9"/><circle cx="50" cy="82" r="9"/><circle cx="22" cy="66" r="9"/><circle cx="22" cy="34" r="9"/>',
+  quad: '<path d="M12 12h36v36H12z"/><path class="a" d="M52 12h36v36H52z"/><path class="a" d="M12 52h36v36H12z"/><path d="M52 52h36v36H52z"/><path d="M48 30h4M30 48v4M70 48v4M48 70h4" stroke="currentColor" stroke-width="3"/>',
   crown: '<path d="M14 76h72v10H14z"/><path d="M14 72 10 34l22 18 18-28 18 28 22-18-4 38z"/><circle class="a" cx="50" cy="20" r="5"/><circle class="a" cx="10" cy="30" r="4"/><circle class="a" cx="90" cy="30" r="4"/>',
 };
 const BOOKS = [
@@ -1055,6 +1056,8 @@ const BOOKS = [
     take: L('Errors come from how the mind works and from the conditions the system sets up. Slips and mistakes differ, and accidents happen when several small weaknesses line up.', '错误源于大脑的运作方式，也源于系统所创造的条件。失误与过错并不相同，事故往往发生在几个小漏洞恰好叠在一起的时候。') },
   { t: 'Neural Networks from Scratch in Python', a: 'Harrison Kinsley & Daniel Kukieła', g: 'work', c: 'green', m: 'net',
     take: L('Build a neural network from plain Python and NumPy, with no framework. Writing the forward pass, the loss and the backward pass yourself shows what a model is really doing.', '用纯 Python 和 NumPy 从零搭建神经网络，不借助任何框架。亲手写出前向传播、损失和反向传播，才看得清模型到底在做什么。') },
+  { t: 'NASA Systems Engineering Handbook', a: 'NASA', g: 'work', c: 'blue', m: 'quad',
+    take: L('Treat a complex system as one whole across its life: define what it must do, design it, integrate the parts, test it, then operate it. Every requirement should be checked against the finished system.', '把复杂系统在整个生命周期内当作一个整体：先定义它要做什么，再设计、集成各部分、测试，最后运行。每一条需求都要在成品系统上得到验证。') },
   { t: 'The Courage to Be Disliked', a: 'Ichiro Kishimi & Fumitake Koga', g: 'self', c: 'blue', m: 'apart',
     take: L('Freedom comes from separating your own tasks from other people’s. You cannot control what others think of you, so you do not have to live for their approval.', '自由来自把自己的课题和别人的课题分开。你无法控制别人怎么看你，所以不必为了别人的认可而活。') },
   { t: 'Atomic Habits', a: 'James Clear', g: 'self', c: 'gold', m: 'atom',
