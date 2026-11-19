@@ -1009,6 +1009,8 @@ const BOOK_ART = {
   seven: '<path d="M10 76h8v12h-8zM22 66h8v22h-8zM34 56h8v32h-8zM46 46h8v42h-8zM58 36h8v52h-8zM70 26h8v62h-8z"/><path class="a" d="M82 14h8v74h-8z"/>',
   city: '<circle class="a" cx="74" cy="22" r="10"/><path d="M6 88V58h12V44h12v44zM32 88V36h14v52zM48 88V54h6c0-10 6-16 12-16s12 6 12 16h6v34zM86 88V48h8v40z"/>',
   blossom: '<path d="M8 90 40 52l10 6 34-40" fill="none" stroke="currentColor" stroke-width="5"/><path d="M40 52 30 26M62 44l22 8" fill="none" stroke="currentColor" stroke-width="3"/><circle class="a" cx="30" cy="22" r="7"/><circle class="a" cx="86" cy="54" r="6"/><circle class="a" cx="84" cy="16" r="7"/><circle class="a" cx="56" cy="62" r="5"/><circle class="a" cx="18" cy="70" r="5"/>',
+  eye: '<path d="M6 50C22 28 78 28 94 50 78 72 22 72 6 50z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="50" r="15"/><circle class="a" cx="50" cy="50" r="7"/><path d="M50 14v14M50 72v14M12 50h14M74 50h14" stroke="currentColor" stroke-width="2.5"/>',
+  mind: '<g fill="none" stroke="currentColor" stroke-width="3"><path d="M50 50 24 28M50 50l28-22M50 50 22 68M50 50l30 18M24 28h-8M78 28h8"/></g><circle cx="50" cy="50" r="12"/><circle class="a" cx="24" cy="28" r="8"/><circle class="a" cx="78" cy="28" r="8"/><circle cx="22" cy="68" r="8"/><circle cx="80" cy="68" r="8"/>',
   crown: '<path d="M14 76h72v10H14z"/><path d="M14 72 10 34l22 18 18-28 18 28 22-18-4 38z"/><circle class="a" cx="50" cy="20" r="5"/><circle class="a" cx="10" cy="30" r="4"/><circle class="a" cx="90" cy="30" r="4"/>',
 };
 const BOOKS = [
@@ -1026,6 +1028,10 @@ const BOOKS = [
     take: L('Treat an idea as a hypothesis. Build the smallest version, measure how people really respond, learn, and only then invest more.', '把想法当作假设。先做出最小的版本，衡量人们的真实反应，从中学习，然后再加大投入。') },
   { t: 'The Humane Interface', a: 'Jef Raskin', g: 'work', c: 'blue', m: 'ui',
     take: L('A good interface is built around how human attention and habit really work. When people make errors, the design is usually at fault, not the person.', '好的界面是围绕人的注意力和习惯的真实运作方式来设计的。人出错时，问题通常出在设计上，而不在人。') },
+  { t: 'Handbook of Perception and Human Performance', st: 'Volume II: Cognitive Processes and Performance', a: 'Kenneth R. Boff, Lloyd Kaufman & James P. Thomas (eds.)', g: 'work', c: 'red', m: 'mind',
+    take: L('A reference volume on how people take in information, attend, decide and perform. It is where a human factors question gets its footing: start from the limits of the person, then judge the system.', '一本关于人如何获取信息、集中注意、做出决策并完成任务的参考著作。人因问题从这里找到立足点：先弄清人的局限，再评判系统。') },
+  { t: 'Eye Tracking', st: 'A Comprehensive Guide to Methods and Measures', a: 'Kenneth Holmqvist, Marcus Nyström, Richard Andersson, Richard Dewhurst, Halszka Jarodzka & Joost van de Weijer', g: 'work', c: 'blue', m: 'eye',
+    take: L('A practical guide to how eye movements are recorded and measured. Know what a fixation, a saccade or a pupil signal really is before you build a result on it.', '一本讲解眼动如何记录与度量的实用指南。在以注视、扫视或瞳孔信号为依据得出结论之前，先弄清它们到底是什么。') },
   { t: 'How to Write a Paper', st: '6th edition, 2005', a: 'Mike Ashby', g: 'work', c: 'cream', m: 'paper',
     take: L('Good papers are designed before they are written. Start from the reader, sketch the whole concept on one sheet, then draft and refine.', '好论文在动笔之前就已经设计好了。从读者出发，先在一页纸上勾勒出整体构思，再起草和修改。') },
   { t: 'How to Read a Book', a: 'Mortimer J. Adler & Charles Van Doren', g: 'work', c: 'red', m: 'book',
