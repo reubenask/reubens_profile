@@ -105,9 +105,13 @@ a{color:inherit}
 .sheet.books .paper h1{font-size:clamp(26px,3.4vw,38px);margin:4px 0 2px}
 .sheet.books .pager{margin-left:clamp(20px,5vw,64px);margin-right:clamp(20px,5vw,64px)}
 .lib{position:relative;--w:56px;--h:320px;--cw:210px;margin-top:10px;user-select:none;-webkit-user-select:none}
-.libtabs{display:flex;justify-content:center;flex-wrap:wrap;margin:8px 12px 0}
-.libtabs button{font-family:var(--caps);font-size:10.5px;letter-spacing:.14em;background:#f7f5ef;border:1px solid #c9c2b2;margin-left:-1px;padding:8px 10px 8px calc(10px + .14em);line-height:1;cursor:pointer;color:#3a342a}
-.libtabs button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#f3ecdc;position:relative}
+.libtabs{display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:4px clamp(18px,4vw,48px);margin:14px 12px 0}
+.libtabs button{font-family:var(--display);font-weight:600;font-size:clamp(17px,2.2vw,24px);letter-spacing:.01em;line-height:1;background:none;border:0;padding:6px 2px;cursor:pointer;color:#9a9484;transition:color .25s;-webkit-tap-highlight-color:transparent}
+.libtabs button sup{font-family:var(--caps);font-weight:400;font-size:10px;letter-spacing:.08em;margin-left:5px;vertical-align:top;position:relative;top:-.3em;opacity:.8}
+.libtabs button:hover{color:#4a4538}
+.libtabs button[aria-pressed="true"]{color:var(--green)}
+.libtabs button:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:2px}
+.libsub{text-align:center;margin:8px 20px 0;font-size:14px;font-style:italic;color:#7d7766;min-height:1.4em}
 .librow{position:relative;height:calc(var(--h) + 86px);perspective:1500px;perspective-origin:50% 55%;overflow:hidden;touch-action:pan-y;cursor:grab}
 .librow.drag{cursor:grabbing}
 .vb{position:absolute;left:50%;bottom:34px;width:var(--w);height:var(--h);transform-style:preserve-3d;transform-origin:50% 100%;will-change:transform;cursor:pointer}
@@ -133,9 +137,6 @@ a{color:inherit}
 .cv .cvm{flex:1;min-height:0;width:92%;margin-top:4%;display:flex;align-items:flex-end}
 .cv .cvn{align-self:flex-end;font-size:8px;font-size:4cqw;margin-top:3%}
 .vb.on,.vb.on .vcover{cursor:none}
-.gl{position:absolute;left:calc(var(--gx) * -1);top:-40px;bottom:-6px;width:0;border-left:1px solid #b08d3c;pointer-events:none;opacity:.8}
-.vb.on .gl{opacity:0}
-.gl em{position:absolute;left:8px;top:0;font:600 10.5px/1 Georgia,serif;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#8a6a22;white-space:nowrap}
 .vcover,.dcover{background:#e9e1cf}
 .vcover::before,.dcover::before{content:"";position:absolute;inset:2.5px;border-radius:4px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.4' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .89 0 0 0 0 .8 14 0 0 0 -10.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),var(--bc);filter:url(#bkrough)}
 .dcover::before{inset:5px;background-size:420px,auto}
@@ -1063,7 +1064,9 @@ const GROUPS = [
 /* ---------- the drum ---------- */
 // reading library. g = shelf group, c = cover colours, m = cover drawing, take = the book's biggest takeaway, me = its influence (optional)
 const BOOK_COLORS = { cream: ['#e4d9c3', '#2a2622', '#a8342a'], ink: ['#26231f', '#e4d9c3', '#b3352b'], red: ['#8f2a25', '#ecdfc6', '#f0c9a0'], green: ['#1f5b3d', '#e6dcc3', '#d9b871'], blue: ['#1e4c9a', '#ece3cf', '#f3e7c4'], gold: ['#c9a24f', '#26231f', '#8f2a25'] };
-const BOOK_GROUPS = [['hf', L('Human factors', '人因工程'), L('Human factors', '人因')], ['sys', L('Systems and computation', '系统与计算'), L('Systems', '系统')], ['method', L('Research method', '研究方法'), L('Method', '方法')], ['strategy', L('Strategy and management', '战略与管理'), L('Strategy', '战略')], ['self', L('Self and discipline', '自我与自律'), L('Self', '自我')], ['history', L('History and society', '历史与社会'), L('History', '历史')], ['lit', L('Literature and art', '文学与艺术'), L('Literature', '文学')]];
+const BOOK_SUBS = [['hf', L('Human factors', '人因工程'), L('Human factors', '人因')], ['sys', L('Systems and computation', '系统与计算'), L('Systems', '系统')], ['method', L('Research method', '研究方法'), L('Method', '方法')], ['strategy', L('Strategy and management', '战略与管理'), L('Strategy', '战略')], ['self', L('Self and discipline', '自我与自律'), L('Self', '自我')], ['history', L('History and society', '历史与社会'), L('History', '历史')], ['lit', L('Literature and art', '文学与艺术'), L('Literature', '文学')]];
+const BOOK_GROUPS = [['sci', L('Science & Engineering', '科学与工程'), L('Science & Engineering', '科学与工程'), L('Human factors, systems, data and research method.', '人因工程、系统、数据与研究方法。')], ['life', L('Business & Life', '商业与人生'), L('Business & Life', '商业与人生'), L('Strategy, management and personal discipline.', '战略、管理与个人修炼。')], ['hum', L('Humanities', '人文'), L('Humanities', '人文'), L('History, society, literature and art.', '历史、社会、文学与艺术。')]];
+const BOOK_TO_GROUP = { hf: 'sci', sys: 'sci', method: 'sci', strategy: 'life', self: 'life', history: 'hum', lit: 'hum' };
 const BOOK_ART = {
   ship: '<path d="M18 62h64l-8 12H26z"/><path d="M49 20h2v42h-2zM30 30h2v32h-2zM68 34h2v28h-2z"/><path d="M34 32h13v24H34zM53 24h13v32H53z" opacity=".85"/><path class="a" d="M10 82q10-6 20 0t20 0 20 0 20 0v6H10z"/>',
   jesus: '<circle class="a" cx="50" cy="34" r="20"/><path d="M48 14h4v50h-4zM32 30h36v4H32z"/><path d="M20 64h60l-9 12H29z"/><path d="M10 84q10-6 20 0t20 0 20 0 20 0v5H10z" opacity=".7"/>',
@@ -1174,7 +1177,8 @@ const BOOKS = [
   { t: 'One Hundred Famous Views of Edo', st: 'The Complete Plates', a: 'Utagawa Hiroshige', g: 'lit', c: 'red', m: 'blossom',
     take: L('The full set of Hiroshige’s woodblock views of Edo, today’s Tokyo. The lesson is in the framing: an ordinary bridge or street becomes memorable through where you choose to stand.', '歌川广重描绘江户（今东京）的全套木版画。它的启示在于取景：一座普通的桥、一条普通的街，因为你选择站立的位置而令人难忘。') },
 ];
-BOOKS.sort((a, b) => BOOK_GROUPS.findIndex((g) => g[0] === a.g) - BOOK_GROUPS.findIndex((g) => g[0] === b.g));
+BOOKS.sort((a, b) => BOOK_SUBS.findIndex((g) => g[0] === a.g) - BOOK_SUBS.findIndex((g) => g[0] === b.g));
+BOOKS.forEach((b) => { b.g = BOOK_TO_GROUP[b.g]; });
 const ITEMS = [{ kind: 'intro' }];
 CHAPTERS.forEach((c) => ITEMS.push({ kind: 'ch', c }));
 ITEMS.push({ kind: 'books' });
@@ -1715,8 +1719,9 @@ function openBooks() {
   const N = BOOKS.length, M = N * 3;
   showSheet(`<div class="libhead"><p class="num">${L('READING LIBRARY', '阅读书架')}</p><h1 id="sheetTitle">${L('Books that shaped me', '塑造我的书')}</h1></div>
     <div class="lib" id="lib">
-      <div class="libtabs" role="group" aria-label="${L('Shelf sections', '书架分区')}">${BOOK_GROUPS.map(([id, n]) => `<button type="button" data-g="${id}" aria-pressed="false">${esc(n)}</button>`).join('')}</div>
-      <div class="librow" id="librow">${Array.from({ length: M }, (_, k) => { const i = k % N, b = BOOKS[i]; const gs = b.g !== BOOKS[(i + N - 1) % N].g; return `<div class="vb${gs ? ' gs' : ''}" data-k="${k}" style="${bookVars(b)}">${gs ? `<i class="gl"><em>${esc(BOOK_GROUPS.find((x) => x[0] === b.g)[2])}</em></i>` : ''}<div class="vbox"><div class="vf vspine"><span class="sm">${bookArt(b)}</span><b class="${b.t.length > 26 ? 'l' : b.t.length > 17 ? 'm' : ''}"><span>${esc(b.t)}</span></b><span class="sn">${String(i + 1).padStart(2, '0')}</span></div><div class="vf vcover">${bookCover(b, i)}</div><div class="vf vback"></div></div></div>`; }).join('')}</div>
+      <div class="libtabs" role="group" aria-label="${L('Shelf sections', '书架分区')}">${BOOK_GROUPS.map(([id, n]) => `<button type="button" data-g="${id}" aria-pressed="false"><span>${esc(n)}</span><sup>${BOOKS.filter((b) => b.g === id).length}</sup></button>`).join('')}</div>
+      <p class="libsub" id="libsub" aria-live="polite"></p>
+      <div class="librow" id="librow">${Array.from({ length: M }, (_, k) => { const i = k % N, b = BOOKS[i]; const gs = b.g !== BOOKS[(i + N - 1) % N].g; return `<div class="vb${gs ? ' gs' : ''}" data-k="${k}" style="${bookVars(b)}"><div class="vbox"><div class="vf vspine"><span class="sm">${bookArt(b)}</span><b class="${b.t.length > 26 ? 'l' : b.t.length > 17 ? 'm' : ''}"><span>${esc(b.t)}</span></b><span class="sn">${String(i + 1).padStart(2, '0')}</span></div><div class="vf vcover">${bookCover(b, i)}</div><div class="vf vback"></div></div></div>`; }).join('')}</div>
       <button type="button" class="libarr prev" aria-label="${L('Previous book', '上一本')}">←</button><button type="button" class="libarr next" aria-label="${L('Next book', '下一本')}">→</button>
       <div class="libcap"><div class="capt" id="capt"></div><p class="capa" id="capa"></p><p class="capn" id="capn"></p></div>
       <div class="libcur" id="libcur">${L('OPEN', '打开')}</div>
@@ -1744,6 +1749,7 @@ function openBooks() {
     const sp = document.createElement('span'); sp.textContent = b.t; if (last !== -1) sp.className = 'in'; capt.appendChild(sp);
     $('capa').textContent = b.a; $('capn').textContent = `${bookNo(i)} / ${N}`;
     lib.querySelectorAll('.libtabs button').forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.g === b.g)));
+    $('libsub').textContent = BOOK_GROUPS.find((x) => x[0] === b.g)[3];
   }
   const cumF = (i) => { i = Math.round(i); const n = Math.floor(i / N); return n * span + base[mod(i, N)]; };
   const cumP = (p) => { const f = Math.floor(p), t = p - f; return cumF(f) * (1 - t) + cumF(f + 1) * t; };
