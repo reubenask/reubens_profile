@@ -112,6 +112,19 @@ a{color:inherit}
 .libtabs button[aria-pressed="true"]{color:var(--green)}
 .libtabs button:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:2px}
 .libsub{text-align:center;margin:8px 20px 0;font-size:14px;font-style:italic;color:#7d7766;min-height:1.4em}
+.libback{display:block;margin:10px auto 0;background:none;border:0;font-family:var(--body);font-size:14px;color:#7d7766;cursor:pointer;padding:4px 8px}
+.libback:hover{color:var(--green)}
+.lland{max-width:1080px;margin:clamp(24px,8vh,90px) auto 0;padding:0 clamp(16px,4vw,48px)}
+.lland svg{display:block;width:100%;height:auto;overflow:visible}
+.lland .lstack{display:none}
+.lland .grp{cursor:pointer;transition:opacity .3s;outline:none}
+.lland .lwide:hover .grp{opacity:.4}.lland .lwide .grp:hover,.lland .lwide .grp:focus-visible{opacity:1}
+.lland .lab{opacity:0;transition:opacity .3s;pointer-events:none}
+.lland .grp:hover .lab,.lland .grp:focus-visible .lab{opacity:1}
+.lland .ln{font:500 23px var(--display);fill:var(--green)}
+.lland .lc{font:400 13px var(--caps);letter-spacing:.2em;fill:#9a7a3a}
+@media (hover:none){.lland .lab{opacity:1}.lland .lwide:hover .grp{opacity:1}}
+@media (max-width:760px){.lland .lwide{display:none}.lland .lstack{display:flex;flex-direction:column;align-items:center;gap:26px}.lland .lab{opacity:1}.lland .ln{font-size:25px}}
 .librow{position:relative;height:calc(var(--h) + 86px);perspective:1500px;perspective-origin:50% 55%;overflow:hidden;touch-action:pan-y;cursor:grab}
 .librow.drag{cursor:grabbing}
 .vb{position:absolute;left:50%;bottom:34px;width:var(--w);height:var(--h);transform-style:preserve-3d;transform-origin:50% 100%;will-change:transform;cursor:pointer}
@@ -1715,13 +1728,15 @@ const bookArt = (b) => `<svg class="mo" viewBox="0 0 100 100" aria-hidden="true"
 const bookNo = (i) => 'No. ' + String(i + 1).padStart(2, '0');
 const bookCover = (b, i) => `<span class="cv"><span class="cva">${esc(b.a.split(' & ')[0])}</span><span class="cvt${b.t.length > 26 ? ' l' : b.t.length > 15 ? ' m' : ''}">${esc(b.t)}</span><span class="cvm">${bookArt(b)}</span><span class="cvn">${bookNo(i)}</span></span>`;
 let libApi = null, libPos = 0;
-function openBooks() {
-  const N = BOOKS.length, M = N * 3;
-  showSheet(`<div class="libhead"><p class="num">${L('READING LIBRARY', '阅读书架')}</p><h1 id="sheetTitle">${L('Books that shaped me', '塑造我的书')}</h1></div>
+function openBooks(gid) {
+  if (!gid) return libLanding();
+  const SHELF = BOOKS.filter((x) => x.g === gid); libPos = 0;
+  const N = SHELF.length, M = N * 3;
+  showSheet(`<div class="libhead"><p class="num">${L('READING LIBRARY', '阅读书架')}</p><h1 id="sheetTitle">${L('Books that shaped me', '塑造我的书')}</h1><button type="button" class="libback">${L('← All shelves', '← 全部书架')}</button></div>
     <div class="lib" id="lib">
       <div class="libtabs" role="group" aria-label="${L('Shelf sections', '书架分区')}">${BOOK_GROUPS.map(([id, n]) => `<button type="button" data-g="${id}" aria-pressed="false"><span>${esc(n)}</span><sup>${BOOKS.filter((b) => b.g === id).length}</sup></button>`).join('')}</div>
       <p class="libsub" id="libsub" aria-live="polite"></p>
-      <div class="librow" id="librow">${Array.from({ length: M }, (_, k) => { const i = k % N, b = BOOKS[i]; const gs = b.g !== BOOKS[(i + N - 1) % N].g; return `<div class="vb${gs ? ' gs' : ''}" data-k="${k}" style="${bookVars(b)}"><div class="vbox"><div class="vf vspine"><span class="sm">${bookArt(b)}</span><b class="${b.t.length > 26 ? 'l' : b.t.length > 17 ? 'm' : ''}"><span>${esc(b.t)}</span></b><span class="sn">${String(i + 1).padStart(2, '0')}</span></div><div class="vf vcover">${bookCover(b, i)}</div><div class="vf vback"></div></div></div>`; }).join('')}</div>
+      <div class="librow" id="librow">${Array.from({ length: M }, (_, k) => { const i = k % N, b = SHELF[i]; const gs = b.g !== SHELF[(i + N - 1) % N].g; return `<div class="vb${gs ? ' gs' : ''}" data-k="${k}" style="${bookVars(b)}"><div class="vbox"><div class="vf vspine"><span class="sm">${bookArt(b)}</span><b class="${b.t.length > 26 ? 'l' : b.t.length > 17 ? 'm' : ''}"><span>${esc(b.t)}</span></b><span class="sn">${String(i + 1).padStart(2, '0')}</span></div><div class="vf vcover">${bookCover(b, i)}</div><div class="vf vback"></div></div></div>`; }).join('')}</div>
       <button type="button" class="libarr prev" aria-label="${L('Previous book', '上一本')}">←</button><button type="button" class="libarr next" aria-label="${L('Next book', '下一本')}">→</button>
       <div class="libcap"><div class="capt" id="capt"></div><p class="capa" id="capa"></p><p class="capn" id="capn"></p></div>
       <div class="libcur" id="libcur">${L('OPEN', '打开')}</div>
@@ -1737,14 +1752,14 @@ function openBooks() {
   function dims() {
     const small = lib.offsetWidth < 700;
     W = small ? 44 : 56; H = small ? 250 : 320; CW = Math.round(H * .656); GX = small ? 22 : 34;
-    let c = 0; base = BOOKS.map((b, i) => { if (b.g !== BOOKS[(i + N - 1) % N].g) c++; return i * (W + G) + c * GX; }); span = N * (W + G) + c * GX;
+    let c = 0; base = SHELF.map((b, i) => { if (b.g !== SHELF[(i + N - 1) % N].g) c++; return i * (W + G) + c * GX; }); span = N * (W + G) + c * GX;
     lib.style.setProperty('--gx', (GX + G) / 2 + 'px');
     lib.style.setProperty('--w', W + 'px'); lib.style.setProperty('--h', H + 'px'); lib.style.setProperty('--cw', CW + 'px');
     // shrink any spine title that does not fit, so no title is cut off
     row.querySelectorAll('.vspine b span').forEach((sp) => { sp.style.fontSize = ''; let f = parseFloat(getComputedStyle(sp).fontSize); while (sp.scrollWidth > sp.clientWidth && f > 6) { f -= .5; sp.style.fontSize = f + 'px'; } });
   }
   function caption(i) {
-    const b = BOOKS[i], capt = $('capt');
+    const b = SHELF[i], capt = $('capt');
     [...capt.children].forEach((o) => { o.className = 'out'; setTimeout(() => o.remove(), 460); });
     const sp = document.createElement('span'); sp.textContent = b.t; if (last !== -1) sp.className = 'in'; capt.appendChild(sp);
     $('capa').textContent = b.a; $('capn').textContent = `${bookNo(i)} / ${N}`;
@@ -1795,12 +1810,8 @@ function openBooks() {
   });
   lib.querySelector('.prev').onclick = () => move(-1);
   lib.querySelector('.next').onclick = () => move(1);
-  lib.querySelector('.libtabs').onclick = (e) => {
-    const t = e.target.closest('[data-g]'); if (!t) return;
-    let dl = BOOKS.findIndex((b) => b.g === t.dataset.g) - active();
-    if (dl > N / 2) dl -= N; if (dl < -N / 2) dl += N;
-    go(Math.round(target) + dl);
-  };
+  lib.querySelector('.libtabs').onclick = (e) => { const t = e.target.closest('[data-g]'); if (t && t.dataset.g !== gid) openBooks(t.dataset.g); };
+  document.querySelector('.libback').onclick = () => openBooks();
   // the round "open" cursor over the centred cover
   lib.addEventListener('pointermove', (e) => {
     const on = !isOpen && e.pointerType === 'mouse' && e.target.closest?.('.vb.on');
@@ -1816,7 +1827,7 @@ function openBooks() {
   };
   const clip = (r) => `inset(${r.y}px ${r.W - r.x - r.w}px ${r.H - r.y - r.h}px ${r.x}px round 6px)`;
   function fill(first) {
-    const i = active(), b = BOOKS[i], g = BOOK_GROUPS.find((x) => x[0] === b.g)[1];
+    const i = active(), b = SHELF[i], g = BOOK_GROUPS.find((x) => x[0] === b.g)[1];
     det.classList.remove('shown');
     det.innerHTML = `<button type="button" class="dclose" data-d="close">${L('Close', '关闭')}</button>
       <div class="dtext"><p class="dk">${esc(g)} / ${bookNo(i)}</p><h2 id="bookTitle" tabindex="-1">${esc(b.t)}</h2>
@@ -1857,6 +1868,63 @@ function openBooks() {
   libApi = { move, openDetail, closeDetail, open: () => isOpen, resize: () => { dims(); render(); }, alive: () => lib.isConnected };
   dims(); render();
   document.fonts?.ready.then(() => { if (lib.isConnected) { dims(); render(); } });
+  goStop(ITEMS.findIndex((it) => it.kind === 'books'));
+}
+
+const mixHex = (h, t, k) => { const n = parseInt(h.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v + (t - v) * k)); return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join(''); };
+const LB = 215;
+function landDefs() {
+  return `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${Object.entries(BOOK_COLORS).map(([k, c]) => `<linearGradient id="spg-${k}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="${mixHex(c[0], 255, .16)}"/><stop offset=".38" stop-color="${c[0]}"/><stop offset="1" stop-color="${mixHex(c[0], 0, .28)}"/></linearGradient>`).join('')}
+    <linearGradient id="spg-board" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8d7855"/><stop offset=".5" stop-color="#6e5b3f"/><stop offset="1" stop-color="#52432c"/></linearGradient>
+    <filter id="sp-tex" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 .1  0 0 0 0 .08  0 0 0 0 .05  0 0 0 .75 -.22" result="g"/><feComposite in="g" in2="SourceGraphic" operator="in" result="gi"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="gi"/></feMerge></filter>
+    <filter id="sp-sh" x="-10%" y="-5%" width="125%" height="112%"><feDropShadow dx="1.8" dy="0" stdDeviation="1.5" flood-color="#2a2114" flood-opacity=".38"/></filter>
+    <filter id="sp-soft" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation="3"/></filter></defs></svg>`;
+}
+function landBook(b, x, y, w, h) {
+  const [, fg, ac] = BOOK_COLORS[b.c];
+  return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w}" height="${h}" rx="1.2" fill="url(#spg-${b.c})"/><rect x="${x.toFixed(1)}" y="${(y + h * .07).toFixed(1)}" width="${w}" height="2" fill="${ac}" opacity=".8"/><rect x="${x.toFixed(1)}" y="${(y + h * .1).toFixed(1)}" width="${w}" height="1" fill="${ac}" opacity=".55"/><rect x="${x.toFixed(1)}" y="${(y + h * .9).toFixed(1)}" width="${w}" height="2" fill="${ac}" opacity=".8"/>${w >= 13 ? `<rect x="${(x + 2.2).toFixed(1)}" y="${(y + h * .22).toFixed(1)}" width="${w - 4.4}" height="${Math.round(h * .16)}" rx=".8" fill="${fg}" opacity=".8"/>` : ''}`;
+}
+function landGroup(gid, seed) {
+  const bs = BOOKS.filter((b) => b.g === gid), flatN = bs.length >= 11 ? 3 : 2;
+  let x = 2, sd = seed * 97 + 11; const r = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+  const items = []; let remain = bs.length - flatN, prevUp = false;
+  while (remain > 0) {
+    if (prevUp && remain >= 3 && r() < .65) { const n = Math.min(remain - 1, r() < .5 ? 2 : 3); items.push({ t: 'lean', n }); items.push({ t: 'sup' }); remain -= n + 1; prevUp = false; }
+    else { const n = Math.min(remain, 2 + Math.floor(r() * 3)); for (let i = 0; i < n; i++) items.push({ t: 'up' }); remain -= n; prevUp = true; }
+  }
+  let o = '', bi = 0, lastH = 0, lastA = 0;
+  for (const it of items) {
+    if (it.t === 'up' || it.t === 'sup') {
+      const w = 12 + Math.floor(r() * 6); let h = 104 + Math.floor(r() * 44);
+      if (it.t === 'sup') h = Math.max(h, lastH * Math.cos(lastA) + 22);
+      o += landBook(bs[bi++], x, LB - h, w, h); x += w + 1.2; lastH = h; lastA = 0;
+    } else {
+      const a = (8 + r() * 8) * Math.PI / 180, w = 14, x0 = x; let hh = 0;
+      for (let j = 0; j < it.n; j++) { const h = 108 + Math.floor(r() * 36), px = x0 + j * (w / Math.cos(a)); hh = h; o += `<g transform="rotate(${(a * 180 / Math.PI).toFixed(1)} ${px.toFixed(1)} ${LB})">${landBook(bs[bi++], px, LB - h, w, h)}</g>`; }
+      x = x0 + (it.n - 1) * (w / Math.cos(a)) + w * Math.cos(a) + hh * Math.sin(a); lastH = hh; lastA = a;
+    }
+  }
+  let fy = LB; const fx = x + 8;
+  for (let f = 0; f < flatN; f++) {
+    const fw = 62 + Math.floor(r() * 16), fh = 11 + Math.floor(r() * 4), bk = bs[bi++], [, fg, ac] = BOOK_COLORS[bk.c]; fy -= fh;
+    o += `<g transform="rotate(${((r() - .5) * 1.8).toFixed(1)} ${fx} ${fy})"><rect x="${fx + (f % 2 ? 4 : 0)}" y="${fy}" width="${fw}" height="${fh}" rx="1.2" fill="url(#spg-${bk.c})"/><rect x="${fx + (f % 2 ? 4 : 0)}" y="${fy + fh * .3}" width="${fw}" height="1.4" fill="${ac}" opacity=".75"/><rect x="${fx + (f % 2 ? 4 : 0)}" y="${fy + fh * .68}" width="${fw}" height="1.4" fill="${ac}" opacity=".75"/></g>`;
+  }
+  return { svg: `<g filter="url(#sp-sh)"><g filter="url(#sp-tex)">${o}</g></g>`, w: fx + 86 };
+}
+function libLanding() {
+  const seeds = { sci: 5, life: 9, hum: 14 };
+  const gs = BOOK_GROUPS.map(([id, n, , d], i) => ({ id, n, d, cnt: BOOKS.filter((b) => b.g === id).length, ...landGroup(id, seeds[id]) }));
+  const lab = (g) => `<g class="lab"><text class="ln" x="2" y="24">${esc(g.n)}</text><text class="lc" x="2" y="46">${g.cnt} ${L('BOOKS', '本书')}</text></g>`;
+  const attrs = (g) => `class="grp" data-g="${g.id}" tabindex="0" role="button" aria-label="${esc(g.n)}, ${g.cnt} ${L('books', '本书')}"`;
+  const board = (w) => `<rect x="-10" y="${LB + 1}" width="${w + 20}" height="9" rx="1.5" fill="url(#spg-board)"/><rect x="-10" y="${LB + 1}" width="${w + 20}" height="1.4" fill="#b59f77" opacity=".7"/><rect x="0" y="${LB + 10}" width="${w}" height="9" fill="#2a2114" opacity=".22" filter="url(#sp-soft)"/>`;
+  let off = 0; const gap = 52; const wide = gs.map((g) => { const t = `<g ${attrs(g)} transform="translate(${off},0)"><rect x="-10" y="0" width="${g.w + 20}" height="${LB + 12}" fill="transparent"/>${g.svg}${lab(g)}</g>`; off += g.w + gap; return t; }).join('');
+  const W = off - gap, wmax = Math.max(...gs.map((g) => g.w));
+  const stack = gs.map((g) => `<svg viewBox="-6 0 ${g.w + 12} ${LB + 22}" style="width:${(g.w / wmax * 100).toFixed(1)}%" role="group"><g ${attrs(g)}>${g.svg}${lab(g)}</g>${board(g.w)}</svg>`).join('');
+  showSheet(`<div class="libhead"><p class="num">${L('READING LIBRARY', '阅读书架')}</p><h1 id="sheetTitle">${L('Books that shaped me', '塑造我的书')}</h1></div>
+    <div class="lland">${landDefs()}<svg class="lwide" viewBox="-12 0 ${W + 24} ${LB + 22}" role="group" aria-label="${L('Bookshelf', '书架')}">${wide}${board(W)}</svg><div class="lstack">${stack}</div></div>` + pager('BOOKS'));
+  $('sheet').classList.add('books'); libApi = null;
+  const go = (e) => { const g = e.target.closest('[data-g]'); if (g) openBooks(g.dataset.g); };
+  const box = document.querySelector('.lland'); box.addEventListener('click', go); box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(e); } });
   goStop(ITEMS.findIndex((it) => it.kind === 'books'));
 }
 addEventListener('resize', () => { if (libApi?.alive()) libApi.resize(); });
