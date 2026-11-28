@@ -1710,6 +1710,13 @@ function pager(id) {
   const next = i < order.length - 1 ? `<button type="button" data-nav="${order[i + 1]}">${esc(name(order[i + 1]))} →</button>` : '<span></span>';
   return `<nav class="pager" aria-label="${L('Other chapters', '其他章节')}">${prev}${next}</nav>`;
 }
+function foldDesc(id, sp) {
+  const bl = sp.blocks || [];
+  if (bl.some((b) => b.pubs)) return PUBS.length + ' ' + L('peer-reviewed papers', '篇同行评审论文');
+  let n = bl.flatMap((b) => b.h ? [b.h] : b.acc ? b.acc.map((x) => x.t) : []);
+  if (id === 'SEVEN') { n = n.map((t) => t.replace(/ · \d{4}( 年)?$/, '')); if (n.length > 2) return n.slice(0, 2).join(' · ') + L(' + ' + (n.length - 2) + ' more', ' 等共 ' + n.length + ' 项'); }
+  return n.join(' · ');
+}
 function openChapter(id) {
   if (id === 'CONTACT') return openContact();
   if (id === 'BOOKS') return openBooks();
@@ -1720,7 +1727,7 @@ function openChapter(id) {
   let html = `<p class="num">${esc(numLabel(id))}</p><h1 id="sheetTitle">${esc(c.title)}</h1>
     ${SHOW_ART && p.art ? `<div class="hero solo">${art(p.art)}</div>` : ''}`;
   html += mediaHtml(MEDIA[id]);
-  if (id === 'FOUR') html += `<div class="fold">${c.content.map((sp) => `<details name="fold"><summary><span class="at">${esc(sp.title)}</span><span class="ad">${esc((sp.blocks || []).flatMap((b) => b.h ? [b.h] : b.acc ? b.acc.map((x) => x.t) : []).join(' · '))}</span></summary><div class="ab">${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div></details>`).join('')}</div>`;
+  if (id === 'FOUR' || id === 'SEVEN') html += `<div class="fold">${c.content.map((sp) => `<details name="fold"><summary><span class="at">${esc(sp.title)}</span><span class="ad">${esc(foldDesc(id, sp))}</span></summary><div class="ab">${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div></details>`).join('')}</div>`;
   else for (const sp of c.content) {
     if (sp.kind === 'who') { html += whoHtml(); continue; }
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
