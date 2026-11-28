@@ -274,6 +274,54 @@ a{color:inherit}
 @keyframes cvin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .cover .glance{margin-top:14px}.cv-links{margin:10px 0 0}.cv-links .golink{margin-right:16px}
 .cv-next{margin-top:18px}.cv-next h3{font:inherit;font-size:clamp(21px,2.5vw,28px);font-weight:400;color:#05553F;margin:0 0 4px}
+.lm{position:relative;height:620px;margin:6px 0 4px;border-radius:16px;background:#F6F4EF;overflow:hidden;font-family:var(--body)}
+.lm-bg,.lm-ln{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lm-bg line{stroke:#05553F;stroke-opacity:.05}.lm-bg circle{fill:#05553F;fill-opacity:.13}
+.lm-ln line{stroke:#05553F;stroke-opacity:.34;stroke-width:1}.lm-ln line.d{stroke-dasharray:2 5;stroke-opacity:.3}.lm-ln line.hl{stroke:#B9573C;stroke-opacity:.85;stroke-width:1.6}
+.lm-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;transition:opacity .4s;pointer-events:none}
+.lm-core.gone{opacity:0}
+.lm-seal{width:132px;height:132px;display:block;margin:0 auto}
+#paper .lm-core .lm-t{margin:10px 0 0;font-family:var(--display);font-size:23px;font-style:italic;color:#05553F;line-height:1.1}
+#paper .lm-core .lm-s{margin:4px 0 0;font-family:var(--caps,Georgia,serif);font-size:10px;letter-spacing:.24em;color:#9a7a3a}
+.lm-n{position:absolute;width:0;height:0;cursor:pointer;transition:left .55s cubic-bezier(.3,.7,.2,1),top .55s cubic-bezier(.3,.7,.2,1),opacity .35s,transform .4s;outline:none;-webkit-tap-highlight-color:transparent;--r:22px}
+.lm .lm-ic{position:absolute;left:0;top:0;width:calc(var(--r) * 2);height:calc(var(--r) * 2);transform:translate(-50%,-50%)}
+.lm-ic{display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fffdf8;border:1px solid #cfc3a8;color:#05553F;transition:background .3s,border-color .3s,box-shadow .3s,width .3s,height .3s}
+.lm-ic svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.lm-lb{position:absolute;left:0;top:calc(var(--r) + 9px);transform:translateX(-50%);width:max-content;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;text-shadow:0 0 6px #F6F4EF,0 0 3px #F6F4EF,0 0 1px #F6F4EF}
+.lm-n.up .lm-lb{top:auto;bottom:calc(var(--r) + 9px)}
+.lm-n:hover .lm-ic,.lm-n:focus-visible .lm-ic{border-color:#05553F;box-shadow:0 0 0 5px rgba(5,85,63,.08)}
+.lm-cat{--r:32px}.lm-cat .lm-nm{font-family:var(--display);font-size:17px;color:#05553F;line-height:1.15}
+.lm-cat .lm-ct{font-family:var(--caps,Georgia,serif);font-size:10px;letter-spacing:.2em;color:#9a7a3a}
+.lm-cat.on{--r:39px}.lm-cat.on .lm-ic{background:#05553F;border-color:#05553F;color:#F6F4EF}.lm-cat.on .lm-lb{display:none}
+.lm-cat.dim{transform:scale(.6);opacity:.55}.lm-cat.dim:hover{opacity:1}.lm-cat.dim .lm-ct{display:none}
+.lm-kid .lm-nm{font-size:14px;line-height:1.25;max-width:140px;color:#2c2a25}
+.lm-kid.hide{opacity:0;pointer-events:none}
+.lm-kid.sel .lm-ic{border-color:#B9573C;color:#B9573C;box-shadow:0 0 0 5px rgba(185,87,60,.12)}
+#paper .lm .lm-head{position:absolute;left:50%;top:16px;transform:translateX(-50%);margin:0;text-align:center;font-family:var(--display);font-size:22px;color:#05553F;line-height:1.1;pointer-events:none}
+.lm-head small{display:block;margin-top:5px;font-family:var(--caps,Georgia,serif);font-size:10px;letter-spacing:.2em;color:#9a7a3a}
+.lm-back{position:absolute;left:18px;top:14px;background:none;border:0;font:inherit;font-size:14px;color:#7d7766;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
+.lm-back.on{opacity:1;pointer-events:auto}.lm-back:hover{color:#05553F}
+.lm-pill{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);width:max-content;max-width:86%;background:#fffdf8;border:1px solid #d8c9a9;border-radius:16px;padding:9px 18px;font-size:14.5px;line-height:1.4;color:#3d3a33;text-align:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.lm-pill.on{opacity:1;pointer-events:auto}.lm-pill .golink{font-size:13.5px;margin-left:4px}
+.lm-pill b{font-weight:500;color:#05553F;margin-right:4px}
+.lm-used{display:block;margin-top:4px;font-size:12.5px;font-style:normal;letter-spacing:.02em;color:#7d7766}.lm-used .golink{font-size:12.5px;margin:0 1px}
+.lm-list .lm-used{margin-top:3px}
+.mapcard{margin-top:14px}
+.lm-list{display:none}
+@media (max-width:640px){
+ .lm{display:none}.lm-list{display:block;margin:4px 0}
+ .lm-list .lm-core{position:static;transform:none;margin:4px 0 18px}.lm-list .lm-seal{width:110px;height:110px}
+ .lm-list details{border-top:1px solid #d8c9a9}.lm-list details:last-of-type{border-bottom:1px solid #d8c9a9}
+ .lm-list summary{list-style:none;display:flex;align-items:center;gap:14px;padding:14px 4px;cursor:pointer}
+ .lm-list summary::-webkit-details-marker{display:none}
+ .lm-list summary .lm-ic{width:46px;height:46px;flex:none}
+ .lm-list summary b{display:block;font-family:var(--display);font-weight:500;font-size:20px;color:#05553F}
+ .lm-list summary small{display:block;font-family:var(--caps,Georgia,serif);font-size:10px;letter-spacing:.2em;color:#9a7a3a;margin-top:3px}
+ .lm-list details[open] summary .lm-ic{background:#05553F;color:#F6F4EF;border-color:#05553F}
+ .lm-list ul{list-style:none;margin:0;padding:0 0 14px 8px;display:grid;gap:12px}
+ .lm-list li{display:flex;gap:12px;align-items:flex-start}.lm-list li .lm-ic{width:36px;height:36px;flex:none}
+ .lm-list li b{display:block;font-weight:500;font-size:16px;color:#2c2a25}.lm-list li small{display:block;font-size:14px;color:#6f695a;line-height:1.4;margin-top:2px}
+}
 .km{margin:8px 0}.km-core{display:table;margin:0 auto 6px;padding:9px 22px;border-radius:999px;background:#05553F;color:#F6F4EF;font-size:clamp(16px,2.2vw,20px)}
 .km-br-wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;position:relative;padding-top:22px}
 .km-br-wrap:before{content:"";position:absolute;left:16.6%;right:16.6%;top:0;border-top:1.5px solid #c9bfa6}
@@ -1314,7 +1362,7 @@ function coverHtml() {
     : `<p>I am a problem solver and user behavior architect focused on how people think, act and adapt within systems.</p><p>I notice what isn't working for people, define the real problem, and build practical solutions: products, prototypes, learning programs and the way an organisation runs.</p><p>I have founded and led a team from scratch, designed AI curricula and trained teachers to use AI, and developed a company's organisational structure and standardised ways of measuring its goals.</p><p>I work across engineering, design and education, and across cultures in English and Mandarin, turning complex ideas into things people can use.</p>`;
   const glance = `<div class="glance">${ZH ? `<div><b>51</b><span>名驾驶员参与我的博士研究</span></div><div><b>${PUBS.length}</b><span>篇带 DOI 的论文</span></div><div><b>2</b><span>名硕士生在我指导下毕业</span></div><div><b>+18%</b><span>我所顾问学院的营收增长</span></div>` : `<div><b>51</b><span>drivers in my doctoral study</span></div><div><b>${PUBS.length}</b><span>papers with DOIs</span></div><div><b>2</b><span>master's students guided to graduation</span></div><div><b>+18%</b><span>revenue at the institute I advise</span></div>`}</div>
     <p class="cv-links"><button type="button" class="golink" data-nav="THREE">${L('See the doctoral research →', '查看博士研究 →')}</button> <button type="button" class="golink" data-nav="FOUR">${L('See the consulting work →', '查看咨询工作 →')}</button></p>`;
-  const what = `<div class="km"><div class="km-core">${L('What I can offer', '我能提供什么')}</div><div class="km-br-wrap">${GROUPS.map((g) => `<div class="km-br g-${g.id}"><div class="km-hub">${esc(g.name)}</div><ul>${THREADS.filter((t) => t.g === g.id).map((t) => `<li>${esc(t.t)}</li>`).join('')}</ul></div>`).join('')}</div><p class="km-more"><button type="button" class="golink" data-nav="TWO">${L('See where each skill was used →', '查看每项技能的应用 →')}</button></p></div>`;
+  const what = loopMapHtml();
   const how = ZH ? `<ul class="how"><li>我从人们的真实行为出发，而不是从“平均的人”出发。 <a class="readlink" href="essays/tyranny-of-the-default/">见《默认设置的专制》 →</a></li><li>我把功能放在风格之前。</li><li>我先测试最小的版本，再投入时间和资金。 <button type="button" class="golink" data-nav="THREE">见博士研究 →</button></li><li>我会说明证据能证明什么，不能证明什么。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li><li>我让人始终处于主导位置。 <a class="readlink" href="essays/machines-in-service-of-minds/">见 Machines in Service of Minds →</a></li></ul><p class="meta">我愿意提供推荐人。</p><p><button type="button" class="golink" data-nav="BOOKS">看看塑造我的书 →</button></p>`
     : `<ul class="how"><li>I start from how people actually behave, not from the average person. <a class="readlink" href="essays/tyranny-of-the-default/">See The Tyranny of the Default →</a></li><li>I put function before style.</li><li>I test the smallest version first, before committing time and money. <button type="button" class="golink" data-nav="THREE">See the doctoral research →</button></li><li>I say what the evidence shows and what it does not. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li><li>I keep the person in the lead. <a class="readlink" href="essays/machines-in-service-of-minds/">See Machines in Service of Minds →</a></li></ul><p class="meta">References available on request.</p><p><button type="button" class="golink" data-nav="BOOKS">See the books that shaped me →</button></p>`;
   const next = ZH ? `<p class="seek">我正在寻找用户行为研究方向的岗位：通过行为数据与观察，分析人们如何使用产品、平台和 AI 系统，找出设计违背用户意愿之处，并提出更好地服务用户的改进。我也会构建 AI 智能体和内部应用，快速验证想法。我可以远程工作，也愿意迁居。</p>`
@@ -1327,8 +1375,84 @@ function coverHtml() {
     ${glance}
     <div class="cv-next"><h3>${L('Next', '下一步')}</h3>${next}</div></div>`;
 }
+
+const LI = {
+  research: '<circle cx="10" cy="6" r="2.4"/><path d="M11.5 8 15 14M8 13a5 5 0 0 0 9 3M5 20h14M9 20v-3M12.6 14.6l1.8-1"/>',
+  ai: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx=".6"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.3"/><path d="M15.5 14.2c2.6-.3 4.6 1.4 5 4.3"/>',
+  quality: '<path d="M12 3 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6l-7-3Z"/><path d="m8.8 12 2.3 2.3 4.2-4.6"/>',
+  gauge: '<path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 3.8-5"/><circle cx="12" cy="16" r="1.2"/><path d="M6.4 11.4l1.2.7M12 8v1.4M17.6 11.4l-1.2.7"/>',
+  flask: '<path d="M9.5 3h5M10.5 3v6L5.4 18.2A1.8 1.8 0 0 0 7 21h10a1.8 1.8 0 0 0 1.6-2.8L13.5 9V3"/><path d="M7.6 15h8.8"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>',
+  wheel: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2"/><path d="M3.8 10.6c3-1.2 13.4-1.2 16.4 0M10.4 13.8 7.6 19.6M13.6 13.8l2.8 5.8"/>',
+  graph: '<circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="17.5" r="2.2"/><circle cx="5" cy="15" r="1.6"/><path d="M8.2 6.3 15.8 6.8M7 7.9l4 7.6M16.9 9 13.1 15.6M6.4 14.3 10 16.8"/>',
+  scan: '<path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><circle cx="12" cy="12" r="3.2"/><path d="M12 7.6v1.2M12 15.2v1.2"/>',
+  notebook: '<path d="M6 3.5h11a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5H6Z"/><path d="M6 3.5v17M4 7.5h3.5M4 12h3.5M4 16.5h3.5M10.5 8h5M10.5 11.5h5"/>',
+  school: '<path d="m2.5 9.5 9.5-5 9.5 5-9.5 5-9.5-5Z"/><path d="M6.5 11.6v4.4c1.6 1.6 3.4 2.4 5.5 2.4s3.9-.8 5.5-2.4v-4.4M21.5 9.5v5"/>',
+  tree: '<rect x="9" y="3" width="6" height="4.5" rx="1"/><rect x="3" y="16.5" width="6" height="4.5" rx="1"/><rect x="15" y="16.5" width="6" height="4.5" rx="1"/><path d="M12 7.5V12M6 16.5V12h12v4.5"/>',
+  hand: '<path d="M12 9.2c-1.4-2.6-5.2-2.2-5.2.8 0 2 2.6 3.6 5.2 5.6 2.6-2 5.2-3.6 5.2-5.6 0-3-3.8-3.4-5.2-.8Z"/><path d="M3 19.5h4l3 1.5h5.5l5-3"/>',
+  lang: '<path d="M4 5h9a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 13 13H8.5L5 15.8V13H4a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 4 5Z"/><path d="M17 9h3a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 20 17h-.5v2.8L16 17h-4a1.5 1.5 0 0 1-1.5-1.5V15"/>',
+  clip: '<rect x="5" y="4.5" width="14" height="16.5" rx="1.6"/><path d="M9 4.5V3.5h6v1M8.6 13l2.3 2.3 4.5-4.8"/>',
+  alert: '<path d="M10.6 4.3 2.9 17.6A1.6 1.6 0 0 0 4.3 20h15.4a1.6 1.6 0 0 0 1.4-2.4L13.4 4.3a1.6 1.6 0 0 0-2.8 0Z"/><path d="M12 9.5v4.3M12 16.7v.2"/>'
+};
+const lic = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${LI[k]}</svg>`;
+const LOOP_CATS = [
+  { id: 'research', n: L('Research methods', '研究方法'), ic: 'research', k: [[0, 'gauge'], [1, 'flask'], [2, 'eye'], [3, 'wheel']] },
+  { id: 'ai', n: L('AI and data', '人工智能与数据'), ic: 'ai', k: [[4, 'graph'], [5, 'scan']] },
+  { id: 'people', n: L('People and learning', '人与学习'), ic: 'people', k: [[6, 'notebook'], [7, 'school'], [8, 'tree'], [9, 'hand'], [12, 'lang']] },
+  { id: 'quality', n: L('Quality and safety', '质量与安全'), ic: 'quality', k: [[10, 'clip'], [11, 'alert']] }
+];
+const WHY_ORDER = ['THREE', 'FOUR', 'SEVEN', 'FIVE', 'ONE', 'TWO', 'SIX'];
+const loopUsed = (t) => `<span class="lm-used">${L('Used in', '用于')} ${t.ch.map((c) => `<button type="button" class="golink" data-nav="${c}" title="${esc(chName(c))}">${ZH ? '第' + NUM_ZH[c] + '章' : numWord(['ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN'].indexOf(c) + 1)}</button>`).join(ZH ? '、' : ', ')}</span>`;
+const loopWhy = (t) => { const c = WHY_ORDER.find((k) => t.why[k]); return [c, t.why[c]]; };
+const SEAL = `<svg class="lm-seal" viewBox="-100 -100 200 200" aria-hidden="true"><circle r="96" fill="#fffdf8" stroke="#05553F" stroke-width="1.6"/><g transform="translate(-6,4)"><path d="M-46 10C-46-30-6-38 14-16C34 6 60 4 60-14C60-34 34-38 14-16C-6 6-46 50-46 10Z" fill="none" stroke="#05553F" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M-50 18C-56-36-2-44 18-18" fill="none" stroke="#05553F" stroke-width="1" opacity=".5"/></g><g transform="translate(-26,-27) scale(1.15)" fill="#05553F"><circle cx="0" cy="-15" r="3"/><path d="M-1.5-11 2-11 3.2-2 6.5 6 4.6 6.8 1.2-.5-1.8 6.8-3.8 6-1-2-2.6-6-6-2-7.2-3.2-3-9Z"/></g><rect x="52" y="48" width="16" height="7" fill="#B9573C"/></svg>`;
+function loopMapHtml(more = true) {
+  const cats = LOOP_CATS.map((c, i) => `<div class="lm-n lm-cat" data-c="${i}" tabindex="0" role="button" aria-expanded="false"><span class="lm-ic">${lic(c.ic)}</span><span class="lm-lb"><span class="lm-nm">${esc(c.n)}</span><span class="lm-ct">${c.k.length} ${L('SKILLS', '项技能')}</span></span></div>`).join('');
+  const kids = LOOP_CATS.map((c, i) => c.k.map(([t, ic], j) => `<div class="lm-n lm-kid" data-c="${i}" data-j="${j}" tabindex="-1" role="button"><span class="lm-ic">${lic(ic)}</span><span class="lm-lb"><span class="lm-nm">${esc(THREADS[t].t)}</span></span></div>`).join('')).join('');
+  const list = LOOP_CATS.map((c) => `<details name="lmf"><summary><span class="lm-ic">${lic(c.ic)}</span><span><b>${esc(c.n)}</b><small>${c.k.length} ${L('SKILLS', '项技能')}</small></span></summary><ul>${c.k.map(([t, ic]) => { const [ch, w] = loopWhy(THREADS[t]); return `<li><span class="lm-ic">${lic(ic)}</span><span><b>${esc(THREADS[t].t)}</b><small>${esc(w)}</small>${loopUsed(THREADS[t])}</span></li>`; }).join('')}</ul></details>`).join('');
+  return `<div class="lm" id="lm"><svg class="lm-bg" aria-hidden="true"></svg><svg class="lm-ln" aria-hidden="true"></svg><p class="lm-head"></p><button type="button" class="lm-back">${L('← All skills', '← 全部技能')}</button><div class="lm-core">${SEAL}<p class="lm-t"${ZH ? ' style="font-style:normal"' : ''}>${L('Human in the loop', '人在回路')}</p><p class="lm-s">${L('WHAT I BRING', '我能带来什么')}</p></div>${cats}${kids}<div class="lm-pill" aria-live="polite"></div></div><div class="lm-list"><div class="lm-core">${SEAL}<p class="lm-t"${ZH ? ' style="font-style:normal"' : ''}>${L('Human in the loop', '人在回路')}</p><p class="lm-s">${L('WHAT I BRING', '我能带来什么')}</p></div>${list}</div>${more ? `<p class="km-more"><button type="button" class="golink" data-map="">${L('Open the full skill map →', '打开完整技能图谱 →')}</button></p>` : ''}`;
+}
+function wireLoopMap(root) {
+  const K = root.querySelector('#lm'); if (!K) return null;
+  const LN = K.querySelector('.lm-ln'), P = K.querySelector('.lm-pill'), core = K.querySelector('.lm-core'), back = K.querySelector('.lm-back'), head = K.querySelector('.lm-head');
+  const cats = [...K.querySelectorAll('.lm-cat')], kids = [...K.querySelectorAll('.lm-kid')];
+  const HOME = [[.2, .25], [.8, .25], [.2, .75], [.8, .75]];
+  let open = -1, sel = -1;
+  { let x = 7; const r = () => (x = (x * 9301 + 49297) % 233280) / 233280; const pts = Array.from({ length: 64 }, () => [r() * 100, r() * 100]); K.querySelector('.lm-bg').innerHTML = pts.map((p, i) => { const q = pts[(i * 7 + 3) % 64]; return (Math.hypot(p[0] - q[0], p[1] - q[1]) < 22 ? `<line x1="${p[0]}%" y1="${p[1]}%" x2="${q[0]}%" y2="${q[1]}%"/>` : '') + `<circle cx="${p[0]}%" cy="${p[1]}%" r="1.3"/>`; }).join(''); }
+  const at = (el, x, y) => { el.style.left = x + 'px'; el.style.top = y + 'px'; };
+  function lay() {
+    const w = K.clientWidth, h = K.clientHeight, cx = w / 2, cy = h * (open < 0 ? .5 : .45); let ln = '';
+    const seg = (x1, y1, r1, x2, y2, r2, cls) => { const d = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / d, uy = (y2 - y1) / d; return `<line x1="${(x1 + ux * (r1 + 5)).toFixed(1)}" y1="${(y1 + uy * (r1 + 5)).toFixed(1)}" x2="${(x2 - ux * (r2 + 5)).toFixed(1)}" y2="${(y2 - uy * (r2 + 5)).toFixed(1)}"${cls ? ` class="${cls}"` : ''}/>`; };
+    const others = cats.map((_, i) => i).filter((i) => i !== open);
+    cats.forEach((el, i) => {
+      el.classList.toggle('on', i === open); el.classList.toggle('dim', open >= 0 && i !== open); el.setAttribute('aria-expanded', String(i === open));
+      const [x, y] = open < 0 ? [HOME[i][0] * w, HOME[i][1] * h] : i === open ? [cx, cy] : [w * (.22 + others.indexOf(i) * .28), h * .93];
+      at(el, x, y); el.classList.toggle('up', open < 0 && y < cy);
+      if (open < 0) ln += seg(cx, cy - 18, 66, x, y, 32, 'd');
+    });
+    kids.forEach((el) => {
+      const c = +el.dataset.c, j = +el.dataset.j, n = LOOP_CATS[c].k.length, show = c === open;
+      el.classList.toggle('hide', !show); el.classList.toggle('sel', show && j === sel); el.tabIndex = show ? 0 : -1;
+      if (!show) { const hc = open < 0 ? HOME[c] : [.5, .93]; at(el, hc[0] * w, hc[1] * h); return; }
+      const a = -Math.PI / 2 + j * (2 * Math.PI / n) + (n === 2 ? Math.PI / 2 : 0), R = Math.min(w * .32, 210), x = cx + R * Math.cos(a), y = cy + R * .6 * Math.sin(a);
+      at(el, x, y); el.classList.toggle('up', y < cy - 4); ln += seg(cx, cy, 39, x, y, 22, j === sel ? 'hl' : '');
+    });
+    LN.innerHTML = ln; core.classList.toggle('gone', open >= 0); back.classList.toggle('on', open >= 0); K.classList.toggle('opened', open >= 0);
+    head.innerHTML = open >= 0 ? `${esc(LOOP_CATS[open].n)}<small>${LOOP_CATS[open].k.length} ${L('SKILLS', '项技能')}</small>` : '';
+    if (sel >= 0) { const t = THREADS[LOOP_CATS[open].k[sel][0]], [ch, wy] = loopWhy(t); P.innerHTML = `<b>${esc(t.t)}</b> ${esc(wy)}${loopUsed(t)}`; P.classList.add('on'); } else P.classList.remove('on');
+  }
+  const openCat = (i) => { open = i === open ? open : i; sel = -1; lay(); };
+  cats.forEach((el, i) => el.addEventListener('click', () => openCat(i)));
+  kids.forEach((el) => el.addEventListener('click', () => { const j = +el.dataset.j; sel = sel === j ? -1 : j; lay(); }));
+  back.addEventListener('click', () => { open = -1; sel = -1; lay(); });
+  K.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('lm-n')) { e.preventDefault(); e.target.click(); } else if (e.key === 'Escape' && open >= 0) { open = -1; sel = -1; lay(); } });
+  P.addEventListener('click', (e) => { const b = e.target.closest('[data-nav]'); if (b) openChapter(b.dataset.nav); });
+  new ResizeObserver(lay).observe(K); lay();
+  return { open: (i) => { open = i; sel = -1; lay(); } };
+}
 function wireCover(root) {
   const c = root.querySelector('.cover'); if (!c) return;
+  wireLoopMap(c);
   const img = c.querySelector('.wwh'); if (img && reduce.matches) img.src = 'art/wwh.jpg';
   const panes = [...c.querySelectorAll('.cv-pane')], hs = [...c.querySelectorAll('.hs')];
   let cur = -1;
@@ -1987,27 +2111,11 @@ function infoFor(kind, key) {
 }
 const legendHtml = () => `<p class="legend">${GROUPS.map((g) => `<span class="lg g-${g.id}"><i></i>${esc(g.name)}</span>`).join('')}</p>`;
 function openMap(ch) {
-  const list = GROUPS.map((g) => { const ts = THREADS.filter((t) => t.g === g.id); return ts.length ? `<div class="sl-g"><p class="sl-h g-${g.id}"><i></i>${esc(g.name)}</p>${ts.map((t) => `<div class="sl-s"><b>${esc(t.t)}</b><span>${t.ch.map((c) => `<button type="button" class="golink" data-nav="${c}">${esc(chName(c))}</button>`).join(' ')}</span></div>`).join('')}</div>` : ''; }).join('');
   showSheet(`<p class="num">${L('SKILL MAP', '技能图谱')}</p><h1 id="sheetTitle">${L('How my skills connect', '我的技能如何关联')}</h1>
-    <p class="lede">${L(`${numWord(THREADS.length)} skills and tools, each used in two or more parts of my work.`, `${THREADS.length} 项技能与工具，每一项都用在了我工作的两个或更多方面。`)}</p>
-    ${legendHtml()}
-    <button type="button" class="mapfs-open">${L('Open the map full screen', '全屏打开图谱')}</button><p class="mapfs-hint">${L('Best viewed sideways. Turn your phone, or tap to open it turned for you.', '横屏查看效果最佳。请横置手机，或点按后自动旋转显示。')}</p>
-    <div class="mapwrap gwrap"><button type="button" class="mapfs-close">${L('Close ×', '关闭 ×')}</button><div class="fslegend">${legendHtml()}</div><div class="graph" data-kind="map"></div><div class="ginfo side" aria-live="polite"></div></div>
-    <div class="skilllist">${list}</div>`, true);
-  const paper = $('paper'), wrap = paper.querySelector('.mapwrap');
-  const pre = () => { if (typeof ch === 'string' && ch) { const n = paper.querySelector(`.graph[data-kind="map"] .chnode[data-c="${ch}"]`); if (n) n.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); } };
-  pre();
-  const redraw = () => { drawGraphs(paper); pre(); };
-  paper.querySelector('button.mapfs-open').onclick = () => {
-    wrap.classList.add('fs'); document.body.classList.add('mapfs');
-    try { document.documentElement.requestFullscreen?.().then(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {}); } catch (e) {}
-    setTimeout(redraw, 60);
-  };
-  paper.querySelector('.mapfs-close').onclick = () => {
-    wrap.classList.remove('fs'); document.body.classList.remove('mapfs');
-    try { screen.orientation?.unlock?.(); if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
-    setTimeout(redraw, 60);
-  };
+    <p class="lede">${L(`${numWord(THREADS.length)} skills in four groups, each used in more than one part of my work. Open a group, then a skill, to see where it was used.`, `${THREADS.length} 项技能，分为四组，每一项都用在了我工作的不止一个方面。打开一组，再点一项技能，即可看到它用在哪里。`)}</p>
+    <div class="mapcard">${loopMapHtml(false)}</div>`, true);
+  const paper = $('paper'), api = wireLoopMap(paper);
+  if (api && typeof ch === 'string' && ch) { let best = -1, bn = 0; LOOP_CATS.forEach((c, i) => { const n = c.k.filter(([t]) => THREADS[t].ch.includes(ch)).length; if (n > bn) { bn = n; best = i; } }); if (best >= 0) api.open(best); }
 }
 $('mapBtn').onclick = () => openMap();
 // header in the chosen language, and the switch between English and Chinese
