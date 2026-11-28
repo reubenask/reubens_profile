@@ -304,6 +304,16 @@ a{color:inherit}
 .pubs .pt:hover{text-decoration:underline}
 .pubs .pm{display:block;margin-top:4px;font-size:15.5px;color:#33302a}
 .pubs .pd{display:block;margin-top:2px;font-size:13px;color:#7a7060;letter-spacing:.02em}
+.fold{margin:22px 0 6px;display:grid;gap:14px}
+.fold>details{border:1px solid #d8c9a9;border-radius:14px;background:#fffdf6;overflow:hidden}
+.fold>details>summary{list-style:none;cursor:pointer;padding:20px 58px 20px 24px;position:relative;display:block}
+.fold>details>summary::-webkit-details-marker{display:none}
+.fold>details>summary::after{content:"+";position:absolute;right:24px;top:50%;transform:translateY(-50%);font:300 32px/1 var(--display);color:#a0583a}
+.fold>details[open]>summary::after{content:"\2212"}
+.fold>details[open]>summary{border-bottom:1px solid #d8c9a9;background:#f7f0de}
+.fold>details>summary>.at{display:block;font-family:var(--display);font-weight:600;font-size:clamp(24px,3vw,30px);color:var(--green);line-height:1.1}
+.fold>details>summary>.ad{display:block;margin-top:7px;font-size:15px;color:var(--paper-soft);line-height:1.4}
+.fold>details>.ab{padding:12px 22px 24px}
 .acc{margin:14px 0 6px;display:grid;gap:12px}
 .acc details{border:1px solid #d8c9a9;border-radius:14px;background:#fffdf6;overflow:hidden}
 .acc summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;position:relative;display:block}
@@ -1710,7 +1720,8 @@ function openChapter(id) {
   let html = `<p class="num">${esc(numLabel(id))}</p><h1 id="sheetTitle">${esc(c.title)}</h1>
     ${SHOW_ART && p.art ? `<div class="hero solo">${art(p.art)}</div>` : ''}`;
   html += mediaHtml(MEDIA[id]);
-  for (const sp of c.content) {
+  if (id === 'FOUR') html += `<div class="fold">${c.content.map((sp) => `<details name="fold"><summary><span class="at">${esc(sp.title)}</span><span class="ad">${esc((sp.blocks || []).flatMap((b) => b.h ? [b.h] : b.acc ? b.acc.map((x) => x.t) : []).join(' · '))}</span></summary><div class="ab">${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div></details>`).join('')}</div>`;
+  else for (const sp of c.content) {
     if (sp.kind === 'who') { html += whoHtml(); continue; }
     const body = `<div>${sp.sub ? `<p class="meta">${esc(sp.sub)}</p>` : ''}${blocksHtml(sp)}</div>`;
     html += `<h2>${esc(sp.title)}</h2><div class="sec${SHOW_ART && sp.art ? ' withart' : ''}">${body}${sp.art ? art(sp.art) : ''}</div>`;
